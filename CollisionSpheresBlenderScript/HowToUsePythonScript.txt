@@ -1,0 +1,33 @@
+===== Prerequisites =====
+
+1. Install Blender 2.72+
+2. Install Python 2.7 or higher if not installed with Blender (Blender comes with Python 3.4.x)
+
+===== How to install the script =====
+
+1. Open User Preferences (CTRL+ALT+U)
+2. Navigate to "Addons"|"Community"|"Import-Export"
+3. Click "Install from file" and choose *.py file
+4. Open Addon Tab and check box
+5. Click "Save User Settings" and close
+
+===== Usage =====
+
+1. Create collision spheres in scene
+2. Save Blender scene somewhere where Python will have file access rights!
+3. Give spheres "csx_" prefix
+4. Save scene to anywhere
+5. Go to File -> Export -> Export Collision Spheres and save to desired location, it will create both .bin and .java files
+
+===== Notes =====
+For debugging, open the system console of Blender
+
+===== References ====
+https://www.blender.org/api/blender_python_api_2_76_2/info_tips_and_tricks.html
+https://www.blender.org/api/blender_python_api_current/info_overview.html
+https://www.blender.org/api/blender_python_api_2_71_release/info_tutorial_addon.html
+https://docs.python.org/2/tutorial/inputoutput.html
+https://pizza.de/i-love-pizza-bremen-vorkampsweg-260 ;)
+http://stackoverflow.com/questions/807863/how-to-output-list-of-floats-to-a-binary-file-in-python
+https://docs.python.org/2/library/struct.html
+http://stupidpythonideas.blogspot.de/2015/01/ieee-floats-and-python.html

@@ -28,14 +28,33 @@ class PathExporter(bpy.types.Operator, ExportHelper):
     def execute(self, context):
         ## get list of objects from scene ##
         object_list = list(bpy.data.objects)
+
+        #TODO: move and split to separate methods (binary & java)
         for scene_obj in object_list:
-            if scene_obj.type == 'CURVE':
-                print("found a curve")
+            if scene_obj.type == 'CURVE' and scene_obj.name[:5] == 'kbap_':
+                print("CURVE found for export: " + scene_obj.name)
         
         return {'FINISHED'}
         
 def menu_func(self, context):
     self.layout.operator(PathExporter.bl_idname, text="Export Animation Paths (.kbap");
+
+######################## binary writer ####################
+
+def write_binary(object_list):
+    #TODO
+    return
+
+######################## java writer ######################
+
+def write_java(object_list):
+    #TODO
+        #iterate over objects
+            #iterate over curves (obj.data.curves)
+                #iterate over splines
+                    #interpolate/calculate discrete points
+                    #write out points
+    return
 
 ######################## add-in functions #################
 

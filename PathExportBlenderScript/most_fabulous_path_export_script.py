@@ -29,10 +29,15 @@ class PathExporter(bpy.types.Operator, ExportHelper):
         ## get list of objects from scene ##
         object_list = list(bpy.data.objects)
 
+        filepath = self.filepath
+
         #TODO: move and split to separate methods (binary & java)
         for scene_obj in object_list:
             if scene_obj.type == 'CURVE' and scene_obj.name[:5] == 'kbap_':
                 print("CURVE found for export: " + scene_obj.name)
+                write_txt(scene_obj, filepath)
+
+                #IMPORTANT NOTE: Blender Curve Paths MUST be in 'POLY' mode!
         
         return {'FINISHED'}
         
@@ -41,20 +46,36 @@ def menu_func(self, context):
 
 ######################## binary writer ####################
 
-def write_binary(object_list):
+def write_binary(scene_obj):
     #TODO
     return
 
 ######################## java writer ######################
 
-def write_java(object_list):
+def write_txt(scene_obj, filepath):
     #TODO
-        #iterate over objects
-            #iterate over curves (obj.data.curves)
-                #iterate over splines
-                    #interpolate/calculate discrete points
-                    #write out points
-    return
+    filepath_txt = filepath[:-5] + '_' + scene_obj.name + '.kbap'
+    outputfile_txt = open(filepath_txt, 'w')
+
+    if scene_obj.type != 'CURVE':
+        print("euhm... shouldn't EVER get here!")
+
+    for spline in scene_obj.data.splines:
+        if spline.type != 'POLY':
+            print("error: spline.type should be \'POLY\', found: \'" + spline.type + "\'")
+        else:
+            for point in spline.points:
+                write_floats_text(point, outputfile_txt)
+            print("success! file written: " + filepath_txt)
+
+def write_floats_text(obj, file):
+    print("%.5f, %.5f, %.5f, %.5f" % (obj.co[0], obj.co[1], obj.co[2], obj.co[3]))
+
+    file.write("%.5f," % obj.co[0])
+    file.write("%.5f," % obj.co[1])
+    file.write("%.5f," % obj.co[2])
+    file.write("%.5f," % obj.co[3])
+    file.write("\n")
 
 ######################## add-in functions #################
 

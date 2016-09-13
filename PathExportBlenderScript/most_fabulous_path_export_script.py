@@ -31,11 +31,11 @@ class PathExporter(bpy.types.Operator, ExportHelper):
 
         filepath = self.filepath
 
-        #TODO: move and split to separate methods (binary & java)
         for scene_obj in object_list:
             if scene_obj.type == 'CURVE' and scene_obj.name[:5] == 'kbap_':
                 print("CURVE found for export: " + scene_obj.name)
                 write_txt(scene_obj, filepath)
+                write_binary(scene_obj, filepath)
 
                 #IMPORTANT NOTE: Blender Curve Paths MUST be in 'POLY' mode!
         
@@ -46,15 +46,38 @@ def menu_func(self, context):
 
 ######################## binary writer ####################
 
-def write_binary(scene_obj):
-    #TODO
-    return
+def write_binary(scene_obj, filepath):
+    filepath_bin = filepath[:-5] + '_' + scene_obj.name + '.kbin'
+    outputfile_bin = open(filepath_bin, 'wb')
 
-######################## java writer ######################
+    if scene_obj.type != 'CURVE':
+        print("euhm... shouldn't EVER get here!")
+
+    for spline in scene_obj.data.splines:
+        if spline.type != 'POLY':
+            print("error: spline.type should be \'POLY\', found: \'" + spline.type + "\'")
+        else:
+            for point in spline.points:
+                print("%.5f, %.5f, %.5f, %.5f" % (point.co[0], point.co[1], point.co[2], point.co[3]))
+                write_floats_binary(point, outputfile_bin)
+
+    outputfile_bin.close()
+    print("success! file written: " + filepath_bin)
+
+def write_floats_binary(obj, file):
+    pack_and_write_float((float(obj.co[0])), file)
+    pack_and_write_float((float(obj.co[1])), file)
+    pack_and_write_float((float(obj.co[2])), file)
+
+def pack_and_write_float(float_data, file):
+    # '>f' forces to write binary float in Big Endian format
+    struct_out = struct.pack('>f', float_data)
+    file.write(struct_out)
+
+######################## txt writer ######################
 
 def write_txt(scene_obj, filepath):
-    #TODO
-    filepath_txt = filepath[:-5] + '_' + scene_obj.name + '.kbap'
+    filepath_txt = filepath[:-5] + '_' + scene_obj.name + '.kbap'    
     outputfile_txt = open(filepath_txt, 'w')
 
     if scene_obj.type != 'CURVE':
@@ -65,16 +88,16 @@ def write_txt(scene_obj, filepath):
             print("error: spline.type should be \'POLY\', found: \'" + spline.type + "\'")
         else:
             for point in spline.points:
+                print("%.5f, %.5f, %.5f, %.5f" % (point.co[0], point.co[1], point.co[2], point.co[3]))
                 write_floats_text(point, outputfile_txt)
-            print("success! file written: " + filepath_txt)
+
+    outputfile_txt.close()
+    print("success! file written: " + filepath_txt)
 
 def write_floats_text(obj, file):
-    print("%.5f, %.5f, %.5f, %.5f" % (obj.co[0], obj.co[1], obj.co[2], obj.co[3]))
-
-    file.write("%.5f," % obj.co[0])
-    file.write("%.5f," % obj.co[1])
-    file.write("%.5f," % obj.co[2])
-    file.write("%.5f," % obj.co[3])
+    file.write("%.5f " % obj.co[0])
+    file.write("%.5f " % obj.co[1])
+    file.write("%.5f " % obj.co[2])
     file.write("\n")
 
 ######################## add-in functions #################

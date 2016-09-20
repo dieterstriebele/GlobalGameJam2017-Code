@@ -9,3 +9,6 @@ BugHoleGraphicsEngine/.idea/encodings.xml
 BugHoleGraphicsEngine/.idea/gradle.xml
 BugHoleGraphicsEngine/.idea/misc.xml
 BugHoleGraphicsEngine/.idea/vcs.xml
+*.gradle
+BugHoleGraphicsEngine/.idea/gradle.xml
+*.class

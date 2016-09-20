@@ -206,10 +206,10 @@ public class GLES20Content {
         //m_GeometryInformation = new Geometry_Information_Network();
 
         //m_CameraInformation = new Camera_Information_Stubs();
-        m_CameraInformation = new Camera_Information_Device(m_Context);
+        //m_CameraInformation = new Camera_Information_Device(m_Context);
         //m_CameraInformation = new Camera_Information_Legacy(m_Context);
         //m_CameraInformation = new Camera_Information_WithoutDrift(m_Context);
-        //m_CameraInformation = new Camera_Information_Touch();
+        m_CameraInformation = new Camera_Information_Touch();
 
         m_ClientInformation = new Client_Information_Stubs();
         //m_ClientInformation = new Client_Information_Network();

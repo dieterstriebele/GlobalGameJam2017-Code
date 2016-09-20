@@ -59,16 +59,17 @@ def write_binary(scene_obj, filepath):
         else:
             pack_and_write_float((float(len(spline.points))), outputfile_bin)
             for point in spline.points:
-                print("%.5f, %.5f, %.5f, %.5f" % (point.co[0], point.co[1], point.co[2], point.co[3]))
-                write_floats_binary(point, outputfile_bin)
+                #transform to world coordinates and write to file
+                v_co_w = scene_obj.matrix_world * point.co
+                write_floats_binary(v_co_w, outputfile_bin)
 
     outputfile_bin.close()
     print("success! file written: " + filepath_bin)
 
 def write_floats_binary(obj, file):
-    pack_and_write_float((float(obj.co[0])), file)
-    pack_and_write_float((float(obj.co[1])), file)
-    pack_and_write_float((float(obj.co[2])), file)
+    pack_and_write_float((float(obj.x)), file)
+    pack_and_write_float((float(obj.y)), file)
+    pack_and_write_float((float(obj.z)), file)
 
 def pack_and_write_float(float_data, file):
     # '>f' forces to write binary float in Big Endian format
@@ -90,16 +91,18 @@ def write_txt(scene_obj, filepath):
         else:
             outputfile_txt.write("%.5f \n" % len(spline.points))
             for point in spline.points:
-                print("%.5f, %.5f, %.5f, %.5f" % (point.co[0], point.co[1], point.co[2], point.co[3]))
-                write_floats_text(point, outputfile_txt)
+                #transform to world coordinates and write to file
+                v_co_w = scene_obj.matrix_world * point.co
+                print("%.5f, %.5f, %.5f" % (v_co_w.x, v_co_w.y, v_co_w.z))
+                write_floats_text(v_co_w, outputfile_txt)
 
     outputfile_txt.close()
     print("success! file written: " + filepath_txt)
 
 def write_floats_text(obj, file):
-    file.write("%.5f " % obj.co[0])
-    file.write("%.5f " % obj.co[1])
-    file.write("%.5f " % obj.co[2])
+    file.write("%.5f " % obj.x)
+    file.write("%.5f " % obj.y)
+    file.write("%.5f " % obj.z)
     file.write("\n")
 
 ######################## add-in functions #################

@@ -42,7 +42,7 @@ class PathExporter(bpy.types.Operator, ExportHelper):
         return {'FINISHED'}
         
 def menu_func(self, context):
-    self.layout.operator(PathExporter.bl_idname, text="Export Animation Paths (.kbap");
+    self.layout.operator(PathExporter.bl_idname, text="Export Animation Paths (.kbap)");
 
 ######################## binary writer ####################
 
@@ -57,6 +57,7 @@ def write_binary(scene_obj, filepath):
         if spline.type != 'POLY':
             print("error: spline.type should be \'POLY\', found: \'" + spline.type + "\'")
         else:
+            pack_and_write_float((float(len(spline.points))), outputfile_bin)
             for point in spline.points:
                 print("%.5f, %.5f, %.5f, %.5f" % (point.co[0], point.co[1], point.co[2], point.co[3]))
                 write_floats_binary(point, outputfile_bin)
@@ -87,6 +88,7 @@ def write_txt(scene_obj, filepath):
         if spline.type != 'POLY':
             print("error: spline.type should be \'POLY\', found: \'" + spline.type + "\'")
         else:
+            outputfile_txt.write("%.5f \n" % len(spline.points))
             for point in spline.points:
                 print("%.5f, %.5f, %.5f, %.5f" % (point.co[0], point.co[1], point.co[2], point.co[3]))
                 write_floats_text(point, outputfile_txt)

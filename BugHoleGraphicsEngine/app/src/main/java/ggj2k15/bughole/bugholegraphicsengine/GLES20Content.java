@@ -202,9 +202,10 @@ public class GLES20Content {
 //      m_GeometryQuad_FBO_MainScene.Set_GenericTexture1TextureID(m_FBO_MainSceneBlurred_ColorAttachment_TextureID);
 
         //TODO: exchange for networking/device sensory test
-        m_GeometryInformation = new Geometry_Information_Stubs();
+        //m_GeometryInformation = new Geometry_Information_Stubs();
         //m_GeometryInformation = new Geometry_Information_Network();
-
+        m_GeometryInformation = new Geometry_Information_Stubs_Path(m_Context.getResources().openRawResource(R.raw.brainmine_path));
+        
         //m_CameraInformation = new Camera_Information_Stubs();
         //m_CameraInformation = new Camera_Information_Device(m_Context);
         //m_CameraInformation = new Camera_Information_Legacy(m_Context);
@@ -271,7 +272,7 @@ public class GLES20Content {
         );
 
         //GLES20.glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        GLES20.glClearColor(0.0f, 0.3f, 0.0f, 1.0f);
         GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
 
         int tLastObjectModelIdentification = -1;

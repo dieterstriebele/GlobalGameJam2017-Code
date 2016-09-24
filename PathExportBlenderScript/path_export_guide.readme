@@ -1,0 +1,52 @@
+############################## Path Export Guide ##############################
+#                                                                             #
+# Hello, my dearest fellow! What a wonderful time to read this little guide!  #
+#                                                                             #
+# Most fabulously, this will help you understand how to create and export     #
+# animation paths for your GRANNY ACTION Android game with Blender using my   #
+# beautifully crafted Python scripts.                                         #
+#                                                                             #
+#                        THANKS FOR READING, FRIEND!                          #
+#                                MICRO_GRANNY                                 #
+#                                                                             #
+#---------------================ PREREQUISITES ================---------------#
+#                                                                             #
+#  1. Install Blender 2.72+                                                   #
+#  2. Install Python 2.7+ (Blender comes with Python 3.4+)                    #
+#                                                                             #
+#---------------================ INSTALLATION =================---------------#
+#                                                                             #
+#  1. Navigate to "User Preferences" -> "Addons"                              #
+#  2. Click on "Install from file"                                            #
+#  3. Navigate to and select "most_fabulous_path_export_script.py"            #
+#  4. Click OK                                                                #
+#  5. Find script in "Addons|Community|Import-Export" (under 'User' category) #
+#  6. Open "Export Animation Paths" tab and tick the checkbox to activate     #
+#  7. Click on "Install from file" again                                      #
+#  8. Navigate to and select "wonderful_path_to_poly_converter.py"            #
+#  9. Click OK                                                                #
+# 10. Find script in "Addons|Community|Mesh" (under 'User' category)          #
+# 11. Open "Convert KBAP Paths to POLY" tab and tick the checkbox to activate #
+# 12. Click "Save User Settings"                                              #
+# 13. Scripts are now available in the context menu when hitting Space Bar    #
+#                                                                             #
+#---------------=================== USAGE =====================---------------#
+#                                                                             #
+#  1. In the 3D View, click Space Bar                                         #
+#  2. Type "Add Path" and hit Enter to add a new path                         #
+#  3. Add as many paths as you wish                                           #
+#  4. Do not start editing the paths yet                                      #
+#  5. Give each path object's name the "kbap_" prefix in the outliner view    #
+#  6. Now the paths need to be converted to polylines                         #
+#  7. Hit the Space Bar and type "Convert KBAP..."                            #
+#  8. Hit Enter to run the script, it will convert all prefixed paths to      #
+#     polylines, because we cannot work with NURBS or Bezier paths            #
+#  9. Now you can start editing the paths as you see fit                      #
+# 10. Once you are done editing, the paths need to be exported                #
+# 11. Hit the Space Bar and type "Export Animation Paths"                     #
+# 12. Hit Enter to run the script                                             #
+# 13. The export dialog page will open in Blender                             #
+# 14. Choose a location to export the paths to and click "Export Ani..."      #
+# 15. Done! You should find ".kbap" and ".kbin" files for each path           #
+#                                                                             #
+###############################################################################

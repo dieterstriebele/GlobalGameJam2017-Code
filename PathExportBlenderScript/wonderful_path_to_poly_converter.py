@@ -28,6 +28,7 @@ class PathConverter(bpy.types.Operator):
         for scene_obj in object_list:
             if scene_obj.type == 'CURVE' and scene_obj.name[:5] == 'kbap_':
                 scene_obj.data.splines[0].type = 'POLY'
+                scene_obj.data.twist_mode = 'Z_UP'
         
         return {'FINISHED'}
         

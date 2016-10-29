@@ -16,14 +16,20 @@ import bpy.props
 from bpy.props import *
 import os.path
 import struct
+from decimal import *
+import mathutils
+from mathutils import *
+import math
+from math import *
 
 ######################## helper ###########################
 
 class PathExportOptions():
-    enable_dbg  = False
+    enable_dbg  = True
     write_bin   = True
-    write_ascii = False
-    export_tilt = False    
+    write_ascii = True
+    export_tilt = False
+    min_dist_vl = 0.0
 
 ######################## main #############################
 
@@ -35,10 +41,22 @@ class PathExporter(bpy.types.Operator, ExportHelper):
 
     filename_ext = ".kbap"
 
-    enable_dbg  = BoolProperty(name="Log Debug Info to Console", default=False)
-    write_bin   = BoolProperty(name="Export Paths as Binary", default=True)
-    write_ascii = BoolProperty(name="Export Paths as ASCII", default=False)
-    export_tilt = BoolProperty(name="Export Tilt", default=False)    
+    ### dev ###
+    enable_dbg  = BoolProperty(name="Log Debug Info to Console", default=True)
+    write_bin   = BoolProperty(name="Export Paths as Binary", default=False)
+    write_ascii = BoolProperty(name="Export Paths as ASCII", default=True)
+    export_tilt = BoolProperty(name="Export Tilt", default=False)
+    min_dist_vl = FloatProperty(name="Min. Point Distance", default=0.02)
+
+    ### production ###
+    #enable_dbg  = BoolProperty(name="Log Debug Info to Console", default=True)
+    #write_bin   = BoolProperty(name="Export Paths as Binary", default=True)
+    #write_ascii = BoolProperty(name="Export Paths as ASCII", default=True)
+    #export_tilt = BoolProperty(name="Export Tilt", default=False)
+    #min_dist_vl = FloatProperty(name="Min. Point Distance", default=0.0)
+
+    #float precision for math operations
+    getcontext().prec = 7
 
     def execute(self, context):
         #get list of objects from scene
@@ -53,17 +71,19 @@ class PathExporter(bpy.types.Operator, ExportHelper):
         export_options.write_ascii = self.write_ascii
         export_options.export_tilt = self.export_tilt
         export_options.enable_dbg  = self.enable_dbg
+        export_options.min_dist_vl = self.min_dist_vl
 
         #IMPORTANT NOTE: Blender Curve Paths MUST be in 'POLY' mode!
         for scene_obj in object_list:
             if scene_obj.type == 'CURVE' and scene_obj.name[:5] == 'kbap_':
-                print("CURVE found for export: " + scene_obj.name)
+                print("CURVE found for export: " + scene_obj.name + "\n")
                 write(scene_obj, filepath, export_options)                
-        
+
         if export_options.enable_dbg == True:
-            print("Write Binary: " + str(export_options.write_bin))
-            print("Write ASCII: "  + str(export_options.write_ascii))
-            print("Export Tilt: "  + str(export_options.export_tilt))
+            print("Write Binary: "    + str(export_options.write_bin))
+            print("Write ASCII: "     + str(export_options.write_ascii))
+            print("Export Tilt: "     + str(export_options.export_tilt))
+            print("Min. Point Dist: " + str(export_options.min_dist_vl))
 
         return {'FINISHED'}
         
@@ -93,7 +113,7 @@ def write_binary_file(scene_obj, filepath_bin, export_options):
         for spline in scene_obj.data.splines:
             #only write POLY
             if spline.type != 'POLY':
-                print("ERROR: spline.type should be \'POLY\', found: \'" + spline.type + "\'")
+                print("ERROR: spline.type should be \'POLY\', found: \'" + spline.type + "\' \n")
 
             else:
                 #first write point count
@@ -112,7 +132,7 @@ def write_binary_file(scene_obj, filepath_bin, export_options):
     
     except:
         #error handling
-        print("ERROR: Failed to write Curve data to: " + filepath_bin)
+        print("ERROR: Failed to write Curve data to: " + filepath_bin + "\n")
 
     finally:
         #close file
@@ -147,19 +167,44 @@ def write_ascii_file(scene_obj, filepath_txt, export_options):
 
             else:
                 #first write point count
-                if export_options.write_ascii == True:
-                    write_float((float(len(spline.points))), outputfile_txt)
-                    outputfile_txt.write("\n")
+                write_float((float(len(spline.points))), outputfile_txt)
+                outputfile_txt.write("\n")
+
+                prev_point = spline.points[0]
+                point_count = 0;
 
                 #now write all points
                 for point in spline.points:
 
-                    #transform to world coordinates
-                    wcoords = scene_obj.matrix_world * point.co
+                    if prev_point == point:
+                        #transform to world coordinates
+                        wcoords = scene_obj.matrix_world * point.co
 
-                    #write as ascii
-                    if export_options.write_ascii == True:
-                        write_floats_ascii(wcoords, point.tilt, outputfile_txt, export_options)
+                        #write as ascii
+                        if export_options.write_ascii == True:                            
+                            write_floats_ascii(wcoords, point.tilt, outputfile_txt, export_options)
+                            point_count += 1
+                            print("Writing first point... ")
+
+                    elif Decimal(export_options.min_dist_vl) <= Decimal(distance(prev_point, point)):
+                        #transform to world coordinates#
+                        wcoords = scene_obj.matrix_world * point.co
+
+                        #write as ascii
+                        if export_options.write_ascii == True:                            
+                            write_floats_ascii(wcoords, point.tilt, outputfile_txt, export_options)
+                            point_count += 1
+                            print("Writing next point... ")
+
+                        prev_point = point
+
+                    if export_options.enable_dbg == True:
+                        print("DEBUG: point_count == " + str(point_count))
+
+                outputfile_txt.seek(0)
+                write_float(float(point_count), outputfile_txt)
+
+                #TODO: update point count in file with point_count variable value!
         
     except:
         #error handling
@@ -167,8 +212,30 @@ def write_ascii_file(scene_obj, filepath_txt, export_options):
 
     finally:
         #close file
-        print("Closing file: " + filepath_txt)
+        print("Closing file: " + filepath_txt + "\n")
         outputfile_txt.close()
+
+def distance(first, second):
+    print("LOG: In distance function")
+
+    dist = 0.0
+
+    try:
+        locx = Decimal(second.co[0]) - Decimal(first.co[0])
+        locy = Decimal(second.co[1]) - Decimal(first.co[1])
+        locz = Decimal(second.co[2]) - Decimal(first.co[2])
+        locxsqrd = Decimal(locx**2)
+        locysqrd = Decimal(locy**2)
+        loczsqrd = Decimal(locz**2)
+        locsum = Decimal(locxsqrd + locysqrd + loczsqrd)
+        dist = math.sqrt(locsum)
+    except:
+        #error
+        print("ERROR: Failed to calculate distance.")
+
+    finally:
+        print("Distance: " + str(dist) + "\n")
+        return dist
 
 def write_floats_ascii(wcoords, tilt, file, export_options):
     #write point in world coordinates

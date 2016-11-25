@@ -76,58 +76,11 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
         m_ObjectYScalings[i] = 0.2f;
         m_ObjectZScalings[i] = 0.2f;
         m_ObjectModelIdentification[0] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_BRAINMINE;
-        i++;
-
-        m_ObjectXPositions[i] = 24.0f+m_IntestineScrollingOffset;
-        m_ObjectYPositions[i] = 0;
-        m_ObjectZPositions[i] = 0;
-        m_ObjectXRotations[i] = 0;
-        m_ObjectYRotations[i] = 0f;
-        m_ObjectZRotations[i] = 0;
-        m_ObjectXScalings[i] = 1.0f;
-        m_ObjectYScalings[i] = 1.0f;
-        m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
-        i++;
-        m_ObjectXPositions[i] = 16.0f+m_IntestineScrollingOffset;
-        m_ObjectYPositions[i] = 0;
-        m_ObjectZPositions[i] = 0;
-        m_ObjectXRotations[i] = 0;
-        m_ObjectYRotations[i] = 0f;
-        m_ObjectZRotations[i] = 0;
-        m_ObjectXScalings[i] = 1.0f;
-        m_ObjectYScalings[i] = 1.0f;
-        m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
-        i++;
-        m_ObjectXPositions[i] = 8.0f+m_IntestineScrollingOffset;
-        m_ObjectYPositions[i] = 0;
-        m_ObjectZPositions[i] = 0;
-        m_ObjectXRotations[i] = 0;
-        m_ObjectYRotations[i] = 0f;
-        m_ObjectZRotations[i] = 0;
-        m_ObjectXScalings[i] = 1.0f;
-        m_ObjectYScalings[i] = 1.0f;
-        m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
-        i++;
 
 
-        m_ObjectXPositions[i] = 0.0f+m_IntestineScrollingOffset;
-        m_ObjectYPositions[i] = 0;
-        m_ObjectZPositions[i] = 0;
-        m_ObjectXRotations[i] = 0;
-        m_ObjectYRotations[i] = 0;
-        m_ObjectZRotations[i] = 0;
-        m_ObjectXScalings[i] = 1.0f;
-        m_ObjectYScalings[i] = 1.0f;
-        m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
-        i++;
-
-        m_ObjectXPositions[i] = -8.0f+m_IntestineScrollingOffset;
-        m_ObjectYPositions[i] = 0;
-        m_ObjectZPositions[i] = 0;
+        m_ObjectXPositions[i] = 0;
+        m_ObjectYPositions[i] = 0.0f;
+        m_ObjectZPositions[i] = 0.0f;
         m_ObjectXRotations[i] = 0;
         m_ObjectYRotations[i] = 0f;
         m_ObjectZRotations[i] = 0;
@@ -135,18 +88,6 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
         m_ObjectYScalings[i] = 1.0f;
         m_ObjectZScalings[i] = 1.0f;
         m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
-        i++;
-        m_ObjectXPositions[i] = -16.0f+m_IntestineScrollingOffset;
-        m_ObjectYPositions[i] = 0;
-        m_ObjectZPositions[i] = 0;
-        m_ObjectXRotations[i] = 0;
-        m_ObjectYRotations[i] = 0f;
-        m_ObjectZRotations[i] = 0;
-        m_ObjectXScalings[i] = 1.0f;
-        m_ObjectYScalings[i] = 1.0f;
-        m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
-        i++;
 
 
 

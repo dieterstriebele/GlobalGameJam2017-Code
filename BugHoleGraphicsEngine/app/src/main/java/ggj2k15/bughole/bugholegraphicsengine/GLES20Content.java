@@ -114,6 +114,7 @@ public class GLES20Content {
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_BRAINMINE].Set_SpecularColorTextureID(tSpecularColorTextureId);
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_BRAINMINE].Set_AmbientOcclusionTextureID(tAmbientOcclusionTextureId);
 
+            /*
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE] = new Geometry_Sphere(m_Context.getResources().openRawResource(R.raw.intestines));
             tShaderProgramID_Geometry = GLES20Helper.createShader(R.raw.normalmapping_geometry_vertexshader, R.raw.normalmapping_geometry_fragmentshader, m_Context);
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_ShaderID(tShaderProgramID_Geometry); //implicitly binds on the standard attribute locations for position, texture coords and modelviewprojection matrix
@@ -127,6 +128,22 @@ public class GLES20Content {
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_SpecularIntensityTextureID(tSpecularIntensityTextureId);
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_SpecularColorTextureID(tSpecularColorTextureId);
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_AmbientOcclusionTextureID(tAmbientOcclusionTextureId);
+            */
+
+            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE] = new Geometry_Sphere(m_Context.getResources().openRawResource(R.raw.intestines_path));
+            tShaderProgramID_Geometry = GLES20Helper.createShader(R.raw.normalmapping_geometry_vertexshader, R.raw.normalmapping_geometry_fragmentshader, m_Context);
+            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_ShaderID(tShaderProgramID_Geometry); //implicitly binds on the standard attribute locations for position, texture coords and modelviewprojection matrix
+            tDiffuseTextureId = GLES20Helper.loadBitmapResourceAndCreateTextureID(R.raw.uvgrid_blender, this.m_Context);
+            tNormalTextureId = GLES20Helper.loadBitmapResourceAndCreateTextureID(R.raw.uvgrid_blender, this.m_Context);
+            tSpecularIntensityTextureId = GLES20Helper.loadBitmapResourceAndCreateTextureID(R.raw.uvgrid_blender, this.m_Context);
+            tSpecularColorTextureId = GLES20Helper.loadBitmapResourceAndCreateTextureID(R.raw.uvgrid_blender, this.m_Context);
+            tAmbientOcclusionTextureId = GLES20Helper.loadBitmapResourceAndCreateTextureID(R.raw.uvgrid_blender, this.m_Context);
+            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_DiffuseTextureID(tDiffuseTextureId);
+            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_NormalTextureID(tNormalTextureId);
+            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_SpecularIntensityTextureID(tSpecularIntensityTextureId);
+            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_SpecularColorTextureID(tSpecularColorTextureId);
+            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_AmbientOcclusionTextureID(tAmbientOcclusionTextureId);
+
         } else {
             //use optimized textures - composed channels to reduce texture unit load
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_BRAINMINE] = new Geometry_Sphere(m_Context.getResources().openRawResource(R.raw.brainmine));
@@ -204,7 +221,11 @@ public class GLES20Content {
         //TODO: exchange for networking/device sensory test
         m_GeometryInformation = new Geometry_Information_Stubs();
         //m_GeometryInformation = new Geometry_Information_Network();
+<<<<<<< HEAD
         //m_GeometryInformation = new Geometry_Information_Stubs_Path(m_Context.getResources().openRawResource(R.raw.brainmine_path));
+=======
+        m_GeometryInformation = new Geometry_Information_Stubs_Path(m_Context.getResources().openRawResource(R.raw.intestines_path_kbap));
+>>>>>>> origin/master
 
         //m_CameraInformation = new Camera_Information_Stubs();
         //m_CameraInformation = new Camera_Information_Device(m_Context);

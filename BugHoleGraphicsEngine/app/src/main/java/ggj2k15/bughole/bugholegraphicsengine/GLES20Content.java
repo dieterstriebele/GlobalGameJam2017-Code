@@ -219,13 +219,10 @@ public class GLES20Content {
 //      m_GeometryQuad_FBO_MainScene.Set_GenericTexture1TextureID(m_FBO_MainSceneBlurred_ColorAttachment_TextureID);
 
         //TODO: exchange for networking/device sensory test
-        m_GeometryInformation = new Geometry_Information_Stubs();
+        //m_GeometryInformation = new Geometry_Information_Stubs();
         //m_GeometryInformation = new Geometry_Information_Network();
-<<<<<<< HEAD
         //m_GeometryInformation = new Geometry_Information_Stubs_Path(m_Context.getResources().openRawResource(R.raw.brainmine_path));
-=======
         m_GeometryInformation = new Geometry_Information_Stubs_Path(m_Context.getResources().openRawResource(R.raw.intestines_path_kbap));
->>>>>>> origin/master
 
         //m_CameraInformation = new Camera_Information_Stubs();
         //m_CameraInformation = new Camera_Information_Device(m_Context);

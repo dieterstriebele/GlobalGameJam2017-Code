@@ -7,7 +7,7 @@ public class Camera_Information_Touch implements ICamera_Information {
 
     //rotation angle in X and Y axis
     private float m_RotateX = 0.0f;
-    private float m_RotateY = 360.0f;
+    private float m_RotateY = 0.0f;
     private float m_RotateZ = 0.0f;
 
     private float[] m_ModelViewMatrix = new float[16];
@@ -41,7 +41,7 @@ public class Camera_Information_Touch implements ICamera_Information {
         Matrix.setLookAtM(m_ModelViewMatrix, 0,
                 inEyeX, inEyeY, inEyeZ,
                 inCenterX, inCenterY, inCenterZ,
-                0f, 1.0f, 0.0f);
+                0.0f, 1.0f, 0.0f);
         Matrix.setIdentityM(m_ModelingMatrix1, 0);
         Matrix.setIdentityM(m_ModelingMatrix2, 0);
         Matrix.setIdentityM(m_ModelingMatrix3, 0);
@@ -49,7 +49,7 @@ public class Camera_Information_Touch implements ICamera_Information {
         //create matrices from the rotation angles
         Matrix.setRotateM(m_ModelingMatrix1, 0, m_RotateX, 1.0f, 0.0f, 0.0f);
         Matrix.setRotateM(m_ModelingMatrix2, 0, m_RotateY, 0.0f, 1.0f, 0.0f);
-        Matrix.setRotateM(m_ModelingMatrix3, 0, m_RotateZ, 0.0f, 1.0f, 0.0f);
+        Matrix.setRotateM(m_ModelingMatrix3, 0, m_RotateZ, 0.0f, 0.0f, 1.0f);
 
         //combine the matrices into the model matrix
         Matrix.multiplyMM(m_ModelingMatrix4, 0, m_ModelingMatrix1, 0, m_ModelingMatrix2, 0);

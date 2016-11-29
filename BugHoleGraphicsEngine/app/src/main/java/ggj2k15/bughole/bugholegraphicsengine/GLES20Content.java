@@ -40,7 +40,7 @@ public class GLES20Content {
     private int m_FBO_MainScene_ID;
     private int m_FBO_MainScene_ColorAttachment_TextureID;
     private int m_FBO_MainScene_DepthRenderBuffer_ID;
-    private float m_FBO_Mainscene_NativeResolutionFactor = 0.25f;
+    private float m_FBO_Mainscene_NativeResolutionFactor = 1.0f;
     private float m_FBO_Mainscene_HUD_NativeResolutionFactor = 0.5f;
     private int m_FBO_MainScene_HUD_Width = 2560;
     private int m_FBO_MainScene_HUD_Height = 1504;
@@ -202,15 +202,15 @@ public class GLES20Content {
 //      m_GeometryQuad_FBO_MainScene.Set_GenericTexture1TextureID(m_FBO_MainSceneBlurred_ColorAttachment_TextureID);
 
         //TODO: exchange for networking/device sensory test
-        //m_GeometryInformation = new Geometry_Information_Stubs();
+        m_GeometryInformation = new Geometry_Information_Stubs();
         //m_GeometryInformation = new Geometry_Information_Network();
-        m_GeometryInformation = new Geometry_Information_Stubs_Path(m_Context.getResources().openRawResource(R.raw.brainmine_path));
+        //m_GeometryInformation = new Geometry_Information_Stubs_Path(m_Context.getResources().openRawResource(R.raw.brainmine_path));
 
         //m_CameraInformation = new Camera_Information_Stubs();
         //m_CameraInformation = new Camera_Information_Device(m_Context);
         //m_CameraInformation = new Camera_Information_Legacy(m_Context);
-        //m_CameraInformation = new Camera_Information_WithoutDrift(m_Context);
-        m_CameraInformation = new Camera_Information_Touch();
+        m_CameraInformation = new Camera_Information_WithoutDrift(m_Context);
+        //m_CameraInformation = new Camera_Information_Touch();
 
         m_ClientInformation = new Client_Information_Stubs();
         //m_ClientInformation = new Client_Information_Network();
@@ -388,6 +388,16 @@ public class GLES20Content {
             }
             mPreviousX = x;
             mPreviousY = y;
+        }
+
+        if(/*event.getAction() == MotionEvent.ACTION_DOWN &&*/ event.getPointerCount() == 5 ) {
+            // TODO reset camera
+
+            if (m_CameraInformation instanceof Camera_Information_WithoutDrift) {
+                Camera_Information_WithoutDrift camera_with_reset = (Camera_Information_WithoutDrift) m_CameraInformation;
+                camera_with_reset.Reset();
+            }
+
         }
 
         if (event.getAction() == MotionEvent.ACTION_UP) {

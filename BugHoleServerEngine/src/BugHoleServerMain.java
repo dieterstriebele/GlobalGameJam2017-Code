@@ -4,6 +4,7 @@ import java.net.Socket;
 
 import game.GameState;
 import util.Logger;
+import util.DiscoveryThread;
 
 public class BugHoleServerMain {
 
@@ -17,7 +18,10 @@ public class BugHoleServerMain {
 	public static void main(String[] args) {
 		System.out.println("Starting BugHoleServerEngine ...");
 
-        try {
+        try {        	       
+        	DiscoveryThread discoveryThread = DiscoveryThread.getInstance();
+        	(new Thread(discoveryThread)).start();
+        	
         	geometryServerSocket = new ServerSocket(SERVERPORT_GEOMETRY_CLIENT);
             Logger.Info("Started geomtery server on Port:" + SERVERPORT_GEOMETRY_CLIENT);
             //http://stackoverflow.com/questions/8780667/socket-setperformancepreferences

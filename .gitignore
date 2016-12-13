@@ -21,3 +21,6 @@ BugHoleGraphicsEngine/app/build.gradle
 *.gradle
 *.iml
 *.gradle
+BugHoleGraphicsEngine/app/app.iml
+BugHoleGraphicsEngine/build.gradle
+BugHoleGraphicsEngine/app/build.gradle

@@ -11,7 +11,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
 
     //1 brainmines (position from path)
     //6 intestines
-    private int m_NumberOfObjects = 7; // + 6;
+    private int m_NumberOfObjects = 2; // + 6;
     private float[] m_ObjectXPositions;
     private float[] m_ObjectYPositions;
     private float[] m_ObjectZPositions;
@@ -38,6 +38,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
         m_ObjectModelIdentification = new int[m_NumberOfObjects];
 
         LoadObjectPositionsFromInputStream(rawResourceInputStream);
+
     }
 
     private int m_ObjectPathPositionsCount = 0;
@@ -52,103 +53,66 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
             for (int i=0; i<m_ObjectPathPositions.length; i++) {
                 m_ObjectPathPositions[i] = obfInputStream.readFloat();
             }
+
+            //m_Time = m_ObjectPathPositionsCount/2;
+
         } catch (IOException e) {
             Log.e("Geometry_Information_Stubs_Path.LoadObjectPositionsFromInputStream()", "Constructor failed!", e);
         }
     }
 
+    private float movecounter = 0.0f;
+
+    //BEWARE: Exported pathes from Blender are in Blender coordinate system, which is different from the one OpenGL is using.
+    //        See here for further details: https://www.blender.org/forum/viewtopic.php?t=26417
+    //        In Essence:
+    //        Say Blender coords are (X, Y, Z), OpenGL are (X', Y', Z'). Then the coordinate orientations are:
+    //        Blender: X to right, Y away from you, Z up.
+    //        OpenGL: X' to right, Y' up, Z' towards you.
+    //        Therefore:
+    //        X' = X
+    //        Y' = Z
+    //        Z' = -Y
+
     public void SynchronizeState() {
-        m_Time += 0.01f;
+        m_Time += 4.00f;
 
         int i=0;
 
         //hardcode one brainmine following an exported path
-        int m_PathSegmentOffset = (int)(m_Time * 100.0f) % m_ObjectPathPositionsCount;
+        int m_PathSegmentOffset = (int)m_Time % m_ObjectPathPositionsCount;
         m_PathSegmentOffset *= 3;
 
-        m_ObjectXPositions[i] = m_ObjectPathPositions[m_PathSegmentOffset + 0];
-        m_ObjectYPositions[i] = m_ObjectPathPositions[m_PathSegmentOffset + 1];
-        m_ObjectZPositions[i] = m_ObjectPathPositions[m_PathSegmentOffset + 2];
-        m_ObjectXRotations[i] = 0.0f;
-        m_ObjectYRotations[i] = 0.0f;
-        m_ObjectZRotations[i] = 0.0f;
-        m_ObjectXScalings[i] = 0.2f;
-        m_ObjectYScalings[i] = 0.2f;
-        m_ObjectZScalings[i] = 0.2f;
+        m_ObjectXPositions[0] = m_ObjectPathPositions[m_PathSegmentOffset + 0];
+        m_ObjectYPositions[0] = m_ObjectPathPositions[m_PathSegmentOffset + 2];
+        m_ObjectZPositions[0] = -m_ObjectPathPositions[m_PathSegmentOffset + 1];
+        m_ObjectXRotations[0] = 0.0f;
+        m_ObjectYRotations[0] = 0.0f;
+        m_ObjectZRotations[0] = 0.0f;
+        m_ObjectXScalings[0] = 0.2f;
+        m_ObjectYScalings[0] = 0.2f;
+        m_ObjectZScalings[0] = 0.2f;
         m_ObjectModelIdentification[0] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_BRAINMINE;
-        i++;
-
-        m_ObjectXPositions[i] = 24.0f+m_IntestineScrollingOffset;
-        m_ObjectYPositions[i] = 0;
-        m_ObjectZPositions[i] = 0;
-        m_ObjectXRotations[i] = 0;
-        m_ObjectYRotations[i] = 0f;
-        m_ObjectZRotations[i] = 0;
-        m_ObjectXScalings[i] = 1.0f;
-        m_ObjectYScalings[i] = 1.0f;
-        m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
-        i++;
-        m_ObjectXPositions[i] = 16.0f+m_IntestineScrollingOffset;
-        m_ObjectYPositions[i] = 0;
-        m_ObjectZPositions[i] = 0;
-        m_ObjectXRotations[i] = 0;
-        m_ObjectYRotations[i] = 0f;
-        m_ObjectZRotations[i] = 0;
-        m_ObjectXScalings[i] = 1.0f;
-        m_ObjectYScalings[i] = 1.0f;
-        m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
-        i++;
-        m_ObjectXPositions[i] = 8.0f+m_IntestineScrollingOffset;
-        m_ObjectYPositions[i] = 0;
-        m_ObjectZPositions[i] = 0;
-        m_ObjectXRotations[i] = 0;
-        m_ObjectYRotations[i] = 0f;
-        m_ObjectZRotations[i] = 0;
-        m_ObjectXScalings[i] = 1.0f;
-        m_ObjectYScalings[i] = 1.0f;
-        m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
-        i++;
 
 
-        m_ObjectXPositions[i] = 0.0f+m_IntestineScrollingOffset;
-        m_ObjectYPositions[i] = 0;
-        m_ObjectZPositions[i] = 0;
-        m_ObjectXRotations[i] = 0;
-        m_ObjectYRotations[i] = 0;
-        m_ObjectZRotations[i] = 0;
-        m_ObjectXScalings[i] = 1.0f;
-        m_ObjectYScalings[i] = 1.0f;
-        m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
-        i++;
+        //m_ObjectXPositions[i] = 0.0f;
+        //m_ObjectYPositions[i] = 0.0f;
+        //m_ObjectZPositions[i] = 0.0f;
 
-        m_ObjectXPositions[i] = -8.0f+m_IntestineScrollingOffset;
-        m_ObjectYPositions[i] = 0;
-        m_ObjectZPositions[i] = 0;
-        m_ObjectXRotations[i] = 0;
-        m_ObjectYRotations[i] = 0f;
-        m_ObjectZRotations[i] = 0;
-        m_ObjectXScalings[i] = 1.0f;
-        m_ObjectYScalings[i] = 1.0f;
-        m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
-        i++;
-        m_ObjectXPositions[i] = -16.0f+m_IntestineScrollingOffset;
-        m_ObjectYPositions[i] = 0;
-        m_ObjectZPositions[i] = 0;
-        m_ObjectXRotations[i] = 0;
-        m_ObjectYRotations[i] = 0f;
-        m_ObjectZRotations[i] = 0;
-        m_ObjectXScalings[i] = 1.0f;
-        m_ObjectYScalings[i] = 1.0f;
-        m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
-        i++;
+        //movecounter += 0.01f;
+        m_ObjectXPositions[1] = m_ObjectPathPositions[m_PathSegmentOffset + 0];
+        m_ObjectYPositions[1] = m_ObjectPathPositions[m_PathSegmentOffset + 2];
+        m_ObjectZPositions[1] = -m_ObjectPathPositions[m_PathSegmentOffset + 1];
 
+        m_ObjectXRotations[1] = 0.0f;
+        m_ObjectYRotations[1] = 0.0f;
+        m_ObjectZRotations[1] = 0.0f;
 
+        m_ObjectXScalings[1] = 1.0f;
+        m_ObjectYScalings[1] = 1.0f;
+        m_ObjectZScalings[1] = 1.0f;
+
+        m_ObjectModelIdentification[1] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
 
         /*
         m_ObjectXPositions[i] = 0;

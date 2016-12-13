@@ -147,6 +147,13 @@ public class Camera_Information_WithoutDrift implements ICamera_Information {
 
     public void Update() {}
 
+    public void Reset()
+    {
+        mSmoothOrientation[0] = 0;
+        mSmoothOrientation[1] = 0;;//orientation[2];
+        mSmoothOrientation[2] = 0;//orientation[0];
+    }
+
     public float[] GetCameraDirectionVector() {
         return mViewDirection;
     }

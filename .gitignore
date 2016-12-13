@@ -12,3 +12,7 @@ BugHoleGraphicsEngine/.idea/vcs.xml
 *.gradle
 BugHoleGraphicsEngine/.idea/gradle.xml
 *.class
+BugHoleGraphicsEngine/app/app.iml
+*.gradle
+*.iml
+BugHoleGraphicsEngine/projectFilesBackup/.idea/workspace.xml

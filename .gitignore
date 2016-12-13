@@ -16,3 +16,6 @@ BugHoleGraphicsEngine/app/app.iml
 *.gradle
 *.iml
 BugHoleGraphicsEngine/projectFilesBackup/.idea/workspace.xml
+*.iml
+BugHoleGraphicsEngine/app/build.gradle
+*.gradle

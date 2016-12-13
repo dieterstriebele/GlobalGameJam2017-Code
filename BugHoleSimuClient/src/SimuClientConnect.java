@@ -9,7 +9,7 @@ import java.net.Socket;
 
 public class SimuClientConnect {
 	private Socket geometrySocket;
-	private Socket clientSocket;
+	private Socket commandSocket;
 	
 	//public static String ipAddress = "192.168.0.123";
 	public static String ipAddress = "127.0.0.1";
@@ -30,12 +30,12 @@ public class SimuClientConnect {
             geometrySocket.setPerformancePreferences(0, 1, 2);
             geometrySocket.setTcpNoDelay(true);
             
-            Logger.Info("Setting up Client Socket");
-            clientSocket = new Socket();			
-            clientSocket.connect(new InetSocketAddress(serverAdress, 9091), 15000);
-            clientSocket.setKeepAlive(true);
-            clientSocket.setPerformancePreferences(0, 1, 2);
-            clientSocket.setTcpNoDelay(true);
+            Logger.Info("Setting up Command Socket");
+            commandSocket = new Socket();			
+            commandSocket.connect(new InetSocketAddress(serverAdress, 9091), 15000);
+            commandSocket.setKeepAlive(true);
+            commandSocket.setPerformancePreferences(0, 1, 2);
+            commandSocket.setTcpNoDelay(true);
             
             Logger.Info("Connected to BugHoleServer!");
 		}
@@ -53,8 +53,11 @@ public class SimuClientConnect {
 			InputStreamReader in = new InputStreamReader(System.in);
 			BufferedReader br = new BufferedReader(in);
 			
-			DataOutputStream out = new DataOutputStream(geometrySocket.getOutputStream());
-			PrintWriter printer = new PrintWriter(out);
+			DataOutputStream geometry_out = new DataOutputStream(geometrySocket.getOutputStream());
+			DataOutputStream command_out = new DataOutputStream(commandSocket.getOutputStream());
+			
+			PrintWriter geometry_printer = new PrintWriter(geometry_out);
+			PrintWriter command_printer = new PrintWriter(command_out);
 			
 			String str;
 			
@@ -75,10 +78,11 @@ public class SimuClientConnect {
 				case "down":
 				case "left":
 				case "right":
-					printer.println(str);
+					geometry_printer.println(str);
 					break;
 					
 				case "shoot":
+					command_printer.println(1);
 					break;
 					
 				case "quit":
@@ -95,14 +99,15 @@ public class SimuClientConnect {
 					break;
 				}
 				
-				printer.flush();
+				geometry_printer.flush();
+				command_printer.flush();
 	        }
 			
 			br.close();
 			
 			Logger.Info("Closing connection to BugHoleServer...");
 			geometrySocket.close();
-			clientSocket.close();
+			commandSocket.close();
 			Logger.Info("Connection to BugHoleServer closed!");
 		}
 		catch (IOException e)

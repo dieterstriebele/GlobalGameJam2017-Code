@@ -128,6 +128,8 @@ public class Geometry_Information_Network implements IGeometry_Information, Runn
     public void run() {
         try {
 
+            BugHoleGraphicsEngine.locateServerByBroadcast();
+
             Info("Creating inetadress ...");
             //InetAddress serverAdress = InetAddress.getByName("192.168.0.123");
             InetAddress serverAdress = InetAddress.getByName(Settings.Ip);

@@ -202,8 +202,8 @@ public class GLES20Content {
 //      m_GeometryQuad_FBO_MainScene.Set_GenericTexture1TextureID(m_FBO_MainSceneBlurred_ColorAttachment_TextureID);
 
         //TODO: exchange for networking/device sensory test
-        m_GeometryInformation = new Geometry_Information_Stubs();
-        //m_GeometryInformation = new Geometry_Information_Network();
+        //m_GeometryInformation = new Geometry_Information_Stubs();
+        m_GeometryInformation = new Geometry_Information_Network();
         //m_GeometryInformation = new Geometry_Information_Stubs_Path(m_Context.getResources().openRawResource(R.raw.brainmine_path));
 
         //m_CameraInformation = new Camera_Information_Stubs();
@@ -212,8 +212,8 @@ public class GLES20Content {
         //m_CameraInformation = new Camera_Information_WithoutDrift(m_Context);
         m_CameraInformation = new Camera_Information_Touch();
 
-        m_ClientInformation = new Client_Information_Stubs();
-        //m_ClientInformation = new Client_Information_Network();
+        //m_ClientInformation = new Client_Information_Stubs();
+        m_ClientInformation = new Client_Information_Network();
 
         Thread serverGeometryThread = new Thread((Runnable)m_GeometryInformation);
         serverGeometryThread.setPriority(Thread.MAX_PRIORITY);

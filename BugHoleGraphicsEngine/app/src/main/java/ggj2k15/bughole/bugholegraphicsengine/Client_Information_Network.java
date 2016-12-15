@@ -90,6 +90,9 @@ public class Client_Information_Network implements IClient_Information, Runnable
 
     public void run() {
         try {
+
+            BugHoleGraphicsEngine.locateServerByBroadcast();
+
             Info("Creating inetadress ...");
             InetAddress serverAdress = InetAddress.getByName(Settings.Ip);
             Info("testing reachability");

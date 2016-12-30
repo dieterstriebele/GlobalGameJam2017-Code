@@ -57,7 +57,6 @@ public class SimuClientConnect {
 			DataOutputStream command_out = new DataOutputStream(commandSocket.getOutputStream());
 			
 			PrintWriter geometry_printer = new PrintWriter(geometry_out);
-			PrintWriter command_printer = new PrintWriter(command_out);
 			
 			String str;
 			
@@ -82,7 +81,17 @@ public class SimuClientConnect {
 					break;
 					
 				case "shoot":
-					command_printer.println(1);
+					command_out.writeInt(20);
+					byte[] buf_out = new byte[20];
+					buf_out[0] = 1 >> 24;
+					buf_out[1] = 1 >> 16;
+					buf_out[2] = 1 >> 8;
+					buf_out[3] = 1;
+					for(int i=4; i<20; ++i)
+					{
+						buf_out[i] = 0;
+					}
+					command_out.write(buf_out, 0, buf_out.length);
 					break;
 					
 				case "quit":
@@ -100,7 +109,7 @@ public class SimuClientConnect {
 				}
 				
 				geometry_printer.flush();
-				command_printer.flush();
+				command_out.flush();
 	        }
 			
 			br.close();

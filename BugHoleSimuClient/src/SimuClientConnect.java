@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class SimuClientConnect {
 	private Socket geometrySocket;
@@ -58,16 +59,15 @@ public class SimuClientConnect {
 			
 			PrintWriter geometry_printer = new PrintWriter(geometry_out);
 			
-			String str;
-			
 			boolean cancelled = false;
 			
 			while(true)
 	        {
 				Logger.Print("Type a command: ");
-				str = br.readLine();
-				
-				switch(str)
+				String str = br.readLine();				
+				String[] cargs = str.split("\\s+");				
+
+				switch(cargs[0])
 				{
 				case "help":
 					Logger.Info("There's no help, bitch!");
@@ -92,6 +92,11 @@ public class SimuClientConnect {
 						buf_out[i] = 0;
 					}
 					command_out.write(buf_out, 0, buf_out.length);
+					
+					for(int j=1; j<cargs.length; ++j)
+					{
+						Logger.Info("additional argument: " + cargs[j]);
+					}
 					break;
 					
 				case "quit":

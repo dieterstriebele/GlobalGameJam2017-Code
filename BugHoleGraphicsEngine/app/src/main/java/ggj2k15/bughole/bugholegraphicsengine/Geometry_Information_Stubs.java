@@ -40,7 +40,7 @@ public class Geometry_Information_Stubs implements IGeometry_Information, Runnab
             for (float x = -0.5f; x < 0.5f+0.5f; x += 0.5f) {
                 m_ObjectXPositions[i] = x;
                 m_ObjectYPositions[i] = y;
-                m_ObjectZPositions[i] = (float)Math.sin(((x+y)*4.0)*0.4+m_Time*0.5)*9.0f;
+                m_ObjectZPositions[i] = (float)Math.sin(((x+y)*1.0)*0.4+m_Time*0.5)*2.0f;
                 m_ObjectXRotations[i] = (m_Time+((x+y)*1.05f)) * 0.1f;
                 m_ObjectYRotations[i] = m_Time  * 0.2f;
                 m_ObjectZRotations[i] = m_Time * 0.3f;

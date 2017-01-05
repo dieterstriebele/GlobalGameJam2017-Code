@@ -40,7 +40,7 @@ public class GLES20Content {
     private int m_FBO_MainScene_ID;
     private int m_FBO_MainScene_ColorAttachment_TextureID;
     private int m_FBO_MainScene_DepthRenderBuffer_ID;
-    private float m_FBO_Mainscene_NativeResolutionFactor = 1.0f;
+    private float m_FBO_Mainscene_NativeResolutionFactor = 0.25f;
     private float m_FBO_Mainscene_HUD_NativeResolutionFactor = 0.5f;
     private int m_FBO_MainScene_HUD_Width = 2560;
     private int m_FBO_MainScene_HUD_Height = 1504;
@@ -114,7 +114,6 @@ public class GLES20Content {
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_BRAINMINE].Set_SpecularColorTextureID(tSpecularColorTextureId);
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_BRAINMINE].Set_AmbientOcclusionTextureID(tAmbientOcclusionTextureId);
 
-            /*
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE] = new Geometry_Sphere(m_Context.getResources().openRawResource(R.raw.intestines));
             tShaderProgramID_Geometry = GLES20Helper.createShader(R.raw.normalmapping_geometry_vertexshader, R.raw.normalmapping_geometry_fragmentshader, m_Context);
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_ShaderID(tShaderProgramID_Geometry); //implicitly binds on the standard attribute locations for position, texture coords and modelviewprojection matrix
@@ -128,22 +127,6 @@ public class GLES20Content {
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_SpecularIntensityTextureID(tSpecularIntensityTextureId);
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_SpecularColorTextureID(tSpecularColorTextureId);
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_AmbientOcclusionTextureID(tAmbientOcclusionTextureId);
-            */
-
-            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE] = new Geometry_Sphere(m_Context.getResources().openRawResource(R.raw.intestines_path));
-            tShaderProgramID_Geometry = GLES20Helper.createShader(R.raw.normalmapping_geometry_vertexshader, R.raw.normalmapping_geometry_fragmentshader, m_Context);
-            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_ShaderID(tShaderProgramID_Geometry); //implicitly binds on the standard attribute locations for position, texture coords and modelviewprojection matrix
-            tDiffuseTextureId = GLES20Helper.loadBitmapResourceAndCreateTextureID(R.raw.uvgrid_blender, this.m_Context);
-            tNormalTextureId = GLES20Helper.loadBitmapResourceAndCreateTextureID(R.raw.uvgrid_blender, this.m_Context);
-            tSpecularIntensityTextureId = GLES20Helper.loadBitmapResourceAndCreateTextureID(R.raw.uvgrid_blender, this.m_Context);
-            tSpecularColorTextureId = GLES20Helper.loadBitmapResourceAndCreateTextureID(R.raw.uvgrid_blender, this.m_Context);
-            tAmbientOcclusionTextureId = GLES20Helper.loadBitmapResourceAndCreateTextureID(R.raw.uvgrid_blender, this.m_Context);
-            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_DiffuseTextureID(tDiffuseTextureId);
-            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_NormalTextureID(tNormalTextureId);
-            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_SpecularIntensityTextureID(tSpecularIntensityTextureId);
-            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_SpecularColorTextureID(tSpecularColorTextureId);
-            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_AmbientOcclusionTextureID(tAmbientOcclusionTextureId);
-
         } else {
             //use optimized textures - composed channels to reduce texture unit load
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_BRAINMINE] = new Geometry_Sphere(m_Context.getResources().openRawResource(R.raw.brainmine));
@@ -223,15 +206,14 @@ public class GLES20Content {
         //m_GeometryInformation = new Geometry_Information_Network();
         //m_GeometryInformation = new Geometry_Information_Stubs_Path(m_Context.getResources().openRawResource(R.raw.brainmine_path));
         m_GeometryInformation = new Geometry_Information_Stubs_Path(m_Context);
-
         //m_CameraInformation = new Camera_Information_Stubs();
         //m_CameraInformation = new Camera_Information_Device(m_Context);
         //m_CameraInformation = new Camera_Information_Legacy(m_Context);
         //m_CameraInformation = new Camera_Information_WithoutDrift(m_Context);
         m_CameraInformation = new Camera_Information_Touch();
 
-        m_ClientInformation = new Client_Information_Stubs();
-        //m_ClientInformation = new Client_Information_Network();
+        //m_ClientInformation = new Client_Information_Stubs();
+        m_ClientInformation = new Client_Information_Network();
 
         Thread serverGeometryThread = new Thread((Runnable)m_GeometryInformation);
         serverGeometryThread.setPriority(Thread.MAX_PRIORITY);
@@ -406,16 +388,6 @@ public class GLES20Content {
             }
             mPreviousX = x;
             mPreviousY = y;
-        }
-
-        if(/*event.getAction() == MotionEvent.ACTION_DOWN &&*/ event.getPointerCount() == 5 ) {
-            // TODO reset camera
-
-            if (m_CameraInformation instanceof Camera_Information_WithoutDrift) {
-                Camera_Information_WithoutDrift camera_with_reset = (Camera_Information_WithoutDrift) m_CameraInformation;
-                camera_with_reset.Reset();
-            }
-
         }
 
         if (event.getAction() == MotionEvent.ACTION_UP) {

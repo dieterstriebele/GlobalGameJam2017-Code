@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class SimuClientConnect {
 	private Socket geometrySocket;
@@ -57,18 +58,16 @@ public class SimuClientConnect {
 			DataOutputStream command_out = new DataOutputStream(commandSocket.getOutputStream());
 			
 			PrintWriter geometry_printer = new PrintWriter(geometry_out);
-			PrintWriter command_printer = new PrintWriter(command_out);
-			
-			String str;
 			
 			boolean cancelled = false;
 			
 			while(true)
 	        {
 				Logger.Print("Type a command: ");
-				str = br.readLine();
-				
-				switch(str)
+				String str = br.readLine();				
+				String[] cargs = str.split("\\s+");				
+
+				switch(cargs[0])
 				{
 				case "help":
 					Logger.Info("There's no help, bitch!");
@@ -82,7 +81,47 @@ public class SimuClientConnect {
 					break;
 					
 				case "shoot":
-					command_printer.println(1);
+					if(cargs.length < 4)
+					{
+						Logger.Error("Not enough arguments for \"shoot\" command.");
+						break;
+					}
+					
+					command_out.writeInt(20);
+					byte[] buf_out = new byte[20];
+					
+					//first four bytes are for the command (integer), fire command is 1 = 00000000 00000000 00000000 00000001
+					buf_out[0] = 0;//(byte)(1 >> 24);
+					buf_out[1] = 0;//(byte)(1 >> 16);
+					buf_out[2] = 0;//(byte)(1 >> 8);
+					buf_out[3] = (byte)(1);
+					
+					//x coordinate
+					buf_out[4] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[1])) >> 24);
+					buf_out[5] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[1])) >> 16);
+					buf_out[6] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[1])) >> 8);
+					buf_out[7] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[1])));
+					
+					//y coordinate
+					buf_out[8] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[2])) >> 24);
+					buf_out[9] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[2])) >> 16);
+					buf_out[10] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[2])) >> 8);
+					buf_out[11] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[2])));
+					
+					//z coordinate
+					buf_out[12] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[3])) >> 24);
+					buf_out[13] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[3])) >> 16);
+					buf_out[14] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[3])) >> 8);
+					buf_out[15] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[3])));
+					
+					//not used
+					buf_out[16] = 0;
+					buf_out[17] = 0;
+					buf_out[18] = 0;
+					buf_out[19] = 0;
+					
+					command_out.write(buf_out, 0, buf_out.length);
+					
 					break;
 					
 				case "quit":
@@ -100,7 +139,7 @@ public class SimuClientConnect {
 				}
 				
 				geometry_printer.flush();
-				command_printer.flush();
+				command_out.flush();
 	        }
 			
 			br.close();

@@ -81,47 +81,22 @@ public class SimuClientConnect {
 					break;
 					
 				case "shoot":
-					if(cargs.length < 4)
-					{
-						Logger.Error("Not enough arguments for \"shoot\" command.");
-						break;
-					}
-					
 					command_out.writeInt(20);
 					byte[] buf_out = new byte[20];
-					
-					//first four bytes are for the command (integer), fire command is 1 = 00000000 00000000 00000000 00000001
-					buf_out[0] = 0;//(byte)(1 >> 24);
-					buf_out[1] = 0;//(byte)(1 >> 16);
-					buf_out[2] = 0;//(byte)(1 >> 8);
-					buf_out[3] = (byte)(1);
-					
-					//x coordinate
-					buf_out[4] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[1])) >> 24);
-					buf_out[5] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[1])) >> 16);
-					buf_out[6] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[1])) >> 8);
-					buf_out[7] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[1])));
-					
-					//y coordinate
-					buf_out[8] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[2])) >> 24);
-					buf_out[9] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[2])) >> 16);
-					buf_out[10] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[2])) >> 8);
-					buf_out[11] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[2])));
-					
-					//z coordinate
-					buf_out[12] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[3])) >> 24);
-					buf_out[13] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[3])) >> 16);
-					buf_out[14] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[3])) >> 8);
-					buf_out[15] = (byte)(Float.floatToRawIntBits(Float.parseFloat(cargs[3])));
-					
-					//not used
-					buf_out[16] = 0;
-					buf_out[17] = 0;
-					buf_out[18] = 0;
-					buf_out[19] = 0;
-					
+					buf_out[0] = 1 >> 24;
+					buf_out[1] = 1 >> 16;
+					buf_out[2] = 1 >> 8;
+					buf_out[3] = 1;
+					for(int i=4; i<20; ++i)
+					{
+						buf_out[i] = 0;
+					}
 					command_out.write(buf_out, 0, buf_out.length);
 					
+					for(int j=1; j<cargs.length; ++j)
+					{
+						Logger.Info("additional argument: " + cargs[j]);
+					}
 					break;
 					
 				case "quit":

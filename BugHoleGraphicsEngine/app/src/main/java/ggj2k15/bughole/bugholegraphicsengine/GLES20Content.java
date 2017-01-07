@@ -203,9 +203,9 @@ public class GLES20Content {
 
         //TODO: exchange for networking/device sensory test
         //m_GeometryInformation = new Geometry_Information_Stubs();
-        m_GeometryInformation = new Geometry_Information_Network();
+        //m_GeometryInformation = new Geometry_Information_Network();
         //m_GeometryInformation = new Geometry_Information_Stubs_Path(m_Context.getResources().openRawResource(R.raw.brainmine_path));
-
+        m_GeometryInformation = new Geometry_Information_Stubs_Path(m_Context);
         //m_CameraInformation = new Camera_Information_Stubs();
         //m_CameraInformation = new Camera_Information_Device(m_Context);
         //m_CameraInformation = new Camera_Information_Legacy(m_Context);

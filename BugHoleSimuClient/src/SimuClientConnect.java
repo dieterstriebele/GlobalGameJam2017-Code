@@ -6,7 +6,6 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.Arrays;
 
 public class SimuClientConnect {
 	private Socket geometrySocket;
@@ -58,16 +57,18 @@ public class SimuClientConnect {
 			DataOutputStream command_out = new DataOutputStream(commandSocket.getOutputStream());
 			
 			PrintWriter geometry_printer = new PrintWriter(geometry_out);
+			PrintWriter command_printer = new PrintWriter(command_out);
+			
+			String str;
 			
 			boolean cancelled = false;
 			
 			while(true)
 	        {
 				Logger.Print("Type a command: ");
-				String str = br.readLine();				
-				String[] cargs = str.split("\\s+");				
-
-				switch(cargs[0])
+				str = br.readLine();
+				
+				switch(str)
 				{
 				case "help":
 					Logger.Info("There's no help, bitch!");
@@ -81,22 +82,7 @@ public class SimuClientConnect {
 					break;
 					
 				case "shoot":
-					command_out.writeInt(20);
-					byte[] buf_out = new byte[20];
-					buf_out[0] = 1 >> 24;
-					buf_out[1] = 1 >> 16;
-					buf_out[2] = 1 >> 8;
-					buf_out[3] = 1;
-					for(int i=4; i<20; ++i)
-					{
-						buf_out[i] = 0;
-					}
-					command_out.write(buf_out, 0, buf_out.length);
-					
-					for(int j=1; j<cargs.length; ++j)
-					{
-						Logger.Info("additional argument: " + cargs[j]);
-					}
+					command_printer.println(1);
 					break;
 					
 				case "quit":
@@ -114,7 +100,7 @@ public class SimuClientConnect {
 				}
 				
 				geometry_printer.flush();
-				command_out.flush();
+				command_printer.flush();
 	        }
 			
 			br.close();

@@ -19,8 +19,8 @@ public class GameState implements IGameState {
 	private int _playerHitPoints;
 	private int _playerScore;
 
-	private ShotsAtPlayer _shotsAtPlayer;
-	private ShotsAtEnemies _geometryInformationShots;
+	private ShotsAtPlayer  _shotsAtPlayer;
+	private ShotsAtEnemies _shotsAtEnemies;
 
 	private IGeometry_Information _geometryInformation;
 
@@ -44,10 +44,10 @@ public class GameState implements IGameState {
 
 		_geometryInformation = new Tunnel(currentTime);
 		_shotsAtPlayer = new ShotsAtPlayer(currentTime, this);
-		_geometryInformationShots = new ShotsAtEnemies(currentTime, this);
+		_shotsAtEnemies = new ShotsAtEnemies(currentTime, this);
 
 		_geometryInformation.PropagateGeometryInformation(_shotsAtPlayer);
-		_geometryInformation.PropagateGeometryInformation(_geometryInformationShots);
+		_geometryInformation.PropagateGeometryInformation(_shotsAtEnemies);
 
 		_spawnScheduler = new SpawnScheduler(currentTime);
 	}
@@ -86,7 +86,7 @@ public class GameState implements IGameState {
 
 				Logger.Info("shooting at " + _playerDirection.mXPos + " " + _playerDirection.mYPos + " " + _playerDirection.mZPos);
 //				_emitShot = true;
-				_geometryInformationShots.EmitShot(Vector3D.Zero, _playerDirection);
+				_shotsAtEnemies.EmitShot(Vector3D.Zero, _playerDirection);
 				
 			}
 		}

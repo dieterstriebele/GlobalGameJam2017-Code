@@ -25,7 +25,7 @@ public abstract class Geometry_Information implements IGeometry_Information{
     	
     	_positions = new ArrayList<Vector3D>(numObjects);
     	_rotations = new ArrayList<Vector3D>(numObjects);
-    	_scaling = new ArrayList<Vector3D>(numObjects);
+    	_scaling   = new ArrayList<Vector3D>(numObjects);
     	
     	for (int i = 0; i < numObjects; i++) {
     		_positions.add(new Vector3D());

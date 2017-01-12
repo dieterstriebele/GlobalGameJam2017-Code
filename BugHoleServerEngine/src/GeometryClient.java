@@ -10,8 +10,6 @@ import util.Logger;
 import geometryInfo.IGeometry_Information;
 
 public class GeometryClient {
-
-	private static String FireCommand = new String("Fire");
 	
 	private DataInputStream in;
 	private DataOutputStream out;
@@ -29,8 +27,7 @@ public class GeometryClient {
 			//m_ClientSocket = clientSocket;
 			in = new DataInputStream(clientSocket.getInputStream());
 			out = new DataOutputStream(clientSocket.getOutputStream());
-			bufferedReader = new BufferedReader(new InputStreamReader(in));
-	
+			bufferedReader = new BufferedReader(new InputStreamReader(in));	
 			
 //			geometryInformation.Decorate(new Geometry_Information_Spiral(System.currentTimeMillis()));
 			
@@ -66,7 +63,7 @@ public class GeometryClient {
 						_gameState.SpawnSwarms(currentTime);
 						
 						if (receivedLine != null && receivedLine.length() > 0) {
-							//LogClientInfo("received: " + receivedLine);
+							LogClientInfo("received: " + receivedLine);
 							handleIncommingCommands(receivedLine, currentTime);
 						} else {
 							LogClientError("Client aborted connection! Shutting down Client Processing Thread!");
@@ -141,7 +138,7 @@ public class GeometryClient {
 				out.write(_buffer, 0, numberOfBytesToWrite);
 				out.flush();
 			}
-		}		
+		}	
 	}
 
 	public String getIp() {

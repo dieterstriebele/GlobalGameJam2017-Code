@@ -62,6 +62,8 @@ public class GameState implements IGameState {
 
 			int command = BufferConvert.ReadIntFromBufferAtOffset(buffer, 0);
 			index += sizeofInt;
+			
+			Logger.Info("received command: " + command);
 
 			if (command == FireCommand) {
 
@@ -77,11 +79,15 @@ public class GameState implements IGameState {
 				index += sizeofFloat;
 
 				// I hope I'll never have to explain this...
+					//... but you should have! *+&$=?!
 				_playerDirection.mXPos = -x;
 				_playerDirection.mYPos = z;
 				_playerDirection.mZPos = y;
 
-				_emitShot = true;
+				Logger.Info("shooting at " + _playerDirection.mXPos + " " + _playerDirection.mYPos + " " + _playerDirection.mZPos);
+//				_emitShot = true;
+				_geometryInformationShots.EmitShot(Vector3D.Zero, _playerDirection);
+				
 			}
 		}
 	}
@@ -104,10 +110,10 @@ public class GameState implements IGameState {
 	public int UpdateAndGetStateAndNumberOfBytesToWrite(byte[] buffer, long currentTime) {
 		int currentNumberOfObjects = 0;
 
-		if (_emitShot) {
-			_geometryInformationShots.EmitShot(Vector3D.Zero, _playerDirection);
-			_emitShot = false;
-		}
+//		if (_emitShot) {
+//			_geometryInformationShots.EmitShot(Vector3D.Zero, _playerDirection);
+//			_emitShot = false;
+//		}
 
 		if (_geometryInformation != null) {
 
@@ -123,7 +129,7 @@ public class GameState implements IGameState {
 		for (int i = 0; i < currentNumberOfObjects; i++) {
 			Vector3D position = _geometryInformation.GetObjectPosition(i);
 			Vector3D rotation = _geometryInformation.GetObjectRotation(i);
-			Vector3D scaling = _geometryInformation.GetObjectScaling(i);
+			Vector3D scaling  = _geometryInformation.GetObjectScaling(i);
 
 			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(position.mXPos, buffer,
 					(i * numberOfBytesPerObject) + (sizeOfFloat * 0));

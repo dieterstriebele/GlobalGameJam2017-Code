@@ -30,27 +30,28 @@ public class BugHoleServerMain {
             commandServerSocket = new ServerSocket(SERVERPORT_COMMAND_CLIENT);
             Logger.Info("Started command server on Port:" + SERVERPORT_COMMAND_CLIENT);
             //http://stackoverflow.com/questions/8780667/socket-setperformancepreferences
-            commandServerSocket.setPerformancePreferences(0, 1, 2);
-            
+            commandServerSocket.setPerformancePreferences(0, 1, 2);            
             
             GameState gameState = new GameState();
             
-            while( true)
+            while(true)
             {
                 Logger.Info("Wait for incoming client connection");
+                
                 Socket geometrySocket = geometryServerSocket.accept();
-                //http://blog.mafr.de/2010/03/14/tcp-for-low-latency-applications/
+                Logger.Info("Accepting connection from " + geometrySocket);
                 geometrySocket.setTcpNoDelay(true);
                 geometrySocket.setKeepAlive(true);
-                geometrySocket.setSoTimeout(15000);
-                Logger.Info("Accepting connection from " + geometrySocket);
+                //geometrySocket.setSoTimeout(15000);
+                
                 GeometryClient geometryClient = new GeometryClient(geometrySocket,timeBase, gameState);
                 geometryClient.StartReadingThread();
                 
                 Socket commandSocket = commandServerSocket.accept();
+                Logger.Info("Accepting connection from " + commandSocket);
                 commandSocket.setTcpNoDelay(true);
                 commandSocket.setKeepAlive(true);
-                Logger.Info("Accepting connection from " + commandSocket);
+                
                 CommandClient commandClient = new CommandClient(commandSocket, timeBase, gameState);
                 commandClient.StartReadingThread();
                 commandClient.StartWritingThread();

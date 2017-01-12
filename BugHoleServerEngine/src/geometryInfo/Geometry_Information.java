@@ -70,12 +70,12 @@ public abstract class Geometry_Information implements IGeometry_Information{
         return numObjects;
     }
     
-    public void Decorate(IGeometry_Information geometryInformation) {
+    public void PropagateGeometryInformation(IGeometry_Information geometryInformation) {
     	if (m_child == null) {
     		m_child = geometryInformation;
     	}
     	else {
-    		m_child.Decorate(geometryInformation);
+    		m_child.PropagateGeometryInformation(geometryInformation);
     	}
     }
 

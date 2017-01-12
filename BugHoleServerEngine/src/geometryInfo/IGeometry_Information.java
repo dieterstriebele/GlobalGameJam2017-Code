@@ -28,6 +28,6 @@ public interface IGeometry_Information {
     
     public int GetObjectModelIdentification(int inObjectIndex);
   
-    public void Decorate(IGeometry_Information geometryInformation);
+    public void PropagateGeometryInformation(IGeometry_Information geometryInformation);
     
 }

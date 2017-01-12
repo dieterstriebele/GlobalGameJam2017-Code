@@ -46,8 +46,8 @@ public class GameState implements IGameState {
 		_shotsAtPlayer = new ShotsAtPlayer(currentTime, this);
 		_geometryInformationShots = new ShotsAtEnemies(currentTime, this);
 
-		_geometryInformation.Decorate(_shotsAtPlayer);
-		_geometryInformation.Decorate(_geometryInformationShots);
+		_geometryInformation.PropagateGeometryInformation(_shotsAtPlayer);
+		_geometryInformation.PropagateGeometryInformation(_geometryInformationShots);
 
 		_spawnScheduler = new SpawnScheduler(currentTime);
 	}
@@ -99,7 +99,7 @@ public class GameState implements IGameState {
 			// Currently the root element are the shots which are never
 			// removed.
 			if (newSwarm != null) {
-				_geometryInformation.Decorate(newSwarm);
+				_geometryInformation.PropagateGeometryInformation(newSwarm);
 			}
 
 			// Remove finished

@@ -4,7 +4,8 @@ import java.net.Socket;
 
 import game.GameState;
 import util.Logger;
-import util.DiscoveryThread;
+import util.NetworkDiscoveryThreadUDP;
+import util.NetworkDiscoveryThreadNSD;
 
 public class BugHoleServerMain {
 
@@ -19,8 +20,10 @@ public class BugHoleServerMain {
 		System.out.println("Starting BugHoleServerEngine ...");
 
         try {        	       
-        	DiscoveryThread discoveryThread = DiscoveryThread.getInstance();
-        	(new Thread(discoveryThread)).start();
+        	NetworkDiscoveryThreadUDP networkDiscoveryThreadUDP = NetworkDiscoveryThreadUDP.getInstance();
+        	(new Thread(networkDiscoveryThreadUDP)).start();
+        	NetworkDiscoveryThreadNSD networkDiscoveryThreadNSD = NetworkDiscoveryThreadNSD.getInstance();
+        	(new Thread(networkDiscoveryThreadNSD)).start();
         	
         	geometryServerSocket = new ServerSocket(SERVERPORT_GEOMETRY_CLIENT);
             Logger.Info("Started geomtery server on Port:" + SERVERPORT_GEOMETRY_CLIENT);

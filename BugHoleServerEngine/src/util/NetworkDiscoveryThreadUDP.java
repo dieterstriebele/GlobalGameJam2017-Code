@@ -5,7 +5,7 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.io.IOException;
 
-public class DiscoveryThread implements Runnable {
+public class NetworkDiscoveryThreadUDP implements Runnable {
 
 	DatagramSocket socket;	
 	
@@ -42,18 +42,18 @@ public class DiscoveryThread implements Runnable {
 				}
 			}
 		} catch (IOException ex) {
-			Logger.Error(DiscoveryThread.class.getName(),ex);
+			Logger.Error(NetworkDiscoveryThreadUDP.class.getName(),ex);
 		}
 
 	}
 
-	public static DiscoveryThread getInstance() {
+	public static NetworkDiscoveryThreadUDP getInstance() {
 
 		return DiscoveryThreadHolder.INSTANCE;
 	}
 
 	private static class DiscoveryThreadHolder {
 
-		private static final DiscoveryThread INSTANCE = new DiscoveryThread();
+		private static final NetworkDiscoveryThreadUDP INSTANCE = new NetworkDiscoveryThreadUDP();
 	}
 }

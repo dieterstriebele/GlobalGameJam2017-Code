@@ -16,8 +16,6 @@ public class NetworkDiscoveryThreadNSD implements Runnable {
 
         try {
 
-            while (true) {
-
                 // Create a JmDNS instance
                 JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
 
@@ -25,14 +23,17 @@ public class NetworkDiscoveryThreadNSD implements Runnable {
                 ServiceInfo serviceInfo = ServiceInfo.create("_bughole._tcp.local.", "Bughole tcp streamer", 47111, "Our godlike great bughole server!");
                 jmdns.registerService(serviceInfo);
 
+            while (true) {
                 // Wait a bit
-//                Thread.sleep(25000);
+                Thread.sleep(25000);
+            }
 
                 // Unregister all services
-//                jmdns.unregisterAllServices();
+                //jmdns.unregisterAllServices();
 
-            }
         } catch (IOException ex) {
+            Logger.Error(NetworkDiscoveryThreadNSD.class.getName(),ex);
+        } catch (InterruptedException ex) {
             Logger.Error(NetworkDiscoveryThreadNSD.class.getName(),ex);
         }
 

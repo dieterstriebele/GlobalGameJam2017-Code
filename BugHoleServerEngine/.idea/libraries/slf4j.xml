@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="slf4j-api-1.7.22">
+  <library name="slf4j">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/jar/slf4j-api-1.7.22.jar!/" />
       <root url="jar://$PROJECT_DIR$/jar/slf4j-nop-1.7.22.jar!/" />

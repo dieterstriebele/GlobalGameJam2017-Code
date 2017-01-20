@@ -14,11 +14,13 @@ public class ShotsAtPlayer extends ShotsBase {
 	
 	protected void CheckForCollision() {
 		for (Vector3D pos : _positions) {
+			// What? Dirty, but good enough for now, I guess... Hoppe at his best
 			if (pos.squareDistance(Vector3D.Zero) < 1.f)
 			{
 				_gameState.EmitGameEvent(IGameState.GameEventEnemyHitsPlayer);
 				
 				// remove shot via genius 'trick'
+					// WTF?
 				pos.mZPos = Float.MIN_VALUE;
 			}
 		}

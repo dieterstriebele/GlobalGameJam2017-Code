@@ -11,8 +11,8 @@ import geometryInfo.IGeometry_Information;
 
 public class GeometryClient {
 	
-	private DataInputStream in;
-	private DataOutputStream out;
+	private DataInputStream stream_in;
+	private DataOutputStream stream_out;
 	private String clientIp;
 	private BufferedReader bufferedReader;
 	
@@ -24,12 +24,9 @@ public class GeometryClient {
 		try {
 			_gameState = gameState;
 			
-			//m_ClientSocket = clientSocket;
-			in = new DataInputStream(clientSocket.getInputStream());
-			out = new DataOutputStream(clientSocket.getOutputStream());
-			bufferedReader = new BufferedReader(new InputStreamReader(in));	
-			
-//			geometryInformation.Decorate(new Geometry_Information_Spiral(System.currentTimeMillis()));
+			stream_in  = new DataInputStream(clientSocket.getInputStream());
+			stream_out = new DataOutputStream(clientSocket.getOutputStream());
+			bufferedReader = new BufferedReader(new InputStreamReader(stream_in));	
 			
 			int sizeOfFloat = 4;
 	    	int sizeOfInt = Integer.SIZE / Byte.SIZE;
@@ -44,14 +41,13 @@ public class GeometryClient {
 	}
 
 	public void write(String message) {
-		PrintWriter printWriter = new PrintWriter(out);
-		//LogClientInfo("write to client: " + message);
+		PrintWriter printWriter = new PrintWriter(stream_out);
 		printWriter.println(message);
 		printWriter.flush();
 	}
 
 	public void StartReadingThread() {
-		Thread read = new Thread() {
+		Thread reading_thread = new Thread() {
 			public void run() {
 				LogClientInfo("GeometryClient: StartReadingThread id=" + Thread.currentThread().getId());
 				try {
@@ -64,7 +60,7 @@ public class GeometryClient {
 						
 						if (receivedLine != null && receivedLine.length() > 0) {
 							LogClientInfo("received: " + receivedLine);
-							handleIncommingCommands(receivedLine, currentTime);
+							HandleIncomingCommands(receivedLine, currentTime);
 						} else {
 							LogClientError("Client aborted connection! Shutting down Client Processing Thread!");
 							break;
@@ -72,8 +68,7 @@ public class GeometryClient {
 						
 						//http://stackoverflow.com/questions/3484972/java-socketchannel-doesnt-detect-disconnection
 						
-						/*
-						
+						/*						
 						Usually if you turn off OS level networking, writes to socket should throw exceptions, so you know the connection is broken.
 						However more generally, we can't be sure if a packet is delivered. In java (probably C too), there is no way to check if a
 						packet is ACK'ed. Even if we can check TCP ACKs, it doesn't guarantee that the server received or processed the packet. It
@@ -108,35 +103,31 @@ public class GeometryClient {
 				} catch (Exception e) {
 					LogClientError("GeometryClient: Error while reading from inputstream", e);
 					try {
-					in.close();
-					out.close();
+						stream_in.close();
+						stream_out.close();
 					} catch (Exception ex) {
 						LogClientError("GeometryClient: Error closing streams", e);
 					}
 				}
 			}
 		};
-		read.setPriority(Thread.MAX_PRIORITY);
+		reading_thread.setPriority(Thread.MAX_PRIORITY);
 		//read.setDaemon(true);
-		read.start();
+		reading_thread.start();
 	}
 
-	private void handleIncommingCommands(String message, long currentTime) throws Exception {
+	private void HandleIncomingCommands(String message, long currentTime) throws Exception {
 		// handle connect command
 		if (message.equals(new String("SynchronizeState"))) {
 			
 			int numberOfBytesToWrite = _gameState.UpdateAndGetStateAndNumberOfBytesToWrite(_buffer, currentTime);
 						
-			out.writeInt(numberOfBytesToWrite);
-			out.flush();
+			stream_out.writeInt(numberOfBytesToWrite);
+			stream_out.flush();
 			
-			if (numberOfBytesToWrite != 0) {
-	
-				//LogClientInfo("Sending "+buf.length+" bytes to client!");
-				//System.out.println(Arrays.toString(buf));
-				
-				out.write(_buffer, 0, numberOfBytesToWrite);
-				out.flush();
+			if (numberOfBytesToWrite != 0) {				
+				stream_out.write(_buffer, 0, numberOfBytesToWrite);
+				stream_out.flush();
 			}
 		}	
 	}

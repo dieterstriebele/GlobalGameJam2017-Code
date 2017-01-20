@@ -37,6 +37,7 @@ public class BugHoleServerMain {
             
             GameState gameState = new GameState();
             
+            //infinite loop to set up the game and connections, because accept() is blocking until a connection is established
             while(true)
             {
                 Logger.Info("Wait for incoming client connection");
@@ -59,6 +60,7 @@ public class BugHoleServerMain {
                 commandClient.StartReadingThread();
                 commandClient.StartWritingThread();
                 
+                //once a connection was established, initialize the game state
                 gameState.Init();
                 //Thread.sleep(10000000);
             }

@@ -37,8 +37,7 @@ public class SpawnScheduler {
 	
 	public SpawnScheduler(long timeBase) {
 		_lastSpawnTime = timeBase;
-		_swarmSchedule = new LinkedList<Swarm>();
-		
+		_swarmSchedule = new LinkedList<Swarm>();		
 		
 		_swarmSchedule.add(new Swarm(5000, Spiral));
 		_swarmSchedule.add(new Swarm(1000, Wesp));
@@ -46,14 +45,14 @@ public class SpawnScheduler {
 		_swarmSchedule.add(new Swarm(2000, Spiral));
 		_swarmSchedule.add(new Swarm(1000, Howler));
 		_swarmSchedule.add(new Swarm(1000, DeathCircle));
-		_swarmSchedule.add(new Swarm(10000, Spiral));
+		_swarmSchedule.add(new Swarm(10000,Spiral));
 		_swarmSchedule.add(new Swarm(1000, Wesp));
-		_swarmSchedule.add(new Swarm(100, Howler));
-		_swarmSchedule.add(new Swarm(100, Howler));
+		_swarmSchedule.add(new Swarm(100,  Howler));
+		_swarmSchedule.add(new Swarm(100,  Howler));
 		_swarmSchedule.add(new Swarm(1000, Wesp));
-		_swarmSchedule.add(new Swarm(100, Howler));
-		_swarmSchedule.add(new Swarm(100, Howler));
-		_swarmSchedule.add(new Swarm(100, Howler));
+		_swarmSchedule.add(new Swarm(100,  Howler));
+		_swarmSchedule.add(new Swarm(100,  Howler));
+		_swarmSchedule.add(new Swarm(100,  Howler));
 		_swarmSchedule.add(new Swarm(4000, DeathCircle));
 		_swarmSchedule.add(new Swarm(1000, Spiral));
 		_swarmSchedule.add(new Swarm(1000, Wesp));
@@ -85,8 +84,8 @@ public class SpawnScheduler {
 		_swarmSchedule.add(new Swarm(1000, Howler));
 		_swarmSchedule.add(new Swarm(1000, Howler));
 		_swarmSchedule.add(new Swarm(1000, Howler));
-		_swarmSchedule.add(new Swarm(100, Howler));
-		_swarmSchedule.add(new Swarm(100, Howler));
+		_swarmSchedule.add(new Swarm(100,  Howler));
+		_swarmSchedule.add(new Swarm(100,  Howler));
 		_swarmSchedule.add(new Swarm(1000, Howler));
 		_swarmSchedule.add(new Swarm(1000, Howler));
 		_swarmSchedule.add(new Swarm(1000, Howler));

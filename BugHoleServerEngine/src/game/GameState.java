@@ -12,7 +12,6 @@ import util.Logger;
 import util.Vector3D;
 
 public class GameState implements IGameState {
-	private final static int NoneCommand = 0;
 	private final static int FireCommand = 1;
 
 	private Vector3D _playerDirection;
@@ -25,16 +24,13 @@ public class GameState implements IGameState {
 	private IGeometry_Information _geometryInformation;
 
 	private SpawnScheduler _spawnScheduler;
-
-	boolean _emitShot;
 	
 	private List<Integer> _gameEvents;
 
 	public GameState() {
 		_playerHitPoints = 100;
 		_playerScore = 0;
-		_playerDirection = new Vector3D();
-		
+		_playerDirection = new Vector3D();		
 		_gameEvents = new LinkedList<Integer>();
 		// initialize the geometric information
 	}
@@ -85,7 +81,6 @@ public class GameState implements IGameState {
 				_playerDirection.mZPos = y;
 
 				Logger.Info("shooting at " + _playerDirection.mXPos + " " + _playerDirection.mYPos + " " + _playerDirection.mZPos);
-//				_emitShot = true;
 				_shotsAtEnemies.EmitShot(Vector3D.Zero, _playerDirection);
 				
 			}
@@ -96,8 +91,7 @@ public class GameState implements IGameState {
 		if (_spawnScheduler != null) {
 			IGeometry_Information newSwarm = _spawnScheduler.Update(_shotsAtPlayer);
 
-			// Currently the root element are the shots which are never
-			// removed.
+			// Currently the root element are the shots which are never removed
 			if (newSwarm != null) {
 				_geometryInformation.PropagateGeometryInformation(newSwarm);
 			}
@@ -110,45 +104,45 @@ public class GameState implements IGameState {
 	public int UpdateAndGetStateAndNumberOfBytesToWrite(byte[] buffer, long currentTime) {
 		int currentNumberOfObjects = 0;
 
-//		if (_emitShot) {
-//			_geometryInformationShots.EmitShot(Vector3D.Zero, _playerDirection);
-//			_emitShot = false;
-//		}
-
 		if (_geometryInformation != null) {
-
 			_geometryInformation.SynchronizeState(currentTime);
-
 			currentNumberOfObjects = _geometryInformation.GetNumberOfObjects();
 		}
 
 		int sizeOfFloat = 4;
-		int sizeOfInt = 4;
+		int sizeOfInt   = 4;
 		int numberOfBytesPerObject = 9 * sizeOfFloat + sizeOfInt;
 
 		for (int i = 0; i < currentNumberOfObjects; i++) {
-			Vector3D position = _geometryInformation.GetObjectPosition(i);
 			Vector3D rotation = _geometryInformation.GetObjectRotation(i);
 			Vector3D scaling  = _geometryInformation.GetObjectScaling(i);
+			Vector3D position = _geometryInformation.GetObjectPosition(i);
 
+			// Position
 			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(position.mXPos, buffer,
 					(i * numberOfBytesPerObject) + (sizeOfFloat * 0));
 			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(position.mYPos, buffer,
 					(i * numberOfBytesPerObject) + (sizeOfFloat * 1));
 			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(position.mZPos, buffer,
 					(i * numberOfBytesPerObject) + (sizeOfFloat * 2));
+			
+			// Rotation
 			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(rotation.mXPos, buffer,
 					(i * numberOfBytesPerObject) + (sizeOfFloat * 3));
 			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(rotation.mYPos, buffer,
 					(i * numberOfBytesPerObject) + (sizeOfFloat * 4));
 			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(rotation.mZPos, buffer,
 					(i * numberOfBytesPerObject) + (sizeOfFloat * 5));
-			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(scaling.mXPos, buffer,
+			
+			// Scaling
+			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(scaling.mXPos,  buffer,
 					(i * numberOfBytesPerObject) + (sizeOfFloat * 6));
-			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(scaling.mYPos, buffer,
+			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(scaling.mYPos,  buffer,
 					(i * numberOfBytesPerObject) + (sizeOfFloat * 7));
-			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(scaling.mZPos, buffer,
+			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(scaling.mZPos,  buffer,
 					(i * numberOfBytesPerObject) + (sizeOfFloat * 8));
+			
+			// ID
 			BufferConvert.WriteIntToBufferAtOffset(_geometryInformation.GetObjectModelIdentification(i), buffer,
 					(i * numberOfBytesPerObject) + (sizeOfFloat * 9));
 		}

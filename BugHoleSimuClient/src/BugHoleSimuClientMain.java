@@ -8,6 +8,7 @@ public class BugHoleSimuClientMain {
 	{
 		simuClient = new SimuClientConnect();
 		simuClient.Connect();		
-		simuClient.doSomeCrazyWork();
+		simuClient.StartCommandThread();
+		simuClient.StartGeometryThread();
 	}
 }

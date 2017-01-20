@@ -14,7 +14,7 @@ public class GeometryClient {
 	private DataInputStream stream_in;
 	private DataOutputStream stream_out;
 	private String clientIp;
-	private BufferedReader bufferedReader;
+	private BufferedReader input_reader;
 	
 	private byte[] _buffer;
 	
@@ -24,9 +24,9 @@ public class GeometryClient {
 		try {
 			_gameState = gameState;
 			
-			stream_in  = new DataInputStream(clientSocket.getInputStream());
-			stream_out = new DataOutputStream(clientSocket.getOutputStream());
-			bufferedReader = new BufferedReader(new InputStreamReader(stream_in));	
+			stream_in    = new DataInputStream(clientSocket.getInputStream());
+			stream_out   = new DataOutputStream(clientSocket.getOutputStream());
+			input_reader = new BufferedReader(new InputStreamReader(stream_in));	
 			
 			int sizeOfFloat = 4;
 	    	int sizeOfInt = Integer.SIZE / Byte.SIZE;
@@ -52,7 +52,7 @@ public class GeometryClient {
 				LogClientInfo("GeometryClient: StartReadingThread id=" + Thread.currentThread().getId());
 				try {
 					while (true) {
-						String receivedLine = bufferedReader.readLine();
+						String receivedLine = input_reader.readLine();
 						
 						long currentTime = System.currentTimeMillis();
 

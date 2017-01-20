@@ -88,6 +88,7 @@ public class GameState implements IGameState {
 	}
 
 	public synchronized void SpawnSwarms(long currentTime) {
+		Logger.Info("Trying to spawn...");
 		if (_spawnScheduler != null) {
 			IGeometry_Information newSwarm = _spawnScheduler.Update(_shotsAtPlayer);
 
@@ -98,6 +99,8 @@ public class GameState implements IGameState {
 
 			// Remove finished
 			_geometryInformation.RemoveFinished(currentTime);
+			
+			Logger.Info("Spawning");
 		}
 	}
 

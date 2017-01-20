@@ -16,20 +16,23 @@ public class SpawnScheduler {
 	
 	private class Swarm
 	{
-		public Swarm(long deltaTime, int swarmId) {
+		public Swarm(long deltaTime, EnemyType swarmId) {
 			_deltaTime = deltaTime;
 			_swarmId = swarmId;
 		}
 		
 		public long _deltaTime;
-		public int _swarmId;
+		public EnemyType _swarmId;
 	}
 	
-	private static int Spiral = 0;
-	private static int DeathCircle = 1;
-	private static int Howler = 2;
-	private static int Wesp = 3;
-	private static int Flocking = 4;
+	enum EnemyType
+	{
+		Spiral,
+		DeathCircle,
+		Howler,
+		Wesp,
+		Flocking
+	}
 	
 	private long _lastSpawnTime;
 	
@@ -39,69 +42,69 @@ public class SpawnScheduler {
 		_lastSpawnTime = timeBase;
 		_swarmSchedule = new LinkedList<Swarm>();		
 		
-		_swarmSchedule.add(new Swarm(5000, Spiral));
-		_swarmSchedule.add(new Swarm(1000, Wesp));
-		_swarmSchedule.add(new Swarm(6000, Spiral));
-		_swarmSchedule.add(new Swarm(2000, Spiral));
-		_swarmSchedule.add(new Swarm(1000, Howler));
-		_swarmSchedule.add(new Swarm(1000, DeathCircle));
-		_swarmSchedule.add(new Swarm(10000,Spiral));
-		_swarmSchedule.add(new Swarm(1000, Wesp));
-		_swarmSchedule.add(new Swarm(100,  Howler));
-		_swarmSchedule.add(new Swarm(100,  Howler));
-		_swarmSchedule.add(new Swarm(1000, Wesp));
-		_swarmSchedule.add(new Swarm(100,  Howler));
-		_swarmSchedule.add(new Swarm(100,  Howler));
-		_swarmSchedule.add(new Swarm(100,  Howler));
-		_swarmSchedule.add(new Swarm(4000, DeathCircle));
-		_swarmSchedule.add(new Swarm(1000, Spiral));
-		_swarmSchedule.add(new Swarm(1000, Wesp));
-		_swarmSchedule.add(new Swarm(5000, Spiral));
-		_swarmSchedule.add(new Swarm(5000, Spiral));
-		_swarmSchedule.add(new Swarm(5000, Spiral));
-		_swarmSchedule.add(new Swarm(1000, Wesp));
-		_swarmSchedule.add(new Swarm(6000, Wesp));
-		_swarmSchedule.add(new Swarm(4000, Spiral));
-		_swarmSchedule.add(new Swarm(6000, Wesp));
-		_swarmSchedule.add(new Swarm(4000, Spiral));
-		_swarmSchedule.add(new Swarm(4000, Spiral));
-		_swarmSchedule.add(new Swarm(4000, Spiral));
-		_swarmSchedule.add(new Swarm(1000, Wesp));
-		_swarmSchedule.add(new Swarm(4000, Spiral));
-		_swarmSchedule.add(new Swarm(1000, Wesp));
-		_swarmSchedule.add(new Swarm(4000, Spiral));
-		_swarmSchedule.add(new Swarm(1000, Wesp));
-		_swarmSchedule.add(new Swarm(4000, Spiral));
-		_swarmSchedule.add(new Swarm(1000, Wesp));
-		_swarmSchedule.add(new Swarm(4000, Spiral));
-		_swarmSchedule.add(new Swarm(1000, Wesp));
-		_swarmSchedule.add(new Swarm(1000, Howler));
-		_swarmSchedule.add(new Swarm(1000, Wesp));
-		_swarmSchedule.add(new Swarm(1000, Howler));
-		_swarmSchedule.add(new Swarm(1000, Howler));
-		_swarmSchedule.add(new Swarm(1000, Howler));
-		_swarmSchedule.add(new Swarm(1000, Howler));
-		_swarmSchedule.add(new Swarm(1000, Howler));
-		_swarmSchedule.add(new Swarm(1000, Howler));
-		_swarmSchedule.add(new Swarm(1000, Howler));
-		_swarmSchedule.add(new Swarm(100,  Howler));
-		_swarmSchedule.add(new Swarm(100,  Howler));
-		_swarmSchedule.add(new Swarm(1000, Howler));
-		_swarmSchedule.add(new Swarm(1000, Howler));
-		_swarmSchedule.add(new Swarm(1000, Howler));
-		_swarmSchedule.add(new Swarm(1000, Howler));
-		_swarmSchedule.add(new Swarm(2000, Spiral));
-		_swarmSchedule.add(new Swarm(6000, Wesp));
-		_swarmSchedule.add(new Swarm(1000, Wesp));
-		_swarmSchedule.add(new Swarm(5000, Howler));
-		_swarmSchedule.add(new Swarm(5000, Howler));
-		_swarmSchedule.add(new Swarm(2000, Howler));
-		_swarmSchedule.add(new Swarm(1000, Spiral));
-		_swarmSchedule.add(new Swarm(5000, Howler));
-		_swarmSchedule.add(new Swarm(2000, Howler));
-		_swarmSchedule.add(new Swarm(1000, Spiral));
-		_swarmSchedule.add(new Swarm(4000, Howler));
-		_swarmSchedule.add(new Swarm(5000, DeathCircle));
+		_swarmSchedule.add(new Swarm(5000, EnemyType.Spiral));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Wesp));
+		_swarmSchedule.add(new Swarm(6000, EnemyType.Spiral));
+		_swarmSchedule.add(new Swarm(2000, EnemyType.Spiral));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.DeathCircle));
+		_swarmSchedule.add(new Swarm(10000,EnemyType.Spiral));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Wesp));
+		_swarmSchedule.add(new Swarm(100,  EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(100,  EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Wesp));
+		_swarmSchedule.add(new Swarm(100,  EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(100,  EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(100,  EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(4000, EnemyType.DeathCircle));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Spiral));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Wesp));
+		_swarmSchedule.add(new Swarm(5000, EnemyType.Spiral));
+		_swarmSchedule.add(new Swarm(5000, EnemyType.Spiral));
+		_swarmSchedule.add(new Swarm(5000, EnemyType.Spiral));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Wesp));
+		_swarmSchedule.add(new Swarm(6000, EnemyType.Wesp));
+		_swarmSchedule.add(new Swarm(4000, EnemyType.Spiral));
+		_swarmSchedule.add(new Swarm(6000, EnemyType.Wesp));
+		_swarmSchedule.add(new Swarm(4000, EnemyType.Spiral));
+		_swarmSchedule.add(new Swarm(4000, EnemyType.Spiral));
+		_swarmSchedule.add(new Swarm(4000, EnemyType.Spiral));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Wesp));
+		_swarmSchedule.add(new Swarm(4000, EnemyType.Spiral));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Wesp));
+		_swarmSchedule.add(new Swarm(4000, EnemyType.Spiral));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Wesp));
+		_swarmSchedule.add(new Swarm(4000, EnemyType.Spiral));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Wesp));
+		_swarmSchedule.add(new Swarm(4000, EnemyType.Spiral));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Wesp));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Wesp));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(100,  EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(100,  EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(2000, EnemyType.Spiral));
+		_swarmSchedule.add(new Swarm(6000, EnemyType.Wesp));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Wesp));
+		_swarmSchedule.add(new Swarm(5000, EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(5000, EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(2000, EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Spiral));
+		_swarmSchedule.add(new Swarm(5000, EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(2000, EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(1000, EnemyType.Spiral));
+		_swarmSchedule.add(new Swarm(4000, EnemyType.Howler));
+		_swarmSchedule.add(new Swarm(5000, EnemyType.DeathCircle));
 	}
 	
 	public IGeometry_Information Update(IShotEmitter shotEmitter) {
@@ -113,8 +116,7 @@ public class SpawnScheduler {
 			long now = System.currentTimeMillis();
 			if (now - _lastSpawnTime > swarm._deltaTime)
 			{
-				_lastSpawnTime = now;
-				
+				_lastSpawnTime = now;				
 				swarmInstance = CreateSwarm(swarm._swarmId, now, shotEmitter);
 				_swarmSchedule.removeFirst();
 			}
@@ -126,24 +128,32 @@ public class SpawnScheduler {
 		return swarmInstance;
 	}
 	
-	private IGeometry_Information CreateSwarm(int id, long timeBase, IShotEmitter shotEmitter) {
+	private IGeometry_Information CreateSwarm(EnemyType id, long timeBase, IShotEmitter shotEmitter) {
 		EnemySwarm swarm = null;
 		
-		if (id == Spiral) {
+		switch(id)
+		{
+		case Spiral:
 			swarm = new Spiral(timeBase);
-		} else if (id == DeathCircle) {
+			break;
+		case DeathCircle:
 			swarm = new DeathCircle(timeBase);
-		} else if (id == Howler) {
+			break;
+		case Howler:
 			swarm = new Howler(timeBase);
-		} else if (id == Wesp) {
+			break;
+		case Wesp:
 			swarm = new Wesp(timeBase);
-		} else if (id == Flocking) {
+			break;
+		case Flocking:
 			swarm = new Flocking(timeBase);
-		}	
-		
-		if(swarm != null) {
-			swarm.SetShotEmitter(shotEmitter);
+			break;
+		default:
+			swarm = new Spiral(timeBase);
+			break;
 		}
+		
+		swarm.SetShotEmitter(shotEmitter);
 		
 		return swarm;
 	}

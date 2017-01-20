@@ -14,8 +14,7 @@ public class Tunnel extends Geometry_Information {
 		
 		for (int i = 0; i < NumberOfCameraSegments; i++) {
 			_positions.get(i).mXPos = 0f;
-			_positions.get(i).mYPos = 0f;
-			
+			_positions.get(i).mYPos = 0f;			
 			_rotations.get(i).mYPos = 1.570796f;
 		}
 	}
@@ -45,25 +44,12 @@ public class Tunnel extends Geometry_Information {
         
     	mTimeBase = currentTime;
 
-        
-        //System.out.println("tunnel offset = " + m_IntestineScrollingOffset);
-
-        _positions.get(i).mZPos = 24.0f+m_IntestineScrollingOffset;
-
-        i++;
-        _positions.get(i).mZPos = 16.0f+m_IntestineScrollingOffset;
-
-        i++;
-        _positions.get(i).mZPos = 8.0f+m_IntestineScrollingOffset;
-
-        i++;
-        _positions.get(i).mZPos = 0.0f+m_IntestineScrollingOffset;
-
-        i++;
-        _positions.get(i).mZPos = -8.0f+m_IntestineScrollingOffset;
-
-        i++;
-        _positions.get(i).mZPos = -16.0f+m_IntestineScrollingOffset;
+        _positions.get(i++).mZPos = 24.0f  + m_IntestineScrollingOffset;
+        _positions.get(i++).mZPos = 16.0f  + m_IntestineScrollingOffset;
+        _positions.get(i++).mZPos = 8.0f   + m_IntestineScrollingOffset;
+        _positions.get(i++).mZPos = 0.0f   + m_IntestineScrollingOffset;
+        _positions.get(i++).mZPos = -8.0f  + m_IntestineScrollingOffset;
+        _positions.get(i++).mZPos = -16.0f + m_IntestineScrollingOffset;
         
         super.SynchronizeState(currentTime);
     }

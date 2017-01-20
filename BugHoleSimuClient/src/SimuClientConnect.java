@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -140,22 +141,29 @@ public class SimuClientConnect {
 		Thread geometry_thread = new Thread() {
 			public void run() {
 				try
-				{
-					InputStreamReader in_stream_reader = new InputStreamReader(System.in);
-					BufferedReader buf_reader = new BufferedReader(in_stream_reader);					
+				{			
+					DataInputStream geometry_in = new DataInputStream(geometrySocket.getInputStream()); 
 					DataOutputStream geometry_out = new DataOutputStream(geometrySocket.getOutputStream());					
-					PrintWriter geometry_printer = new PrintWriter(geometry_out);					
+					PrintWriter geometry_printer = new PrintWriter(geometry_out);
 								
 					while(running)
 			        {
-						geometry_printer.println("SynchronizeState");						
+						//request synchronization
+						geometry_printer.println("SynchronizeState");
 						geometry_printer.flush();
+						
+						//consume date from buffer
+						int count = geometry_in.readInt();
+						byte[] buf = new byte[3600];
+						geometry_in.readFully(buf, 0, count);
+						
+						//wait a little (16 milliseconds ~time to render a frame)
+						Thread.sleep(16);
 			        }
 					
-					buf_reader.close();
 					geometrySocket.close();
 				}
-				catch (IOException e)
+				catch (Exception e)
 				{
 					e.printStackTrace();
 				}

@@ -60,7 +60,7 @@ public class GeometryClient {
 						
 						if (receivedLine != null && receivedLine.length() > 0) {
 							LogClientInfo("received: " + receivedLine);
-							HandleIncomingCommands(receivedLine, currentTime);
+							SynchronizeState(receivedLine, currentTime);
 						} else {
 							LogClientError("Client aborted connection! Shutting down Client Processing Thread!");
 							break;
@@ -116,7 +116,7 @@ public class GeometryClient {
 		reading_thread.start();
 	}
 
-	private void HandleIncomingCommands(String message, long currentTime) throws Exception {
+	private void SynchronizeState(String message, long currentTime) throws Exception {
 		// handle connect command
 		if (message.equals(new String("SynchronizeState"))) {
 			
@@ -129,6 +129,8 @@ public class GeometryClient {
 				stream_out.write(_buffer, 0, numberOfBytesToWrite);
 				stream_out.flush();
 			}
+			
+			System.out.println("State synched");
 		}	
 	}
 

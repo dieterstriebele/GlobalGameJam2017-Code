@@ -59,8 +59,10 @@ public class GeometryClient {
 						_gameState.SpawnSwarms(currentTime);
 						
 						if (receivedLine != null && receivedLine.length() > 0) {
-							LogClientInfo("received: " + receivedLine);
-							SynchronizeState(receivedLine, currentTime);
+							//LogClientInfo("received: " + receivedLine);
+							if(receivedLine.equals(new String("SynchronizeState"))){
+								SynchronizeState(receivedLine, currentTime);								
+							}
 						} else {
 							LogClientError("Client aborted connection! Shutting down Client Processing Thread!");
 							break;
@@ -117,21 +119,16 @@ public class GeometryClient {
 	}
 
 	private void SynchronizeState(String message, long currentTime) throws Exception {
-		// handle connect command
-		if (message.equals(new String("SynchronizeState"))) {
-			
-			int numberOfBytesToWrite = _gameState.UpdateAndGetStateAndNumberOfBytesToWrite(byte_buffer, currentTime);
-						
-			stream_out.writeInt(numberOfBytesToWrite);
+		LogClientInfo("Synchronizing");
+		int numberOfBytesToWrite = _gameState.UpdateAndGetStateAndNumberOfBytesToWrite(byte_buffer, currentTime);
+		
+		stream_out.writeInt(numberOfBytesToWrite);
+		stream_out.flush();
+		
+		if (numberOfBytesToWrite != 0) {				
+			stream_out.write(byte_buffer, 0, numberOfBytesToWrite);
 			stream_out.flush();
-			
-			if (numberOfBytesToWrite != 0) {				
-				stream_out.write(byte_buffer, 0, numberOfBytesToWrite);
-				stream_out.flush();
-			}
-			
-			//System.out.println("State synched");
-		}	
+		}
 	}
 
 	public String getIp() {

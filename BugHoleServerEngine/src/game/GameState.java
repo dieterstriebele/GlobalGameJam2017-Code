@@ -39,13 +39,12 @@ public class GameState implements IGameState {
 		long currentTime = System.currentTimeMillis();
 
 		_geometryInformation = new Tunnel(currentTime);
+		_spawnScheduler = new SpawnScheduler(currentTime);
 		_shotsAtPlayer = new ShotsAtPlayer(currentTime, this);
 		_shotsAtEnemies = new ShotsAtEnemies(currentTime, this);
 
 		_geometryInformation.PropagateGeometryInformation(_shotsAtPlayer);
 		_geometryInformation.PropagateGeometryInformation(_shotsAtEnemies);
-
-		_spawnScheduler = new SpawnScheduler(currentTime);
 	}
 
 	public synchronized void HandleCommands(byte[] buffer, int bufferLength) {
@@ -88,19 +87,16 @@ public class GameState implements IGameState {
 	}
 
 	public synchronized void SpawnSwarms(long currentTime) {
-		Logger.Info("Trying to spawn...");
-		if (_spawnScheduler != null) {
-			IGeometryInformation newSwarm = _spawnScheduler.Update(_shotsAtPlayer);
+		if (_spawnScheduler != null) {			
+			IGeometryInformation current_swarm = _spawnScheduler.Update(_shotsAtPlayer);
 
 			// Currently the root element are the shots which are never removed
-			if (newSwarm != null) {
-				_geometryInformation.PropagateGeometryInformation(newSwarm);
+			if (current_swarm != null) {
+				_geometryInformation.PropagateGeometryInformation(current_swarm);
 			}
 
 			// Remove finished
 			_geometryInformation.RemoveFinished(currentTime);
-			
-			Logger.Info("Spawning");
 		}
 	}
 

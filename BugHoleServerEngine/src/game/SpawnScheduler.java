@@ -2,13 +2,13 @@ package game;
 
 import java.util.LinkedList;
 
+import util.Logger;
 import enemies.DeathCircle;
 import enemies.EnemySwarm;
 import enemies.Spiral;
 import enemies.Howler;
 import enemies.Wesp;
 import enemies.Flocking;
-
 import geometryInfo.IGeometryInformation;
 import geometryInfo.IShotEmitter;
 
@@ -110,12 +110,15 @@ public class SpawnScheduler {
 	public IGeometryInformation Update(IShotEmitter shotEmitter) {
 		IGeometryInformation swarmInstance = null;
 		
+		Logger.Info("Swarm Update");
+		
 		if (_swarmSchedule.size() > 0) {
 			Swarm swarm = _swarmSchedule.getFirst();
 			
 			long now = System.currentTimeMillis();
 			if (now - _lastSpawnTime > swarm._deltaTime)
 			{
+				Logger.Info("Creating Swarm");
 				_lastSpawnTime = now;				
 				swarmInstance = CreateSwarm(swarm._swarmId, now, shotEmitter);
 				_swarmSchedule.removeFirst();

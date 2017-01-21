@@ -46,6 +46,11 @@ public class BugHoleServerMain {
                 Logger.Info("Accepting connection from " + geometrySocket);
                 geometrySocket.setTcpNoDelay(true);
                 geometrySocket.setKeepAlive(true);
+//                IPTOS_LOWCOST (0x02)
+//                IPTOS_RELIABILITY (0x04)
+//                IPTOS_THROUGHPUT (0x08)
+//                IPTOS_LOWDELAY (0x10)
+                geometrySocket.setTrafficClass(0x04 + 0x10);
                 //geometrySocket.setSoTimeout(15000);
                 
                 GeometryClient geometryClient = new GeometryClient(geometrySocket,timeBase, gameState);
@@ -55,6 +60,7 @@ public class BugHoleServerMain {
                 Logger.Info("Accepting connection from " + commandSocket);
                 commandSocket.setTcpNoDelay(true);
                 commandSocket.setKeepAlive(true);
+                commandSocket.setTrafficClass(0x04 + 0x10);
                 
                 CommandClient commandClient = new CommandClient(commandSocket, timeBase, gameState);
                 commandClient.StartReadingThread();

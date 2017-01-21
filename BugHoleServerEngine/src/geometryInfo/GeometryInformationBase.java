@@ -12,9 +12,9 @@ public abstract class GeometryInformationBase implements IGeometryInformation{
 	
     protected long _timeBase;
     
-    protected IGeometryInformation _childGeometry;
-    
     private int _graphicsId;
+    
+    private int _numObjects;
     
     public GeometryInformationBase(long timeBase) {
     	_timeBase = timeBase;
@@ -35,48 +35,10 @@ public abstract class GeometryInformationBase implements IGeometryInformation{
     }
     
     public void SynchronizeState(long currentTime) {
-    	if (_childGeometry != null) {
-        	_childGeometry.SynchronizeState(currentTime);
-        }
     }
-    
-    public void RemoveFinished(long currentTime) {
-        if (_childGeometry != null) {
-            while (_childGeometry.IsFinished(currentTime)) {
-                _childGeometry = _childGeometry.GetChild();
 
-                if (_childGeometry == null) {
-                    break;
-                }
-            }
-        }
-
-        if (_childGeometry != null) {
-        	_childGeometry.RemoveFinished(currentTime);
-        }
-    }
-    
-    public IGeometryInformation GetChild() {
-    	return _childGeometry;
-    }
-    
 	public int GetNumberOfObjects() {
-    	int numObjects = _positions.size();
-    	
-    	if (_childGeometry != null) {
-    		numObjects += _childGeometry.GetNumberOfObjects();
-    	}
-    	
-        return numObjects;
-    }
-    
-    public void PropagateGeometryInformation(IGeometryInformation geometryInformation) {
-    	if (_childGeometry == null) {
-    		_childGeometry = geometryInformation;
-    	}
-    	else {
-    		_childGeometry.PropagateGeometryInformation(geometryInformation);
-    	}
+		return _numObjects;
     }
 
     public boolean CollidesWith(Vector3D roundPos) {    	
@@ -89,20 +51,12 @@ public abstract class GeometryInformationBase implements IGeometryInformation{
 			}
 		}
     	
-    	if (_childGeometry != null && !collides) {
-    		collides |= _childGeometry.CollidesWith(roundPos);
-    	}
-    	
     	return collides;
     }
 
     public Vector3D GetObjectPosition(int inObjectIndex) {
     	if (inObjectIndex < _positions.size()) {
     		return _positions.get(inObjectIndex);
-    	}
-    	
-    	if (_childGeometry != null) {
-    		return _childGeometry.GetObjectPosition(inObjectIndex - _positions.size());
     	}
 
     	return null;
@@ -113,10 +67,6 @@ public abstract class GeometryInformationBase implements IGeometryInformation{
     		return _rotations.get(inObjectIndex);
     	}
 
-    	if (_childGeometry != null) {
-    		return _childGeometry.GetObjectRotation(inObjectIndex - _rotations.size());
-    	}
-
     	return null;
     }
 
@@ -125,20 +75,12 @@ public abstract class GeometryInformationBase implements IGeometryInformation{
     		return _scaling.get(inObjectIndex);
     	}
     	
-    	if (_childGeometry != null) {
-    		return _childGeometry.GetObjectScaling(inObjectIndex - _scaling.size());
-    	}
-    	
     	return null;
     }
 
     public int GetObjectModelIdentification(int inObjectIndex) {
     	if (inObjectIndex < _positions.size()) {
     		return _graphicsId;
-    	}
-    	
-    	if (_childGeometry != null) {
-    		return _childGeometry.GetObjectModelIdentification(inObjectIndex - _positions.size());
     	}
     	
     	return 0;

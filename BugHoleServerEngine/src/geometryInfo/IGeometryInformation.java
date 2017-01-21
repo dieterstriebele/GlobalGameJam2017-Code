@@ -12,12 +12,6 @@ public interface IGeometryInformation {
 
     public int GetNumberOfObjects();
     
-    public boolean IsFinished(long currentTime);
-    
-    public void RemoveFinished(long currentTime);
-    
-    public IGeometryInformation GetChild();
-    
     public boolean CollidesWith(Vector3D pos);
     
     public Vector3D GetObjectPosition(int inObjectIndex);
@@ -27,7 +21,5 @@ public interface IGeometryInformation {
     public Vector3D GetObjectScaling(int inObjectIndex);
     
     public int GetObjectModelIdentification(int inObjectIndex);
-  
-    public void PropagateGeometryInformation(IGeometryInformation geometryInformation);
     
 }

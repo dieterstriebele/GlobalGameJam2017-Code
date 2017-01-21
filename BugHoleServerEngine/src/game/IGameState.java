@@ -6,7 +6,6 @@ public interface IGameState {
 	public static final int GameEventPlayerHitsEnemy = 1;
 	public static final int GameEventEnemyHitsPlayer = 2;
 		
-	public void SpawnSwarms(long currentTime);
 	public int SynchronizeAndUpdateBuffer(byte[] buffer, long currentTime);
 	
 	public void HandleCommands(byte[] buffer, int bufferLength);

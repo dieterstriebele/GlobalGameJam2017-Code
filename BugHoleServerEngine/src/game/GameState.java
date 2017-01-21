@@ -2,49 +2,34 @@ package game;
 
 import java.util.LinkedList;
 import java.util.List;
-
-import geometryInfo.IGeometryInformation;
-import geometryInfo.ShotsAtEnemies;
-import geometryInfo.ShotsAtPlayer;
 import geometryInfo.Tunnel;
 import util.BufferConvert;
 import util.Logger;
 import util.Vector3D;
 
 public class GameState implements IGameState {
+	//needs to be an integer, because we retrieve the command as an integer from the buffer
 	private final static int FireCommand = 1;
 
 	private Vector3D _playerDirection;
-	private int _playerHitPoints;
+	private int _playerLife;
 	private int _playerScore;
 
-	private ShotsAtPlayer  _shotsAtPlayer;
-	private ShotsAtEnemies _shotsAtEnemies;
-
-	private IGeometryInformation _geometryInformation;
-
-	private SpawnScheduler _spawnScheduler;
+	private Tunnel _tunnel;
 	
 	private List<Integer> _gameEvents;
 
 	public GameState() {
-		_playerHitPoints = 100;
+		_playerLife = 100;
 		_playerScore = 0;
 		_playerDirection = new Vector3D();		
 		_gameEvents = new LinkedList<Integer>();
-		// initialize the geometric information
 	}
 
 	public void Init() {
 		long currentTime = System.currentTimeMillis();
 
-		_geometryInformation = new Tunnel(currentTime);
-		_spawnScheduler = new SpawnScheduler(currentTime);
-		_shotsAtPlayer = new ShotsAtPlayer(currentTime, this);
-		_shotsAtEnemies = new ShotsAtEnemies(currentTime, this);
-
-		_geometryInformation.PropagateGeometryInformation(_shotsAtPlayer);
-		_geometryInformation.PropagateGeometryInformation(_shotsAtEnemies);
+		_tunnel = new Tunnel(currentTime);
 	}
 
 	public synchronized void HandleCommands(byte[] buffer, int bufferLength) {
@@ -80,23 +65,9 @@ public class GameState implements IGameState {
 				_playerDirection.mZPos = y;
 
 				Logger.Info("shooting at " + _playerDirection.mXPos + " " + _playerDirection.mYPos + " " + _playerDirection.mZPos);
-				_shotsAtEnemies.EmitShot(Vector3D.Zero, _playerDirection);
 				
+				//TODO: emit shot at enemy				
 			}
-		}
-	}
-
-	public synchronized void SpawnSwarms(long currentTime) {
-		if (_spawnScheduler != null) {			
-			IGeometryInformation current_swarm = _spawnScheduler.Update(_shotsAtPlayer);
-
-			// Currently the root element are the shots which are never removed
-			if (current_swarm != null) {
-				_geometryInformation.PropagateGeometryInformation(current_swarm);
-			}
-
-			// Remove finished
-			_geometryInformation.RemoveFinished(currentTime);
 		}
 	}
 	
@@ -108,16 +79,15 @@ public class GameState implements IGameState {
 		int numberOfBytesPerObject = 9 * sizeOfFloat + sizeOfInt;
 		int numberOfBytesToWrite = 0;
 		
-		if (_geometryInformation != null) {
-			_geometryInformation.SynchronizeState(currentTime);
-			currentNumberOfObjects = _geometryInformation.GetNumberOfObjects();
+		if (_tunnel != null) {
+			_tunnel.SynchronizeState(currentTime);
+			currentNumberOfObjects = _tunnel.GetNumberOfObjects();
 		}
 
-
 		for (int i = 0; i < currentNumberOfObjects; i++) {
-			Vector3D rotation = _geometryInformation.GetObjectRotation(i);
-			Vector3D scaling  = _geometryInformation.GetObjectScaling(i);
-			Vector3D position = _geometryInformation.GetObjectPosition(i);
+			Vector3D rotation = _tunnel.GetObjectRotation(i);
+			Vector3D scaling  = _tunnel.GetObjectScaling(i);
+			Vector3D position = _tunnel.GetObjectPosition(i);
 
 			// Position
 			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(position.mXPos, buffer,
@@ -144,7 +114,7 @@ public class GameState implements IGameState {
 					(i * numberOfBytesPerObject) + (sizeOfFloat * 8));
 			
 			// ID
-			BufferConvert.WriteIntToBufferAtOffset(_geometryInformation.GetObjectModelIdentification(i), buffer,
+			BufferConvert.WriteIntToBufferAtOffset(_tunnel.GetObjectModelIdentification(i), buffer,
 					(i * numberOfBytesPerObject) + (sizeOfFloat * 9));
 		}
 		
@@ -156,7 +126,7 @@ public class GameState implements IGameState {
 		_gameEvents.add(new Integer(eventId));
 		
 		if (eventId == IGameState.GameEventEnemyHitsPlayer) {
-			_playerHitPoints--;
+			_playerLife--;
 		} else if (eventId == IGameState.GameEventPlayerHitsEnemy) {
 			_playerScore++;
 		}
@@ -172,7 +142,7 @@ public class GameState implements IGameState {
 			offset += sizeofInt;
 			
 			if (eventId.intValue() == IGameState.GameEventEnemyHitsPlayer) {
-				BufferConvert.WriteIntToBufferAtOffset(_playerHitPoints, buffer, offset);
+				BufferConvert.WriteIntToBufferAtOffset(_playerLife, buffer, offset);
 				offset += sizeofInt;
 			} else if (eventId.intValue() == IGameState.GameEventPlayerHitsEnemy) {
 				BufferConvert.WriteIntToBufferAtOffset(_playerScore, buffer, offset);

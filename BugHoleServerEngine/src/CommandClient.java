@@ -29,7 +29,6 @@ public class CommandClient {
 		} catch (Exception e) {
 			Logger.Error("Initialise command client streams failed!", e);
 		}
-		//String clientIp = clientSocket.getRemoteSocketAddress().toString();
 	}
 	
 	public void StartReadingThread() {
@@ -54,7 +53,6 @@ public class CommandClient {
 		};
 		
 		reading_thread.setPriority(Thread.MAX_PRIORITY);
-		//reading_thread.setDaemon(true);
 		reading_thread.start();
 	}
 	

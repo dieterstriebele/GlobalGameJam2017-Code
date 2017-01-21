@@ -55,8 +55,8 @@ public class GeometryClient {
 						String receivedLine = input_reader.readLine();
 						
 						long currentTime = System.currentTimeMillis();
-
-						_gameState.SpawnSwarms(currentTime);
+						
+						//TODO: spawn enemies here? or in SynchronizeState?
 						
 						if (receivedLine != null && receivedLine.length() > 0) {
 							//LogClientInfo("received: " + receivedLine);
@@ -119,7 +119,7 @@ public class GeometryClient {
 	}
 
 	private void SynchronizeState(String message, long currentTime) throws Exception {
-		LogClientInfo("Synchronizing");
+		//LogClientInfo("Synchronizing");
 		int numberOfBytesToWrite = _gameState.SynchronizeAndUpdateBuffer(byte_buffer, currentTime);
 		
 		stream_out.writeInt(numberOfBytesToWrite);

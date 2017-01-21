@@ -3,7 +3,7 @@ package game;
 import java.util.LinkedList;
 import java.util.List;
 
-import geometryInfo.IGeometry_Information;
+import geometryInfo.IGeometryInformation;
 import geometryInfo.ShotsAtEnemies;
 import geometryInfo.ShotsAtPlayer;
 import geometryInfo.Tunnel;
@@ -21,7 +21,7 @@ public class GameState implements IGameState {
 	private ShotsAtPlayer  _shotsAtPlayer;
 	private ShotsAtEnemies _shotsAtEnemies;
 
-	private IGeometry_Information _geometryInformation;
+	private IGeometryInformation _geometryInformation;
 
 	private SpawnScheduler _spawnScheduler;
 	
@@ -90,7 +90,7 @@ public class GameState implements IGameState {
 	public synchronized void SpawnSwarms(long currentTime) {
 		Logger.Info("Trying to spawn...");
 		if (_spawnScheduler != null) {
-			IGeometry_Information newSwarm = _spawnScheduler.Update(_shotsAtPlayer);
+			IGeometryInformation newSwarm = _spawnScheduler.Update(_shotsAtPlayer);
 
 			// Currently the root element are the shots which are never removed
 			if (newSwarm != null) {

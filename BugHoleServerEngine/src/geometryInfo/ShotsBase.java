@@ -7,7 +7,7 @@ import game.Settings;
 import util.Logger;
 import util.Vector3D;
 
-public abstract class ShotsBase extends Geometry_Information implements IShotEmitter {
+public abstract class ShotsBase extends GeometryInformationBase implements IShotEmitter {
 
 	private ArrayList<Vector3D> _directions;
 	private ArrayList<Vector3D> _basePositions;

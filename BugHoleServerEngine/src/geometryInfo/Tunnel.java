@@ -2,7 +2,7 @@ package geometryInfo;
 
 import game.Settings;
 
-public class Tunnel extends Geometry_Information {
+public class Tunnel extends GeometryInformationBase {
 	private static final int NumberOfCameraSegments = 6;
 	
 	public float m_IntestineScrollingOffset = 0f;
@@ -10,7 +10,7 @@ public class Tunnel extends Geometry_Information {
 	public Tunnel(long timeBase) {
 		super(timeBase);
 		
-		Init(NumberOfCameraSegments, IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE, Settings.TunnelScaling);
+		Init(NumberOfCameraSegments, IGeometryInformation.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE, Settings.TunnelScaling);
 		
 		for (int i = 0; i < NumberOfCameraSegments; i++) {
 			_positions.get(i).mXPos = 0f;

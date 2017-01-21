@@ -2,7 +2,7 @@ package enemies;
 
 import java.util.ArrayList;
 
-import geometryInfo.IGeometry_Information;
+import geometryInfo.IGeometryInformation;
 import geometryInfo.QubicSpline;
 import util.Logger;
 import util.Vector3D;
@@ -24,7 +24,7 @@ public class Flocking extends EnemySwarm {
 	
 	public Flocking(long timeBase) {
 		super(timeBase);
-		Init(NumEnemies, IGeometry_Information.cOBJECTMODELIDENTIFICATION_BRAINMINE, FlockingScaling);
+		Init(NumEnemies, IGeometryInformation.cOBJECTMODELIDENTIFICATION_BRAINMINE, FlockingScaling);
 		
 		_masterSpline = new QubicSpline(timeBase);
 		_masterSpline.SetSpeed(FlockingSpeed);

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import util.Vector3D;
 
-public abstract class Geometry_Information implements IGeometry_Information{
+public abstract class GeometryInformationBase implements IGeometryInformation{
 	
 	protected ArrayList<Vector3D> _positions;
 	protected ArrayList<Vector3D> _rotations;
@@ -12,11 +12,11 @@ public abstract class Geometry_Information implements IGeometry_Information{
 	
     protected long mTimeBase;
     
-    protected IGeometry_Information m_child;
+    protected IGeometryInformation m_child;
     
     private int _graphicsId;
     
-    public Geometry_Information(long timeBase) {
+    public GeometryInformationBase(long timeBase) {
     	mTimeBase = timeBase;
     }
     
@@ -56,7 +56,7 @@ public abstract class Geometry_Information implements IGeometry_Information{
         }
     }
     
-    public IGeometry_Information GetChild() {
+    public IGeometryInformation GetChild() {
     	return m_child;
     }
     
@@ -70,7 +70,7 @@ public abstract class Geometry_Information implements IGeometry_Information{
         return numObjects;
     }
     
-    public void PropagateGeometryInformation(IGeometry_Information geometryInformation) {
+    public void PropagateGeometryInformation(IGeometryInformation geometryInformation) {
     	if (m_child == null) {
     		m_child = geometryInformation;
     	}
@@ -144,7 +144,7 @@ public abstract class Geometry_Information implements IGeometry_Information{
     	return 0;
     }
 
-    public void SetDecorator(IGeometry_Information geometryInformation) {
+    public void SetDecorator(IGeometryInformation geometryInformation) {
     	m_child = geometryInformation;
     }
 }

@@ -9,7 +9,7 @@ import enemies.Howler;
 import enemies.Wesp;
 import enemies.Flocking;
 
-import geometryInfo.IGeometry_Information;
+import geometryInfo.IGeometryInformation;
 import geometryInfo.IShotEmitter;
 
 public class SpawnScheduler {
@@ -107,8 +107,8 @@ public class SpawnScheduler {
 		_swarmSchedule.add(new Swarm(5000, EnemyType.DeathCircle));
 	}
 	
-	public IGeometry_Information Update(IShotEmitter shotEmitter) {
-		IGeometry_Information swarmInstance = null;
+	public IGeometryInformation Update(IShotEmitter shotEmitter) {
+		IGeometryInformation swarmInstance = null;
 		
 		if (_swarmSchedule.size() > 0) {
 			Swarm swarm = _swarmSchedule.getFirst();
@@ -128,7 +128,7 @@ public class SpawnScheduler {
 		return swarmInstance;
 	}
 	
-	private IGeometry_Information CreateSwarm(EnemyType id, long timeBase, IShotEmitter shotEmitter) {
+	private IGeometryInformation CreateSwarm(EnemyType id, long timeBase, IShotEmitter shotEmitter) {
 		EnemySwarm swarm = null;
 		
 		switch(id)

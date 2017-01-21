@@ -7,7 +7,7 @@ import java.net.Socket;
 
 import game.IGameState;
 import util.Logger;
-import geometryInfo.IGeometry_Information;
+import geometryInfo.IGeometryInformation;
 
 public class GeometryClient {
 	
@@ -16,7 +16,7 @@ public class GeometryClient {
 	private String clientIp;
 	private BufferedReader input_reader;
 	
-	private byte[] _buffer;
+	private byte[] byte_buffer;
 	
 	private IGameState _gameState;
 	
@@ -32,7 +32,7 @@ public class GeometryClient {
 	    	int sizeOfInt = Integer.SIZE / Byte.SIZE;
 	    	int numberOfBytesPerObject = 9 * sizeOfFloat + sizeOfInt;  // 6 = 3xfloat (position) + 3xfloat (rotation). 
 			
-			_buffer = new byte[sizeOfInt + IGeometry_Information.MaxObjects * numberOfBytesPerObject];
+			byte_buffer = new byte[sizeOfInt + IGeometryInformation.MaxObjects * numberOfBytesPerObject];
 
 		} catch (Exception e) {
 			LogClientError("Initialise client streams failed!", e);
@@ -120,17 +120,17 @@ public class GeometryClient {
 		// handle connect command
 		if (message.equals(new String("SynchronizeState"))) {
 			
-			int numberOfBytesToWrite = _gameState.UpdateAndGetStateAndNumberOfBytesToWrite(_buffer, currentTime);
+			int numberOfBytesToWrite = _gameState.UpdateAndGetStateAndNumberOfBytesToWrite(byte_buffer, currentTime);
 						
 			stream_out.writeInt(numberOfBytesToWrite);
 			stream_out.flush();
 			
 			if (numberOfBytesToWrite != 0) {				
-				stream_out.write(_buffer, 0, numberOfBytesToWrite);
+				stream_out.write(byte_buffer, 0, numberOfBytesToWrite);
 				stream_out.flush();
 			}
 			
-			System.out.println("State synched");
+			//System.out.println("State synched");
 		}	
 	}
 

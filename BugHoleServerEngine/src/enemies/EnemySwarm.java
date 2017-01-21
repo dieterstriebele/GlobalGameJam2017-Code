@@ -1,11 +1,11 @@
 package enemies;
 
 import game.Settings;
-import geometryInfo.Geometry_Information;
+import geometryInfo.GeometryInformationBase;
 import geometryInfo.IShotEmitter;
 import util.Vector3D;
 
-public abstract class EnemySwarm extends Geometry_Information {
+public abstract class EnemySwarm extends GeometryInformationBase {
 	// contains the same object as _positions in the super class. 
 	// But killed objects are not removed but replaced by a null reference.
 	// That's required for enemy swarm position control of scripted enemies.

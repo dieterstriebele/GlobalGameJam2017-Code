@@ -15,6 +15,8 @@ import android.os.SystemClock;
 import android.util.Log;
 
 import ggj2k15.bughole.bugholegraphicsengine.util.BufferConvert;
+import ggj2k15.bughole.bugholegraphicsengine.util.ServiceLocateSubnetScan;
+import ggj2k15.bughole.bugholegraphicsengine.util.ServiceLocateUDP;
 
 public class Geometry_Information_Network implements IGeometry_Information, Runnable {
 
@@ -128,7 +130,7 @@ public class Geometry_Information_Network implements IGeometry_Information, Runn
     public void run() {
         try {
 
-            BugHoleGraphicsEngine.locateServerByBroadcast();
+            ServiceLocateUDP.locateServerByBroadcast();
 
             Info("Creating inetadress ...");
             //InetAddress serverAdress = InetAddress.getByName("192.168.0.123");

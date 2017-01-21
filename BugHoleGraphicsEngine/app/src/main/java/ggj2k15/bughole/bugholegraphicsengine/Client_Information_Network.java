@@ -13,6 +13,8 @@ import java.nio.ByteBuffer;
 import java.util.Vector;
 
 import ggj2k15.bughole.bugholegraphicsengine.util.BufferConvert;
+import ggj2k15.bughole.bugholegraphicsengine.util.ServiceLocateSubnetScan;
+import ggj2k15.bughole.bugholegraphicsengine.util.ServiceLocateUDP;
 
 public class Client_Information_Network implements IClient_Information, Runnable {
 
@@ -91,7 +93,7 @@ public class Client_Information_Network implements IClient_Information, Runnable
     public void run() {
         try {
 
-            BugHoleGraphicsEngine.locateServerByBroadcast();
+            ServiceLocateUDP.locateServerByBroadcast();
 
             Info("Creating inetadress ...");
             InetAddress serverAdress = InetAddress.getByName(Settings.Ip);

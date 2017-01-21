@@ -99,18 +99,20 @@ public class GameState implements IGameState {
 			_geometryInformation.RemoveFinished(currentTime);
 		}
 	}
-
-	public int UpdateAndGetStateAndNumberOfBytesToWrite(byte[] buffer, long currentTime) {
+	
+	//Synchronizes the state, updates the buffer and returns the number of bytes to write
+	public int SynchronizeAndUpdateBuffer(byte[] buffer, long currentTime) {
 		int currentNumberOfObjects = 0;
-
+		int sizeOfFloat = 4;
+		int sizeOfInt   = 4;
+		int numberOfBytesPerObject = 9 * sizeOfFloat + sizeOfInt;
+		int numberOfBytesToWrite = 0;
+		
 		if (_geometryInformation != null) {
 			_geometryInformation.SynchronizeState(currentTime);
 			currentNumberOfObjects = _geometryInformation.GetNumberOfObjects();
 		}
 
-		int sizeOfFloat = 4;
-		int sizeOfInt   = 4;
-		int numberOfBytesPerObject = 9 * sizeOfFloat + sizeOfInt;
 
 		for (int i = 0; i < currentNumberOfObjects; i++) {
 			Vector3D rotation = _geometryInformation.GetObjectRotation(i);
@@ -145,8 +147,9 @@ public class GameState implements IGameState {
 			BufferConvert.WriteIntToBufferAtOffset(_geometryInformation.GetObjectModelIdentification(i), buffer,
 					(i * numberOfBytesPerObject) + (sizeOfFloat * 9));
 		}
-
-		return currentNumberOfObjects * numberOfBytesPerObject;
+		
+		numberOfBytesToWrite = currentNumberOfObjects * numberOfBytesPerObject;
+		return numberOfBytesToWrite;
 	}
 	
 	public synchronized void EmitGameEvent(int eventId) {

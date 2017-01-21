@@ -120,7 +120,7 @@ public class GeometryClient {
 
 	private void SynchronizeState(String message, long currentTime) throws Exception {
 		LogClientInfo("Synchronizing");
-		int numberOfBytesToWrite = _gameState.UpdateAndGetStateAndNumberOfBytesToWrite(byte_buffer, currentTime);
+		int numberOfBytesToWrite = _gameState.SynchronizeAndUpdateBuffer(byte_buffer, currentTime);
 		
 		stream_out.writeInt(numberOfBytesToWrite);
 		stream_out.flush();

@@ -12,9 +12,9 @@ public abstract class GeometryInformationBase implements IGeometryInformation{
 	
     protected long _timeBase;
     
-    private int _graphicsId;
-    
-    private int _numObjects;
+    protected int _graphicsId;
+
+	protected int _numObjects;
     
     public GeometryInformationBase(long timeBase) {
     	_timeBase = timeBase;
@@ -32,6 +32,8 @@ public abstract class GeometryInformationBase implements IGeometryInformation{
     		_rotations.add(new Vector3D());
     		_scaling.add(scaling);
     	}
+
+    	_numObjects = numObjects;
     }
     
     public void SynchronizeState(long currentTime) {

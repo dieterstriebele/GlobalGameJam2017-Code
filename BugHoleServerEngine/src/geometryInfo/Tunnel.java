@@ -11,7 +11,7 @@ import util.Logger;
 
 public class Tunnel extends GeometryInformationBase {
 
-	private int m_Time = 0;
+	private float m_Time;
 
 	private static final int NumberOfCameraSegments = 1;
 	
@@ -41,9 +41,9 @@ public class Tunnel extends GeometryInformationBase {
 			DataInputStream inputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(inputPath)));
 			
 			int num_positions = (int)inputStream.readFloat();
-			positions = new float[num_positions];
+			positions = new float[num_positions * 3];
 			
-			for(int i=0; i<num_positions; i++)
+			for(int i=0; i<positions.length; i++)
 			{
 				positions[i] = inputStream.readFloat();
 			}

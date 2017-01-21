@@ -16,8 +16,8 @@ public class ShotsAtEnemies extends ShotsBase {
 	
 	protected void CheckForCollision() {
 		for (Vector3D pos : _positions) {
-			if (m_child != null) {
-				if (m_child.CollidesWith(pos)) {
+			if (_childGeometry != null) {
+				if (_childGeometry.CollidesWith(pos)) {
 					// we use this 'trick', now the shot will be removed by 'RemoveShots'
 					pos.mXPos = Float.MAX_VALUE;
 					_gameState.EmitGameEvent(IGameState.GameEventPlayerHitsEnemy);

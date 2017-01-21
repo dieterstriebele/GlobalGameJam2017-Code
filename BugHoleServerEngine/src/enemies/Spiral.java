@@ -16,7 +16,7 @@ public class Spiral extends EnemySwarm {
 
 	@Override
 	public void SynchronizeState(long currentTime) {
-        long delta = currentTime - mTimeBase;
+        long delta = currentTime - _timeBase;
 
         double radiusOffset = Math.sin(delta * Settings.SpiralRadiusChangeSpeed) * Settings.SpiralRadiusChangeDist;
         

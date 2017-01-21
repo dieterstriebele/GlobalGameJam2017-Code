@@ -48,8 +48,8 @@ public abstract class ShotsBase extends GeometryInformationBase implements IShot
     		return Settings.ShotId;
     	}
     	
-    	if (m_child != null) {
-    		return m_child.GetObjectModelIdentification(inObjectIndex - _positions.size());
+    	if (_childGeometry != null) {
+    		return _childGeometry.GetObjectModelIdentification(inObjectIndex - _positions.size());
     	}
     	
     	return 0;
@@ -74,8 +74,8 @@ public abstract class ShotsBase extends GeometryInformationBase implements IShot
     		return Settings.ShotRotation;
     	}
     	
-    	if (m_child != null) {
-    		return m_child.GetObjectRotation(inObjectIndex - _positions.size());
+    	if (_childGeometry != null) {
+    		return _childGeometry.GetObjectRotation(inObjectIndex - _positions.size());
     	}
     	
     	return null;
@@ -86,8 +86,8 @@ public abstract class ShotsBase extends GeometryInformationBase implements IShot
     		return Settings.ShotScaling;
     	}
     	
-    	if (m_child != null) {
-    		return m_child.GetObjectScaling(inObjectIndex - _positions.size());
+    	if (_childGeometry != null) {
+    		return _childGeometry.GetObjectScaling(inObjectIndex - _positions.size());
     	}
     	
     	return null;

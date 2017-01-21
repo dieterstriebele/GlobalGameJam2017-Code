@@ -24,8 +24,8 @@ public class Tunnel extends GeometryInformationBase {
     		return Settings.TunnelId;
     	}
     	
-    	if (m_child != null) {
-    		return m_child.GetObjectModelIdentification(inObjectIndex - _positions.size());
+    	if (_childGeometry != null) {
+    		return _childGeometry.GetObjectModelIdentification(inObjectIndex - _positions.size());
     	}
     	
     	return 0;
@@ -33,7 +33,7 @@ public class Tunnel extends GeometryInformationBase {
     
     public void SynchronizeState(long currentTime) {
     	
-    	long diffTime = currentTime - mTimeBase;
+    	long diffTime = currentTime - _timeBase;
     	int i = 0;
         m_IntestineScrollingOffset -= (float)diffTime * Settings.TunnelSpeed;
          
@@ -42,7 +42,7 @@ public class Tunnel extends GeometryInformationBase {
         	m_IntestineScrollingOffset = 0f;
         }
         
-    	mTimeBase = currentTime;
+    	_timeBase = currentTime;
 
         _positions.get(i++).mZPos = 24.0f  + m_IntestineScrollingOffset;
         _positions.get(i++).mZPos = 16.0f  + m_IntestineScrollingOffset;

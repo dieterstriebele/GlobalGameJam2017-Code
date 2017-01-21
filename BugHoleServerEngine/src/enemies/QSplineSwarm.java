@@ -23,7 +23,7 @@ public abstract class QSplineSwarm extends EnemySwarm {
 		super.Init(numObjects, graphicsId, scaling);
 		
 		for (int i = 0; i < numObjects; i++) {
-			_splines.add(new QubicSpline(mTimeBase));
+			_splines.add(new QubicSpline(_timeBase));
 		}
 	}
 	

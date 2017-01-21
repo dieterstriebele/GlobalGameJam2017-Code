@@ -10,14 +10,14 @@ public abstract class GeometryInformationBase implements IGeometryInformation{
 	protected ArrayList<Vector3D> _rotations;
 	protected ArrayList<Vector3D> _scaling;
 	
-    protected long mTimeBase;
+    protected long _timeBase;
     
-    protected IGeometryInformation m_child;
+    protected IGeometryInformation _childGeometry;
     
     private int _graphicsId;
     
     public GeometryInformationBase(long timeBase) {
-    	mTimeBase = timeBase;
+    	_timeBase = timeBase;
     }
     
     protected void Init(int numObjects, int graphicsId, Vector3D scaling) {
@@ -35,47 +35,47 @@ public abstract class GeometryInformationBase implements IGeometryInformation{
     }
     
     public void SynchronizeState(long currentTime) {
-    	if (m_child != null) {
-        	m_child.SynchronizeState(currentTime);
+    	if (_childGeometry != null) {
+        	_childGeometry.SynchronizeState(currentTime);
         }
     }
     
     public void RemoveFinished(long currentTime) {
-        if (m_child != null) {
-            while (m_child.IsFinished(currentTime)) {
-                m_child = m_child.GetChild();
+        if (_childGeometry != null) {
+            while (_childGeometry.IsFinished(currentTime)) {
+                _childGeometry = _childGeometry.GetChild();
 
-                if (m_child == null) {
+                if (_childGeometry == null) {
                     break;
                 }
             }
         }
 
-        if (m_child != null) {
-        	m_child.RemoveFinished(currentTime);
+        if (_childGeometry != null) {
+        	_childGeometry.RemoveFinished(currentTime);
         }
     }
     
     public IGeometryInformation GetChild() {
-    	return m_child;
+    	return _childGeometry;
     }
     
 	public int GetNumberOfObjects() {
     	int numObjects = _positions.size();
     	
-    	if (m_child != null) {
-    		numObjects += m_child.GetNumberOfObjects();
+    	if (_childGeometry != null) {
+    		numObjects += _childGeometry.GetNumberOfObjects();
     	}
     	
         return numObjects;
     }
     
     public void PropagateGeometryInformation(IGeometryInformation geometryInformation) {
-    	if (m_child == null) {
-    		m_child = geometryInformation;
+    	if (_childGeometry == null) {
+    		_childGeometry = geometryInformation;
     	}
     	else {
-    		m_child.PropagateGeometryInformation(geometryInformation);
+    		_childGeometry.PropagateGeometryInformation(geometryInformation);
     	}
     }
 
@@ -89,8 +89,8 @@ public abstract class GeometryInformationBase implements IGeometryInformation{
 			}
 		}
     	
-    	if (m_child != null && !collides) {
-    		collides |= m_child.CollidesWith(roundPos);
+    	if (_childGeometry != null && !collides) {
+    		collides |= _childGeometry.CollidesWith(roundPos);
     	}
     	
     	return collides;
@@ -101,8 +101,8 @@ public abstract class GeometryInformationBase implements IGeometryInformation{
     		return _positions.get(inObjectIndex);
     	}
     	
-    	if (m_child != null) {
-    		return m_child.GetObjectPosition(inObjectIndex - _positions.size());
+    	if (_childGeometry != null) {
+    		return _childGeometry.GetObjectPosition(inObjectIndex - _positions.size());
     	}
 
     	return null;
@@ -113,8 +113,8 @@ public abstract class GeometryInformationBase implements IGeometryInformation{
     		return _rotations.get(inObjectIndex);
     	}
 
-    	if (m_child != null) {
-    		return m_child.GetObjectRotation(inObjectIndex - _rotations.size());
+    	if (_childGeometry != null) {
+    		return _childGeometry.GetObjectRotation(inObjectIndex - _rotations.size());
     	}
 
     	return null;
@@ -125,8 +125,8 @@ public abstract class GeometryInformationBase implements IGeometryInformation{
     		return _scaling.get(inObjectIndex);
     	}
     	
-    	if (m_child != null) {
-    		return m_child.GetObjectScaling(inObjectIndex - _scaling.size());
+    	if (_childGeometry != null) {
+    		return _childGeometry.GetObjectScaling(inObjectIndex - _scaling.size());
     	}
     	
     	return null;
@@ -137,14 +137,14 @@ public abstract class GeometryInformationBase implements IGeometryInformation{
     		return _graphicsId;
     	}
     	
-    	if (m_child != null) {
-    		return m_child.GetObjectModelIdentification(inObjectIndex - _positions.size());
+    	if (_childGeometry != null) {
+    		return _childGeometry.GetObjectModelIdentification(inObjectIndex - _positions.size());
     	}
     	
     	return 0;
     }
 
     public void SetDecorator(IGeometryInformation geometryInformation) {
-    	m_child = geometryInformation;
+    	_childGeometry = geometryInformation;
     }
 }

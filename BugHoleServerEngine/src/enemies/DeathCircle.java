@@ -40,7 +40,7 @@ public class DeathCircle extends EnemySwarm {
 
 	@Override
 	public void SynchronizeState(long currentTime) {
-		long delta = currentTime - mTimeBase;
+		long delta = currentTime - _timeBase;
 		
         if (_state == State.Approach) {
 	        for (int i = 0; i < _swarmMemberCount; i++) {
@@ -49,7 +49,7 @@ public class DeathCircle extends EnemySwarm {
 	        
 	        if (_persistentPositions[0].mZPos < ApproachTargetPos) {
 	        	_state = State.Extend;
-	        	mTimeBase = currentTime;
+	        	_timeBase = currentTime;
 	        }
         } else if (_state == State.Extend) {
         	for (int i = 1; i < _swarmMemberCount; i++) {
@@ -62,7 +62,7 @@ public class DeathCircle extends EnemySwarm {
         	if (Math.abs(_persistentPositions[4].mXPos) >= Settings.DeathCircleRadius)
         	{
         		_state = State.Rotate;
-        		mTimeBase = currentTime;
+        		_timeBase = currentTime;
         	}
         } else if (_state == State.Rotate) {
     		_angle = delta * Settings.DeathCircleAngleSpeed;
@@ -76,7 +76,7 @@ public class DeathCircle extends EnemySwarm {
         	
         	if (_angle >= Settings.DeathCircleRotationLimit) {
         		_state = State.Retreat;
-        		mTimeBase = currentTime;
+        		_timeBase = currentTime;
         	}
         } else if (_state == State.Retreat) {
     		_angle = delta * Settings.DeathCircleAngleSpeed;

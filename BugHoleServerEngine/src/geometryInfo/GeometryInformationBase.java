@@ -143,8 +143,4 @@ public abstract class GeometryInformationBase implements IGeometryInformation{
     	
     	return 0;
     }
-
-    public void SetDecorator(IGeometryInformation geometryInformation) {
-    	_childGeometry = geometryInformation;
-    }
 }

@@ -12,6 +12,8 @@ public abstract class GeometryInformationBase implements IGeometryInformation{
 	
     protected long _timeBase;
     
+    protected float _timePoint;
+    
     protected int _graphicsId;
 
 	protected int _numObjects;
@@ -37,6 +39,7 @@ public abstract class GeometryInformationBase implements IGeometryInformation{
     }
     
     public void SynchronizeState(long currentTime) {
+    	_timePoint += 8.0f;
     }
 
 	public int GetNumberOfObjects() {

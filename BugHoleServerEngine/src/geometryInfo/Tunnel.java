@@ -11,7 +11,7 @@ public class Tunnel extends GeometryInformationBase {
 	//should always be an uneven number (for now)!
 	private static final int NumberTunnelSegments = 3;
 	
-	private float m_time;
+//	private float m_time;
 	private float[] m_tunnel_positions = null;
 	
 	private float m_tunnel_z_dim;
@@ -43,9 +43,11 @@ public class Tunnel extends GeometryInformationBase {
     }
     
     public void SynchronizeState(long currentTime) {
+    	super.SynchronizeState(currentTime);
+    	
 		//Logger.Info("In SynchronizeState of Tunnel");
 
-		m_time += 8.00f;
+		//m_time += 8.00f;
 		
 		float z_offset_start = (float)ceil((float)NumberTunnelSegments / 2) * m_tunnel_z_dim;	
 		float z_offset = z_offset_start;		
@@ -53,7 +55,8 @@ public class Tunnel extends GeometryInformationBase {
 		for(int i=0; i<NumberTunnelSegments; i++)
 		{
 			z_offset -= m_tunnel_z_dim;
-			int path_segment_offset = ((int)m_time % (m_tunnel_positions.length / 3)) * 3;
+//			int path_segment_offset = ((int)m_time % (m_tunnel_positions.length / 3)) * 3;
+			int path_segment_offset = ((int)_timePoint % (m_tunnel_positions.length / 3)) * 3;
 			
 			_positions.get(i).mXPos =  m_tunnel_positions[path_segment_offset + 0];
 			_positions.get(i).mYPos =  m_tunnel_positions[path_segment_offset + 2];
@@ -65,7 +68,5 @@ public class Tunnel extends GeometryInformationBase {
 			_scaling.get(i).mYPos = 1.0f;
 			_scaling.get(i).mZPos = 1.0f;
 		}
-
-        super.SynchronizeState(currentTime);
     }
 }

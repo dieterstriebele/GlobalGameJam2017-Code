@@ -88,9 +88,11 @@ public class GameState implements IGameState {
 		
 		int totalNumberOfObjects = 0;
 		
+		int num_objects_written = 0;
+		
 		for(IGeometryInformation geo : _geometries)
 		{
-			geo.SynchronizeState(currentTime);
+			((GeometryInformationBase)geo).SynchronizeState(currentTime);
 			totalNumberOfObjects += geo.GetNumberOfObjects();
 			
 			for (int i = 0; i < geo.GetNumberOfObjects(); i++) {
@@ -100,32 +102,34 @@ public class GameState implements IGameState {
 
 				// Position
 				BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(position.mXPos, buffer,
-						(i * numberOfBytesPerObject) + (sizeOfFloat * 0));
+						((num_objects_written + i) * numberOfBytesPerObject) + (sizeOfFloat * 0));
 				BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(position.mYPos, buffer,
-						(i * numberOfBytesPerObject) + (sizeOfFloat * 1));
+						((num_objects_written + i) * numberOfBytesPerObject) + (sizeOfFloat * 1));
 				BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(position.mZPos, buffer,
-						(i * numberOfBytesPerObject) + (sizeOfFloat * 2));
+						((num_objects_written + i) * numberOfBytesPerObject) + (sizeOfFloat * 2));
 				
 				// Rotation
 				BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(rotation.mXPos, buffer,
-						(i * numberOfBytesPerObject) + (sizeOfFloat * 3));
+						((num_objects_written + i) * numberOfBytesPerObject) + (sizeOfFloat * 3));
 				BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(rotation.mYPos, buffer,
-						(i * numberOfBytesPerObject) + (sizeOfFloat * 4));
+						((num_objects_written + i) * numberOfBytesPerObject) + (sizeOfFloat * 4));
 				BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(rotation.mZPos, buffer,
-						(i * numberOfBytesPerObject) + (sizeOfFloat * 5));
+						((num_objects_written + i) * numberOfBytesPerObject) + (sizeOfFloat * 5));
 				
 				// Scaling
 				BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(scaling.mXPos,  buffer,
-						(i * numberOfBytesPerObject) + (sizeOfFloat * 6));
+						((num_objects_written + i) * numberOfBytesPerObject) + (sizeOfFloat * 6));
 				BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(scaling.mYPos,  buffer,
-						(i * numberOfBytesPerObject) + (sizeOfFloat * 7));
+						((num_objects_written + i) * numberOfBytesPerObject) + (sizeOfFloat * 7));
 				BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(scaling.mZPos,  buffer,
-						(i * numberOfBytesPerObject) + (sizeOfFloat * 8));
+						((num_objects_written + i) * numberOfBytesPerObject) + (sizeOfFloat * 8));
 				
 				// ID
 				BufferConvert.WriteIntToBufferAtOffset(geo.GetObjectModelIdentification(i), buffer,
-						(i * numberOfBytesPerObject) + (sizeOfFloat * 9));
+						((num_objects_written + i) * numberOfBytesPerObject) + (sizeOfFloat * 9));
 			}
+			
+			num_objects_written += geo.GetNumberOfObjects();
 		}
 		
 		numberOfBytesToWrite = totalNumberOfObjects * numberOfBytesPerObject;

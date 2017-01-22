@@ -42,7 +42,7 @@ public class Tunnel extends GeometryInformationBase {
     public void SynchronizeState(long currentTime) {
     	super.SynchronizeState(currentTime);
     	
-    	_timePoint += 8;
+    	//_timePoint += 8;
     	
 		//Logger.Info("In SynchronizeState of Tunnel");
 

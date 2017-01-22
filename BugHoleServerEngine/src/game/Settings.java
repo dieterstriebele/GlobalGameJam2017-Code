@@ -8,7 +8,7 @@ public class Settings {
 	public final static int TunnelId = IGeometryInformation.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
 	public final static float TunnelSpeed =  0.002f;
 	public final static Vector3D TunnelScaling = new Vector3D(1f, 1f, 1f);
-	public final static Vector3D BrainmineScaling = new Vector3D(0.5f, 0.5f, 0.5f);
+	public final static Vector3D BrainmineScaling = new Vector3D(1f, 1f, 1f);
 	
 	// Shots
 //	public final static float ShotSpeed = 0.006f;

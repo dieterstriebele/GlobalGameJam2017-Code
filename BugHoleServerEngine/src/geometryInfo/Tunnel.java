@@ -36,14 +36,13 @@ public class Tunnel extends GeometryInformationBase {
 	}
 	
     public int GetObjectModelIdentification(int inObjectIndex) {
-    	if (inObjectIndex < _positions.size()) {
-    		return IGeometryInformation.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
-    	}    	
-    	return 0;
+		return IGeometryInformation.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
     }
     
     public void SynchronizeState(long currentTime) {
     	super.SynchronizeState(currentTime);
+    	
+    	_timePoint += 8;
     	
 		//Logger.Info("In SynchronizeState of Tunnel");
 

@@ -2,6 +2,11 @@ package game;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import geometryInfo.Enemy;
+import geometryInfo.Enemy.EnemyType;
+import geometryInfo.GeometryInformationBase;
+import geometryInfo.IGeometryInformation;
 import geometryInfo.Tunnel;
 import util.BufferConvert;
 import util.Logger;
@@ -15,7 +20,7 @@ public class GameState implements IGameState {
 	private int _playerLife;
 	private int _playerScore;
 
-	private Tunnel _tunnel;
+	private List<IGeometryInformation> _geometries;
 	
 	private List<Integer> _gameEvents;
 
@@ -24,12 +29,15 @@ public class GameState implements IGameState {
 		_playerScore = 0;
 		_playerDirection = new Vector3D();		
 		_gameEvents = new LinkedList<Integer>();
+		_geometries = new LinkedList<IGeometryInformation>();
 	}
 
 	public void Init() {
 		long currentTime = System.currentTimeMillis();
 
-		_tunnel = new Tunnel(currentTime);
+		_geometries.add(new Tunnel(currentTime));
+		_geometries.add(new Enemy(currentTime, EnemyType.Alpha));
+		_geometries.add(new Enemy(currentTime, EnemyType.Beta));
 	}
 
 	public synchronized void HandleCommands(byte[] buffer, int bufferLength) {
@@ -73,52 +81,54 @@ public class GameState implements IGameState {
 	
 	//Synchronizes the state, updates the buffer and returns the number of bytes to write
 	public int SynchronizeAndUpdateBuffer(byte[] buffer, long currentTime) {
-		int currentNumberOfObjects = 0;
 		int sizeOfFloat = 4;
 		int sizeOfInt   = 4;
 		int numberOfBytesPerObject = 9 * sizeOfFloat + sizeOfInt;
 		int numberOfBytesToWrite = 0;
 		
-		if (_tunnel != null) {
-			_tunnel.SynchronizeState(currentTime);
-			currentNumberOfObjects = _tunnel.GetNumberOfObjects();
-		}
+		int totalNumberOfObjects = 0;
+		
+		for(IGeometryInformation geo : _geometries)
+		{
+			geo.SynchronizeState(currentTime);
+			totalNumberOfObjects += geo.GetNumberOfObjects();
+			
+			for (int i = 0; i < geo.GetNumberOfObjects(); i++) {
+				Vector3D rotation = geo.GetObjectRotation(i);
+				Vector3D scaling  = geo.GetObjectScaling(i);
+				Vector3D position = geo.GetObjectPosition(i);
 
-		for (int i = 0; i < currentNumberOfObjects; i++) {
-			Vector3D rotation = _tunnel.GetObjectRotation(i);
-			Vector3D scaling  = _tunnel.GetObjectScaling(i);
-			Vector3D position = _tunnel.GetObjectPosition(i);
-
-			// Position
-			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(position.mXPos, buffer,
-					(i * numberOfBytesPerObject) + (sizeOfFloat * 0));
-			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(position.mYPos, buffer,
-					(i * numberOfBytesPerObject) + (sizeOfFloat * 1));
-			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(position.mZPos, buffer,
-					(i * numberOfBytesPerObject) + (sizeOfFloat * 2));
-			
-			// Rotation
-			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(rotation.mXPos, buffer,
-					(i * numberOfBytesPerObject) + (sizeOfFloat * 3));
-			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(rotation.mYPos, buffer,
-					(i * numberOfBytesPerObject) + (sizeOfFloat * 4));
-			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(rotation.mZPos, buffer,
-					(i * numberOfBytesPerObject) + (sizeOfFloat * 5));
-			
-			// Scaling
-			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(scaling.mXPos,  buffer,
-					(i * numberOfBytesPerObject) + (sizeOfFloat * 6));
-			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(scaling.mYPos,  buffer,
-					(i * numberOfBytesPerObject) + (sizeOfFloat * 7));
-			BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(scaling.mZPos,  buffer,
-					(i * numberOfBytesPerObject) + (sizeOfFloat * 8));
-			
-			// ID
-			BufferConvert.WriteIntToBufferAtOffset(_tunnel.GetObjectModelIdentification(i), buffer,
-					(i * numberOfBytesPerObject) + (sizeOfFloat * 9));
+				// Position
+				BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(position.mXPos, buffer,
+						(i * numberOfBytesPerObject) + (sizeOfFloat * 0));
+				BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(position.mYPos, buffer,
+						(i * numberOfBytesPerObject) + (sizeOfFloat * 1));
+				BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(position.mZPos, buffer,
+						(i * numberOfBytesPerObject) + (sizeOfFloat * 2));
+				
+				// Rotation
+				BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(rotation.mXPos, buffer,
+						(i * numberOfBytesPerObject) + (sizeOfFloat * 3));
+				BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(rotation.mYPos, buffer,
+						(i * numberOfBytesPerObject) + (sizeOfFloat * 4));
+				BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(rotation.mZPos, buffer,
+						(i * numberOfBytesPerObject) + (sizeOfFloat * 5));
+				
+				// Scaling
+				BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(scaling.mXPos,  buffer,
+						(i * numberOfBytesPerObject) + (sizeOfFloat * 6));
+				BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(scaling.mYPos,  buffer,
+						(i * numberOfBytesPerObject) + (sizeOfFloat * 7));
+				BufferConvert.ConvertFloatToIntAndWriteToBufferAtOffset(scaling.mZPos,  buffer,
+						(i * numberOfBytesPerObject) + (sizeOfFloat * 8));
+				
+				// ID
+				BufferConvert.WriteIntToBufferAtOffset(geo.GetObjectModelIdentification(i), buffer,
+						(i * numberOfBytesPerObject) + (sizeOfFloat * 9));
+			}
 		}
 		
-		numberOfBytesToWrite = currentNumberOfObjects * numberOfBytesPerObject;
+		numberOfBytesToWrite = totalNumberOfObjects * numberOfBytesPerObject;
 		return numberOfBytesToWrite;
 	}
 	

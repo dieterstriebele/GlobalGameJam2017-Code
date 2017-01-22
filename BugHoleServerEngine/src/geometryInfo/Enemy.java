@@ -19,6 +19,7 @@ public class Enemy extends GeometryInformationBase {
 	}
 	
 	private float[] m_enemy_positions = null;
+	private float[] m_tunnel_positions = null;
 	private String m_path = null;
 	private float m_time_factor = 1.0f;
 
@@ -28,13 +29,14 @@ public class Enemy extends GeometryInformationBase {
         //every enemy represents exactly one object in the scene!
         Init(1, IGeometryInformation.cOBJECTMODELIDENTIFICATION_BRAINMINE, Settings.BrainmineScaling);   
         
-        _positions.get(1).mXPos = 0.0f;
-        _positions.get(1).mYPos = 0.0f;
-        _rotations.get(1).mYPos = 1.0f;
+        _positions.get(0).mXPos = 0.0f;
+        _positions.get(0).mYPos = 0.0f;
+        _rotations.get(0).mYPos = 1.0f;
         
         m_time_factor = _GetEnemyTimeFactor(enemyType);        
         m_path = _GetEnemyTypePath(enemyType);
-        m_enemy_positions = PathLoader.LoadPathFromFile(m_path);
+        m_enemy_positions  = PathLoader.LoadPathFromFile(m_path);
+        m_tunnel_positions = PathLoader.LoadPathFromFile(Paths.get("res/intestines_triplepath_001_kbap.bin").toAbsolutePath().toString());
     }
     
     private String _GetEnemyTypePath(EnemyType enemyType)
@@ -80,30 +82,27 @@ public class Enemy extends GeometryInformationBase {
     }
 
     public int GetObjectModelIdentification(int inObjectIndex) {
-    	if(inObjectIndex < _positions.size())
-    	{
-    		return IGeometryInformation.cOBJECTMODELIDENTIFICATION_BRAINMINE;
-    	}
-        return 0;
+		return IGeometryInformation.cOBJECTMODELIDENTIFICATION_BRAINMINE;
     }
 
     public void SynchronizeState(long currentTime) {
     	super.SynchronizeState(currentTime);
     	
+    	_timePoint += 8;
+    	
     	//Logger.Info("In SynchronizeState of Enemy");    	
     	
 		int path_segment_offset = ((int)(_timePoint * m_time_factor) % (m_enemy_positions.length / 3)) * 3;
 		
-		_positions.get(0).mXPos =  m_enemy_positions[path_segment_offset + 0];
-		_positions.get(0).mYPos =  m_enemy_positions[path_segment_offset + 2];
-		_positions.get(0).mZPos = -m_enemy_positions[path_segment_offset + 1];
+		_positions.get(0).mXPos =  m_tunnel_positions[path_segment_offset + 0] +  m_enemy_positions[path_segment_offset + 0];
+		_positions.get(0).mYPos =  m_tunnel_positions[path_segment_offset + 2] +  m_enemy_positions[path_segment_offset + 2];
+		_positions.get(0).mZPos = -m_tunnel_positions[path_segment_offset + 1] + -m_enemy_positions[path_segment_offset + 1];
 		_rotations.get(0).mXPos = 0.0f;
 		_rotations.get(0).mYPos = 0.0f;
 		_rotations.get(0).mZPos = 0.0f;
-		_scaling.get(0).mXPos = 1.0f;
-		_scaling.get(0).mYPos = 1.0f;
-		_scaling.get(0).mZPos = 1.0f;
-		
+		_scaling.get(0).mXPos = Settings.BrainmineScaling.mXPos;
+		_scaling.get(0).mYPos = Settings.BrainmineScaling.mYPos;
+		_scaling.get(0).mZPos = Settings.BrainmineScaling.mZPos;		
 		
     }
 }

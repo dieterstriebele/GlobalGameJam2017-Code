@@ -112,7 +112,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
         m_ObjectXScalings[i] = 1.0f;
         m_ObjectYScalings[i] = 1.0f;
         m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_BRAINMINE;
+        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_MATRIXMINE;
         i++;
 
 
@@ -137,7 +137,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
         m_ObjectXScalings[i] = brainmine_scaling;
         m_ObjectYScalings[i] = brainmine_scaling;
         m_ObjectZScalings[i] = brainmine_scaling;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_BRAINMINE;
+        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_VIRUSMINE;
         i++;
 
 

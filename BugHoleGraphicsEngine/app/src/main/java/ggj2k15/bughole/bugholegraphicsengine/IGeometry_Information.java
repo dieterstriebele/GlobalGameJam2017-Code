@@ -45,5 +45,7 @@ public interface IGeometry_Information {
     public static final int cOBJECTMODELIDENTIFICATION_BRAINMINE = 0;
     public static final int cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE = 1;
     public static final int cOBJECTMODELIDENTIFICATION_ROUND = 2;
+    public static final int cOBJECTMODELIDENTIFICATION_VIRUSMINE = 3;
+    public static final int cOBJECTMODELIDENTIFICATION_MATRIXMINE = 4;
 
 }

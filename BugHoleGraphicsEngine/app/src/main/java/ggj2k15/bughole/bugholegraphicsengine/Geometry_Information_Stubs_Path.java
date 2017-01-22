@@ -83,7 +83,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
     //        Z' = -Y
 
     public void SynchronizeState() {
-        m_Time += 4.00f;
+        m_Time += 1.00f;
 
         int i=0;
 
@@ -92,10 +92,10 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
         int m_PathSegmentOffset_01 = (int)m_Time*1 % (m_ObjectPathPositions_01.length/3);
         m_PathSegmentOffset_01 *= 3;
         //int m_PathSegmentOffset_02 = (int)(m_Time + Math.abs(Math.cos(m_Time * 0.001f) * 1000.0f)) % (m_ObjectPathPositions_02.length/3);
-        int m_PathSegmentOffset_02 = (int)m_Time*2 % (m_ObjectPathPositions_02.length/3);
+        int m_PathSegmentOffset_02 = (int)m_Time*1 % (m_ObjectPathPositions_02.length/3);
         m_PathSegmentOffset_02 *= 3;
         //int m_PathSegmentOffset_03 = (int)(m_Time + Math.abs(Math.sin(m_Time * 0.001f) * 1000.0f)) % (m_ObjectPathPositions_03.length/3);
-        int m_PathSegmentOffset_03 = (int)m_Time*3 % (m_ObjectPathPositions_03.length/3);
+        int m_PathSegmentOffset_03 = (int)m_Time*1 % (m_ObjectPathPositions_03.length/3);
         m_PathSegmentOffset_03 *= 3;
 
         int m_PathSegmentOffset_04 = 0;

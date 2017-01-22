@@ -92,7 +92,7 @@ public class Enemy extends GeometryInformationBase {
     	
     	//Logger.Info("In SynchronizeState of Enemy");    	
     	
-		int path_segment_offset = ((int)(_timePoint * m_time_factor) % (m_enemy_positions.length / 3)) * 3;
+		int path_segment_offset = ((int)(_timePoint /* * m_time_factor */) % (m_enemy_positions.length / 3)) * 3;
 		
 		_positions.get(0).mXPos =  m_tunnel_positions[path_segment_offset + 0] +  m_enemy_positions[path_segment_offset + 0];
 		_positions.get(0).mYPos =  m_tunnel_positions[path_segment_offset + 2] +  m_enemy_positions[path_segment_offset + 2];

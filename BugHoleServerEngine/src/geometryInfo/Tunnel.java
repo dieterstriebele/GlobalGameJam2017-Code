@@ -1,13 +1,8 @@
 package geometryInfo;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.FileInputStream;
 import java.nio.file.Paths;
-
 import game.Settings;
-import util.Logger;
+import util.PathLoader;
 import static java.lang.Math.abs;
 import static java.lang.Math.ceil;
 
@@ -32,37 +27,12 @@ public class Tunnel extends GeometryInformationBase {
 			_rotations.get(i).mYPos = 1.570796f;
 		}
 		
-		m_tunnel_positions = _LoadTunnelPathFromFile(Paths.get("res/intestines_triplepath_001_kbap.bin").toAbsolutePath().toString());
+		m_tunnel_positions = PathLoader.LoadPathFromFile(Paths.get("res/intestines_triplepath_001_kbap.bin").toAbsolutePath().toString());
 
 		//Keep this to calculate dimensions of tunnel segments in case the geometry is replaced
          m_tunnel_z_dim = abs(m_tunnel_positions[1] - m_tunnel_positions[m_tunnel_positions.length-2]);
 //       float x_d = abs(m_tunnel_positions[0] - m_tunnel_positions[m_tunnel_positions.length-3]);
 //       float y_d = abs(m_tunnel_positions[2] - m_tunnel_positions[m_tunnel_positions.length-1]);
-	}
-
-	private float[] _LoadTunnelPathFromFile(String inputPath)
-	{
-		float[] positions = null;
-
-		try {
-			DataInputStream inputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(inputPath)));
-			
-			int num_positions = (int)inputStream.readFloat();
-			positions = new float[num_positions * 3];
-			
-			for(int i=0; i<positions.length; i++)
-			{
-				positions[i] = inputStream.readFloat();
-			}
-			
-			inputStream.close();
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
-		
-		return positions;
 	}
 	
     public int GetObjectModelIdentification(int inObjectIndex) {

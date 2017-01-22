@@ -10,7 +10,8 @@ public class Enemy extends GeometryInformationBase {
 
     public Enemy(long timeBase) {
         super(timeBase);
-
+        
+        
     }
 
     public int GetObjectModelIdentification(int inObjectIndex) {

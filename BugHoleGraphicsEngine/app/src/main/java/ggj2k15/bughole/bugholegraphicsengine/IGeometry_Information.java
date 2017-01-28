@@ -44,6 +44,7 @@ public interface IGeometry_Information {
     //static ids for the different object models
     public static final int cOBJECTMODELIDENTIFICATION_BRAINMINE = 0;
     public static final int cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE = 1;
-    public static final int cOBJECTMODELIDENTIFICATION_ROUND = 2;
+    public static final int cOBJECTMODELIDENTIFICATION_INTESTINES_METABALL = 2;
+
 
 }

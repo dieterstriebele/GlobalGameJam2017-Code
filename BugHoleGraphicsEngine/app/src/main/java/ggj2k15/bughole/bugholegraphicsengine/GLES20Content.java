@@ -21,7 +21,7 @@ public class GLES20Content {
     //rendering context
     private Context m_Context;
 
-    private int m_NumberOfGeometries = 2;
+    private int m_NumberOfGeometries = 3;
     private Geometry_Base[] m_Geometries = new Geometry_Base[m_NumberOfGeometries];
 
     //Google Pixel C    Resolution = 2560 x 1800 - 1:1.414
@@ -145,6 +145,20 @@ public class GLES20Content {
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_SpecularIntensityTextureID(tSpecularIntensityTextureId);
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_SpecularColorTextureID(tSpecularColorTextureId);
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_AmbientOcclusionTextureID(tAmbientOcclusionTextureId);
+
+            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_METABALL] = new Geometry_Sphere(m_Context.getResources().openRawResource(R.raw.metaball_intestines_object));
+            tShaderProgramID_Geometry = GLES20Helper.createShader(R.raw.normalmapping_geometry_vertexshader, R.raw.normalmapping_geometry_fragmentshader, m_Context);
+            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_METABALL].Set_ShaderID(tShaderProgramID_Geometry); //implicitly binds on the standard attribute locations for position, texture coords and modelviewprojection matrix
+            tDiffuseTextureId = GLES20Helper.loadBitmapResourceAndCreateTextureID(R.raw.metaball_intestines_albedo, this.m_Context);
+            tNormalTextureId = GLES20Helper.loadBitmapResourceAndCreateTextureID(R.raw.metaball_intestines_normal, this.m_Context);
+            tSpecularIntensityTextureId = GLES20Helper.loadBitmapResourceAndCreateTextureID(R.raw.metaball_intestines_gloss, this.m_Context);
+            tSpecularColorTextureId = GLES20Helper.loadBitmapResourceAndCreateTextureID(R.raw.metaball_intestines_specular, this.m_Context);
+            tAmbientOcclusionTextureId = GLES20Helper.loadBitmapResourceAndCreateTextureID(R.raw.metaball_intestines_ao, this.m_Context);
+            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_METABALL].Set_DiffuseTextureID(tDiffuseTextureId);
+            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_METABALL].Set_NormalTextureID(tNormalTextureId);
+            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_METABALL].Set_SpecularIntensityTextureID(tSpecularIntensityTextureId);
+            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_METABALL].Set_SpecularColorTextureID(tSpecularColorTextureId);
+            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_METABALL].Set_AmbientOcclusionTextureID(tAmbientOcclusionTextureId);
 
         } else {
             //use optimized textures - composed channels to reduce texture unit load

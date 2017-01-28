@@ -15,7 +15,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
 
     //1 brainmines (position from path)
     //6 intestines
-    private int m_NumberOfObjects = 4; // + 6;
+    private int m_NumberOfObjects = 1; // + 6;
     private float[] m_ObjectXPositions;
     private float[] m_ObjectYPositions;
     private float[] m_ObjectZPositions;
@@ -41,14 +41,16 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
         m_ObjectZScalings = new float[m_NumberOfObjects];
         m_ObjectModelIdentification = new int[m_NumberOfObjects];
 
-        m_ObjectPathPositions_01 = LoadObjectPositionsFromInputStream(a_Context.getResources().openRawResource(R.raw.intestines_triplepath_001_kbap));
-        m_ObjectPathPositions_02 = LoadObjectPositionsFromInputStream(a_Context.getResources().openRawResource(R.raw.intestines_triplepath_002_kbap));
-        m_ObjectPathPositions_03 = LoadObjectPositionsFromInputStream(a_Context.getResources().openRawResource(R.raw.intestines_triplepath_003_kbap));
+        m_ObjectPathPositions_00 = LoadObjectPositionsFromInputStream(a_Context.getResources().openRawResource(R.raw.metaball_intestines_middlepath));
+        //m_ObjectPathPositions_01 = LoadObjectPositionsFromInputStream(a_Context.getResources().openRawResource(R.raw.intestines_triplepath_001_kbap));
+        //m_ObjectPathPositions_02 = LoadObjectPositionsFromInputStream(a_Context.getResources().openRawResource(R.raw.intestines_triplepath_002_kbap));
+        //m_ObjectPathPositions_03 = LoadObjectPositionsFromInputStream(a_Context.getResources().openRawResource(R.raw.intestines_triplepath_003_kbap));
 
         Log.d("Geometry_Information_Stubs_Path.LoadObjectPositionsFromInputStream()", "Loading object positions from input stream!");
 
     }
 
+    private float[] m_ObjectPathPositions_00 = null;
     private float[] m_ObjectPathPositions_01 = null;
     private float[] m_ObjectPathPositions_02 = null;
     private float[] m_ObjectPathPositions_03 = null;
@@ -83,10 +85,13 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
     //        Z' = -Y
 
     public void SynchronizeState() {
-        m_Time += 4.00f;
+        m_Time += 1.00f;
 
         int i=0;
 
+        int m_PathSegmentOffset_00 = (int)m_Time*1 % (m_ObjectPathPositions_00.length/3);
+        m_PathSegmentOffset_00 *= 3;
+/*
         //hardcode one brainmine following an exported path
         //int m_PathSegmentOffset_01 = (int)(m_Time + Math.abs(Math.sin(m_Time * 0.001f) * 1000.0f)) % (m_ObjectPathPositions_01.length/3);
         int m_PathSegmentOffset_01 = (int)m_Time*1 % (m_ObjectPathPositions_01.length/3);
@@ -97,12 +102,12 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
         //int m_PathSegmentOffset_03 = (int)(m_Time + Math.abs(Math.sin(m_Time * 0.001f) * 1000.0f)) % (m_ObjectPathPositions_03.length/3);
         int m_PathSegmentOffset_03 = (int)m_Time*3 % (m_ObjectPathPositions_03.length/3);
         m_PathSegmentOffset_03 *= 3;
-
+*/
         int m_PathSegmentOffset_04 = 0;
         m_PathSegmentOffset_04 *= 3;
 
         float brainmine_scaling = 1.0f;
-
+/*
         m_ObjectXPositions[i] =  m_ObjectPathPositions_01[m_PathSegmentOffset_01 + 0] + m_ObjectPathPositions_01[m_PathSegmentOffset_01 + 0];
         m_ObjectYPositions[i] =  m_ObjectPathPositions_01[m_PathSegmentOffset_01 + 2] + m_ObjectPathPositions_01[m_PathSegmentOffset_01 + 2];
         m_ObjectZPositions[i] = -m_ObjectPathPositions_01[m_PathSegmentOffset_01 + 1] + -m_ObjectPathPositions_01[m_PathSegmentOffset_01 + 1];
@@ -139,23 +144,24 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
         m_ObjectZScalings[i] = brainmine_scaling;
         m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_BRAINMINE;
         i++;
-
+*/
 
         //m_ObjectXPositions[i] = 0.0f;
         //m_ObjectYPositions[i] = 0.0f;
         //m_ObjectZPositions[i] = 0.0f;
 
         //movecounter += 0.01f;
-        m_ObjectXPositions[i] = m_ObjectPathPositions_01[m_PathSegmentOffset_01 + 0];
-        m_ObjectYPositions[i] = m_ObjectPathPositions_01[m_PathSegmentOffset_01 + 2];
-        m_ObjectZPositions[i] = -m_ObjectPathPositions_01[m_PathSegmentOffset_01 + 1];
+        Log.d("Geometry_Information_Stubs_Path", "m_PathSegmentOffset_00="+m_PathSegmentOffset_00 + " m_ObjectPathPositions_00="+m_ObjectPathPositions_00.length);
+        m_ObjectXPositions[i] = m_ObjectPathPositions_00[m_PathSegmentOffset_00 + 0];
+        m_ObjectYPositions[i] = m_ObjectPathPositions_00[m_PathSegmentOffset_00 + 2];
+        m_ObjectZPositions[i] = -m_ObjectPathPositions_00[m_PathSegmentOffset_00 + 1];
         m_ObjectXRotations[i] = 0.0f;
         m_ObjectYRotations[i] = 0.0f;
         m_ObjectZRotations[i] = 0.0f;
         m_ObjectXScalings[i] = 1.0f;
         m_ObjectYScalings[i] = 1.0f;
         m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
+        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_METABALL;
         i++;
 
         /*

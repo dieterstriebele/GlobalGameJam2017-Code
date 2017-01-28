@@ -41,10 +41,10 @@ void main(){
 
     //!!! PERFORMANCE OPTIMIZATION: MERGE AMBIENT OCCLUSION INTENSITY CHANNEL INTO NORMAL ALPHA
     float ambientIntensity = texture2D(sAmbientOcclusionSampler, vTextureCoordinate).r;
-    float ambientBaseIntensity = 0.1;
+    float ambientBaseIntensity = 0.5;
 
     diffuseIntensity = (diffuseIntensity * ambientIntensity) + ambientBaseIntensity;
-    diffuseIntensity = clamp(diffuseIntensity, 0.0, 1.0);
+    diffuseIntensity = clamp(diffuseIntensity, 0.0, 1.0) + 0.5;
 
     // Add attenuation.
     diffuseIntensity = diffuseIntensity * (1.0 / (1.0 + (0.0125 * distance * distance)));

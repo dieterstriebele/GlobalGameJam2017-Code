@@ -37,6 +37,7 @@ public class BugHoleServerMain {
             
             GameState gameState = new GameState();
             
+            //infinite loop to set up the game and connections, because accept() is blocking until a connection is established
             while(true)
             {
                 Logger.Info("Wait for incoming client connection");
@@ -45,6 +46,11 @@ public class BugHoleServerMain {
                 Logger.Info("Accepting connection from " + geometrySocket);
                 geometrySocket.setTcpNoDelay(true);
                 geometrySocket.setKeepAlive(true);
+//                IPTOS_LOWCOST (0x02)
+//                IPTOS_RELIABILITY (0x04)
+//                IPTOS_THROUGHPUT (0x08)
+//                IPTOS_LOWDELAY (0x10)
+                geometrySocket.setTrafficClass(0x04 + 0x10);
                 //geometrySocket.setSoTimeout(15000);
                 
                 GeometryClient geometryClient = new GeometryClient(geometrySocket,timeBase, gameState);
@@ -54,11 +60,13 @@ public class BugHoleServerMain {
                 Logger.Info("Accepting connection from " + commandSocket);
                 commandSocket.setTcpNoDelay(true);
                 commandSocket.setKeepAlive(true);
+                commandSocket.setTrafficClass(0x04 + 0x10);
                 
                 CommandClient commandClient = new CommandClient(commandSocket, timeBase, gameState);
                 commandClient.StartReadingThread();
                 commandClient.StartWritingThread();
                 
+                //once a connection was established, initialize the game state
                 gameState.Init();
                 //Thread.sleep(10000000);
             }

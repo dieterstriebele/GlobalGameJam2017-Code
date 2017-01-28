@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="jmdns-3.5.1">
+  <library name="jmdns">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/jar/jmdns-3.5.1.jar!/" />
     </CLASSES>

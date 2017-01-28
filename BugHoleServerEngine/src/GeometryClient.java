@@ -7,16 +7,16 @@ import java.net.Socket;
 
 import game.IGameState;
 import util.Logger;
-import geometryInfo.IGeometry_Information;
+import geometryInfo.IGeometryInformation;
 
 public class GeometryClient {
 	
-	private DataInputStream in;
-	private DataOutputStream out;
+	private DataInputStream stream_in;
+	private DataOutputStream stream_out;
 	private String clientIp;
-	private BufferedReader bufferedReader;
+	private BufferedReader input_reader;
 	
-	private byte[] _buffer;
+	private byte[] byte_buffer;
 	
 	private IGameState _gameState;
 	
@@ -24,18 +24,15 @@ public class GeometryClient {
 		try {
 			_gameState = gameState;
 			
-			//m_ClientSocket = clientSocket;
-			in = new DataInputStream(clientSocket.getInputStream());
-			out = new DataOutputStream(clientSocket.getOutputStream());
-			bufferedReader = new BufferedReader(new InputStreamReader(in));	
-			
-//			geometryInformation.Decorate(new Geometry_Information_Spiral(System.currentTimeMillis()));
+			stream_in    = new DataInputStream(clientSocket.getInputStream());
+			stream_out   = new DataOutputStream(clientSocket.getOutputStream());
+			input_reader = new BufferedReader(new InputStreamReader(stream_in));	
 			
 			int sizeOfFloat = 4;
 	    	int sizeOfInt = Integer.SIZE / Byte.SIZE;
 	    	int numberOfBytesPerObject = 9 * sizeOfFloat + sizeOfInt;  // 6 = 3xfloat (position) + 3xfloat (rotation). 
 			
-			_buffer = new byte[sizeOfInt + IGeometry_Information.MaxObjects * numberOfBytesPerObject];
+			byte_buffer = new byte[sizeOfInt + IGeometryInformation.MaxObjects * numberOfBytesPerObject];
 
 		} catch (Exception e) {
 			LogClientError("Initialise client streams failed!", e);
@@ -44,27 +41,28 @@ public class GeometryClient {
 	}
 
 	public void write(String message) {
-		PrintWriter printWriter = new PrintWriter(out);
-		//LogClientInfo("write to client: " + message);
+		PrintWriter printWriter = new PrintWriter(stream_out);
 		printWriter.println(message);
 		printWriter.flush();
 	}
 
 	public void StartReadingThread() {
-		Thread read = new Thread() {
+		Thread reading_thread = new Thread() {
 			public void run() {
 				LogClientInfo("GeometryClient: StartReadingThread id=" + Thread.currentThread().getId());
 				try {
 					while (true) {
-						String receivedLine = bufferedReader.readLine();
+						String receivedLine = input_reader.readLine();
 						
 						long currentTime = System.currentTimeMillis();
-
-						_gameState.SpawnSwarms(currentTime);
+						
+						//TODO: spawn enemies here? or in SynchronizeState?
 						
 						if (receivedLine != null && receivedLine.length() > 0) {
-							LogClientInfo("received: " + receivedLine);
-							handleIncommingCommands(receivedLine, currentTime);
+							//LogClientInfo("received: " + receivedLine);
+							if(receivedLine.equals(new String("SynchronizeState"))){
+								SynchronizeState(receivedLine, currentTime);								
+							}
 						} else {
 							LogClientError("Client aborted connection! Shutting down Client Processing Thread!");
 							break;
@@ -72,8 +70,7 @@ public class GeometryClient {
 						
 						//http://stackoverflow.com/questions/3484972/java-socketchannel-doesnt-detect-disconnection
 						
-						/*
-						
+						/*						
 						Usually if you turn off OS level networking, writes to socket should throw exceptions, so you know the connection is broken.
 						However more generally, we can't be sure if a packet is delivered. In java (probably C too), there is no way to check if a
 						packet is ACK'ed. Even if we can check TCP ACKs, it doesn't guarantee that the server received or processed the packet. It
@@ -108,37 +105,30 @@ public class GeometryClient {
 				} catch (Exception e) {
 					LogClientError("GeometryClient: Error while reading from inputstream", e);
 					try {
-					in.close();
-					out.close();
+						stream_in.close();
+						stream_out.close();
 					} catch (Exception ex) {
 						LogClientError("GeometryClient: Error closing streams", e);
 					}
 				}
 			}
 		};
-		read.setPriority(Thread.MAX_PRIORITY);
+		reading_thread.setPriority(Thread.MAX_PRIORITY);
 		//read.setDaemon(true);
-		read.start();
+		reading_thread.start();
 	}
 
-	private void handleIncommingCommands(String message, long currentTime) throws Exception {
-		// handle connect command
-		if (message.equals(new String("SynchronizeState"))) {
-			
-			int numberOfBytesToWrite = _gameState.UpdateAndGetStateAndNumberOfBytesToWrite(_buffer, currentTime);
-						
-			out.writeInt(numberOfBytesToWrite);
-			out.flush();
-			
-			if (numberOfBytesToWrite != 0) {
-	
-				//LogClientInfo("Sending "+buf.length+" bytes to client!");
-				//System.out.println(Arrays.toString(buf));
-				
-				out.write(_buffer, 0, numberOfBytesToWrite);
-				out.flush();
-			}
-		}	
+	private void SynchronizeState(String message, long currentTime) throws Exception {
+		//LogClientInfo("Synchronizing");
+		int numberOfBytesToWrite = _gameState.SynchronizeAndUpdateBuffer(byte_buffer, currentTime);
+		
+		stream_out.writeInt(numberOfBytesToWrite);
+		stream_out.flush();
+		
+		if (numberOfBytesToWrite != 0) {				
+			stream_out.write(byte_buffer, 0, numberOfBytesToWrite);
+			stream_out.flush();
+		}
 	}
 
 	public String getIp() {

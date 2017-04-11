@@ -1,6 +1,6 @@
 package ggj2k15.bughole.bugholegraphicsengine.interfaces;
 
-public interface IGeometry_Information {
+public interface IGeometryInformation {
 
     //update position and rotation of all objects (will be called every frame)
     public void SynchronizeState();

@@ -9,9 +9,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import ggj2k15.bughole.bugholegraphicsengine.R;
-import ggj2k15.bughole.bugholegraphicsengine.interfaces.IGeometry_Information;
+import ggj2k15.bughole.bugholegraphicsengine.interfaces.IGeometryInformation;
 
-public class Geometry_Information_Stubs_Path implements IGeometry_Information, Runnable {
+public class GeometryInformationStubsPath implements IGeometryInformation, Runnable {
 
     //1 brainmines (position from path)
     //6 intestines
@@ -29,7 +29,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
     private float m_Time;
     private float m_IntestineScrollingOffset;
 
-    public Geometry_Information_Stubs_Path(Context a_Context) {
+    public GeometryInformationStubsPath(Context a_Context) {
         m_ObjectXPositions = new float[m_NumberOfObjects];
         m_ObjectYPositions = new float[m_NumberOfObjects];
         m_ObjectZPositions = new float[m_NumberOfObjects];
@@ -46,7 +46,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
         //m_ObjectPathPositions_02 = LoadObjectPositionsFromInputStream(a_Context.getResources().openRawResource(R.raw.intestines_triplepath_002_kbap));
         //m_ObjectPathPositions_03 = LoadObjectPositionsFromInputStream(a_Context.getResources().openRawResource(R.raw.intestines_triplepath_003_kbap));
 
-        Log.d("Geometry_Information_Stubs_Path.LoadObjectPositionsFromInputStream()", "Loading object positions from input stream!");
+        Log.d("GeometryInformationStubsPath.LoadObjectPositionsFromInputStream()", "Loading object positions from input stream!");
 
     }
 
@@ -56,7 +56,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
     private float[] m_ObjectPathPositions_03 = null;
 
     protected float[] LoadObjectPositionsFromInputStream(InputStream inInputStream) {
-        Log.d("Geometry_Information_Stubs_Path.LoadObjectPositionsFromInputStream()", "Loading object positions from input stream!");
+        Log.d("GeometryInformationStubsPath.LoadObjectPositionsFromInputStream()", "Loading object positions from input stream!");
         float[] tObjectPathPositions = null;
         try {
             DataInputStream obfInputStream = new DataInputStream(new BufferedInputStream(inInputStream));
@@ -66,7 +66,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
                 tObjectPathPositions[i] = obfInputStream.readFloat();
             }
         } catch (IOException e) {
-            Log.e("Geometry_Information_Stubs_Path.LoadObjectPositionsFromInputStream()", "Constructor failed!", e);
+            Log.e("GeometryInformationStubsPath.LoadObjectPositionsFromInputStream()", "Constructor failed!", e);
         }
         return tObjectPathPositions;
     }
@@ -117,7 +117,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
         m_ObjectXScalings[i] = 1.0f;
         m_ObjectYScalings[i] = 1.0f;
         m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_MATRIXMINE;
+        m_ObjectModelIdentification[i] = IGeometryInformation.cOBJECTMODELIDENTIFICATION_MATRIXMINE;
         i++;
 
 
@@ -130,7 +130,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
         m_ObjectXScalings[i] = brainmine_scaling;
         m_ObjectYScalings[i] = brainmine_scaling;
         m_ObjectZScalings[i] = brainmine_scaling;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_BRAINMINE;
+        m_ObjectModelIdentification[i] = IGeometryInformation.cOBJECTMODELIDENTIFICATION_BRAINMINE;
         i++;
 
         m_ObjectXPositions[i] = m_ObjectPathPositions_01[m_PathSegmentOffset_01 + 0] + m_ObjectPathPositions_03[m_PathSegmentOffset_03 + 0];
@@ -142,7 +142,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
         m_ObjectXScalings[i] = brainmine_scaling;
         m_ObjectYScalings[i] = brainmine_scaling;
         m_ObjectZScalings[i] = brainmine_scaling;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_VIRUSMINE;
+        m_ObjectModelIdentification[i] = IGeometryInformation.cOBJECTMODELIDENTIFICATION_VIRUSMINE;
         i++;
 */
 
@@ -151,7 +151,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
         //m_ObjectZPositions[i] = 0.0f;
 
         //movecounter += 0.01f;
-        Log.d("Geometry_Information_Stubs_Path", "m_PathSegmentOffset_00="+m_PathSegmentOffset_00 + " m_ObjectPathPositions_00="+m_ObjectPathPositions_00.length);
+        Log.d("GeometryInformationStubsPath", "m_PathSegmentOffset_00="+m_PathSegmentOffset_00 + " m_ObjectPathPositions_00="+m_ObjectPathPositions_00.length);
         m_ObjectXPositions[i] = m_ObjectPathPositions_00[m_PathSegmentOffset_00 + 0];
         m_ObjectYPositions[i] = m_ObjectPathPositions_00[m_PathSegmentOffset_00 + 2];
         m_ObjectZPositions[i] = -m_ObjectPathPositions_00[m_PathSegmentOffset_00 + 1];
@@ -161,7 +161,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
         m_ObjectXScalings[i] = 1.0f;
         m_ObjectYScalings[i] = 1.0f;
         m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_METABALL;
+        m_ObjectModelIdentification[i] = IGeometryInformation.cOBJECTMODELIDENTIFICATION_INTESTINES_METABALL;
         i++;
 
         /*
@@ -174,7 +174,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
         m_ObjectXScalings[i] = 1.0f;
         m_ObjectYScalings[i] = 1.0f;
         m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
+        m_ObjectModelIdentification[i] = IGeometryInformation.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
         */
         /*
         //generate data for the brain mines
@@ -191,7 +191,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
                 m_ObjectXScalings[i] = 0.2f;
                 m_ObjectYScalings[i] = 0.2f;
                 m_ObjectZScalings[i] = 0.2f;
-                m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_BRAINMINE;
+                m_ObjectModelIdentification[i] = IGeometryInformation.cOBJECTMODELIDENTIFICATION_BRAINMINE;
                 i++;
             }
         }
@@ -210,7 +210,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
         m_ObjectXScalings[i] = 1.0f;
         m_ObjectYScalings[i] = 1.0f;
         m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
+        m_ObjectModelIdentification[i] = IGeometryInformation.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
         i++;
         m_ObjectXPositions[i] = 0;
         m_ObjectYPositions[i] = 0;
@@ -221,7 +221,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
         m_ObjectXScalings[i] = 1.0f;
         m_ObjectYScalings[i] = 1.0f;
         m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
+        m_ObjectModelIdentification[i] = IGeometryInformation.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
         i++;
         m_ObjectXPositions[i] = 0;
         m_ObjectYPositions[i] = 0;
@@ -232,7 +232,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
         m_ObjectXScalings[i] = 1.0f;
         m_ObjectYScalings[i] = 1.0f;
         m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
+        m_ObjectModelIdentification[i] = IGeometryInformation.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
         i++;
         m_ObjectXPositions[i] = 0;
         m_ObjectYPositions[i] = 0;
@@ -243,7 +243,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
         m_ObjectXScalings[i] = 1.0f;
         m_ObjectYScalings[i] = 1.0f;
         m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
+        m_ObjectModelIdentification[i] = IGeometryInformation.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
         i++;
         m_ObjectXPositions[i] = 0;
         m_ObjectYPositions[i] = 0;
@@ -254,7 +254,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
         m_ObjectXScalings[i] = 1.0f;
         m_ObjectYScalings[i] = 1.0f;
         m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
+        m_ObjectModelIdentification[i] = IGeometryInformation.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
         i++;
         m_ObjectXPositions[i] = 0;
         m_ObjectYPositions[i] = 0;
@@ -265,7 +265,7 @@ public class Geometry_Information_Stubs_Path implements IGeometry_Information, R
         m_ObjectXScalings[i] = 1.0f;
         m_ObjectYScalings[i] = 1.0f;
         m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
+        m_ObjectModelIdentification[i] = IGeometryInformation.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
         i++;
         */
     }

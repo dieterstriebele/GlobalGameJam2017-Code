@@ -3,13 +3,13 @@ package ggj2k15.bughole.bugholegraphicsengine.camerainformation.impl;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
-import ggj2k15.bughole.bugholegraphicsengine.interfaces.ICamera_Information;
+import ggj2k15.bughole.bugholegraphicsengine.interfaces.ICameraInformation;
 
-public class Camera_Information_Stubs implements ICamera_Information {
+public class CameraInformationTouch implements ICameraInformation {
 
     //rotation angle in X and Y axis
     private float m_RotateX = 0.0f;
-    private float m_RotateY = 360.0f;
+    private float m_RotateY = 0.0f;
     private float m_RotateZ = 0.0f;
 
     private float[] m_ModelViewMatrix = new float[16];
@@ -43,7 +43,7 @@ public class Camera_Information_Stubs implements ICamera_Information {
         Matrix.setLookAtM(m_ModelViewMatrix, 0,
                 inEyeX, inEyeY, inEyeZ,
                 inCenterX, inCenterY, inCenterZ,
-                0f, 1.0f, 0.0f);
+                0.0f, 1.0f, 0.0f);
         Matrix.setIdentityM(m_ModelingMatrix1, 0);
         Matrix.setIdentityM(m_ModelingMatrix2, 0);
         Matrix.setIdentityM(m_ModelingMatrix3, 0);
@@ -51,7 +51,7 @@ public class Camera_Information_Stubs implements ICamera_Information {
         //create matrices from the rotation angles
         Matrix.setRotateM(m_ModelingMatrix1, 0, m_RotateX, 1.0f, 0.0f, 0.0f);
         Matrix.setRotateM(m_ModelingMatrix2, 0, m_RotateY, 0.0f, 1.0f, 0.0f);
-        Matrix.setRotateM(m_ModelingMatrix3, 0, m_RotateZ, 0.0f, 1.0f, 0.0f);
+        Matrix.setRotateM(m_ModelingMatrix3, 0, m_RotateZ, 0.0f, 0.0f, 1.0f);
 
         //combine the matrices into the model matrix
         Matrix.multiplyMM(m_ModelingMatrix4, 0, m_ModelingMatrix1, 0, m_ModelingMatrix2, 0);
@@ -79,12 +79,15 @@ public class Camera_Information_Stubs implements ICamera_Information {
     }
 
     public void Update() {
-        this.m_RotateX += 0.1f;
-        this.m_RotateY += 0.2f;
-        this.m_RotateZ += 0.5f;
+        //CameraDirectionVector needs to be calculated here ...
     }
+
+    public void SetRotationX(float inRotation) { m_RotateX = inRotation; }
+    public void SetRotationY(float inRotation) { m_RotateY = inRotation; }
+    public void SetRotationZ(float inRotation) { m_RotateZ = inRotation; }
 
     public float[] GetCameraDirectionVector() {
         return m_ViewDirection;
     }
+
 }

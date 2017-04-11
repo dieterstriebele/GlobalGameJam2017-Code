@@ -10,11 +10,11 @@ import java.net.Socket;
 import java.util.Vector;
 
 import ggj2k15.bughole.bugholegraphicsengine.Settings;
-import ggj2k15.bughole.bugholegraphicsengine.interfaces.IClient_Information;
+import ggj2k15.bughole.bugholegraphicsengine.interfaces.IClientInformation;
 import ggj2k15.bughole.bugholegraphicsengine.util.BufferConvert;
 import ggj2k15.bughole.bugholegraphicsengine.util.ServiceLocateUDP;
 
-public class Client_Information_Network implements IClient_Information, Runnable {
+public class ClientInformationNetwork implements IClientInformation, Runnable {
 
     private static final int ReadingBufferMaxLength = 1024;
 

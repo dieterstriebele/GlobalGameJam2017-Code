@@ -11,9 +11,9 @@ import android.opengl.Matrix;
 import android.view.Surface;
 import android.view.WindowManager;
 
-import ggj2k15.bughole.bugholegraphicsengine.interfaces.ICamera_Information;
+import ggj2k15.bughole.bugholegraphicsengine.interfaces.ICameraInformation;
 
-public class Camera_Information_Device implements ICamera_Information {
+public class CameraInformationDevice implements ICameraInformation {
     private SensorManager _sensorManager;
     private Context mContext;
 
@@ -33,7 +33,7 @@ public class Camera_Information_Device implements ICamera_Information {
     private int m_WorldAxisForDeviceAxisX;
     private int m_WorldAxisForDeviceAxisY;
 
-    public Camera_Information_Device(Context context) {
+    public CameraInformationDevice(Context context) {
 
         mContext = context;
 

@@ -1,8 +1,8 @@
 package ggj2k15.bughole.bugholegraphicsengine.geometryinformation.impl;
 
-import ggj2k15.bughole.bugholegraphicsengine.interfaces.IGeometry_Information;
+import ggj2k15.bughole.bugholegraphicsengine.interfaces.IGeometryInformation;
 
-public class Geometry_Information_Stubs implements IGeometry_Information, Runnable {
+public class GeometryInformationStubs implements IGeometryInformation, Runnable {
 
     //9 brainmines
     //3 intestines
@@ -20,7 +20,7 @@ public class Geometry_Information_Stubs implements IGeometry_Information, Runnab
     private float m_Time;
     private float m_IntestineScrollingOffset;
 
-    public Geometry_Information_Stubs() {
+    public GeometryInformationStubs() {
         m_ObjectXPositions = new float[m_NumberOfObjects];
         m_ObjectYPositions = new float[m_NumberOfObjects];
         m_ObjectZPositions = new float[m_NumberOfObjects];
@@ -49,7 +49,7 @@ public class Geometry_Information_Stubs implements IGeometry_Information, Runnab
                 m_ObjectXScalings[i] = 0.2f;
                 m_ObjectYScalings[i] = 0.2f;
                 m_ObjectZScalings[i] = 0.2f;
-                m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_BRAINMINE;
+                m_ObjectModelIdentification[i] = IGeometryInformation.cOBJECTMODELIDENTIFICATION_BRAINMINE;
                 i++;
             }
         }
@@ -66,7 +66,7 @@ public class Geometry_Information_Stubs implements IGeometry_Information, Runnab
         m_ObjectXScalings[i] = 1.0f;
         m_ObjectYScalings[i] = 1.0f;
         m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
+        m_ObjectModelIdentification[i] = IGeometryInformation.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
         i++;
         m_ObjectXPositions[i] = 0;
         m_ObjectYPositions[i] = 0;
@@ -77,7 +77,7 @@ public class Geometry_Information_Stubs implements IGeometry_Information, Runnab
         m_ObjectXScalings[i] = 1.0f;
         m_ObjectYScalings[i] = 1.0f;
         m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
+        m_ObjectModelIdentification[i] = IGeometryInformation.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
         i++;
         m_ObjectXPositions[i] = 0;
         m_ObjectYPositions[i] = 0;
@@ -88,7 +88,7 @@ public class Geometry_Information_Stubs implements IGeometry_Information, Runnab
         m_ObjectXScalings[i] = 1.0f;
         m_ObjectYScalings[i] = 1.0f;
         m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
+        m_ObjectModelIdentification[i] = IGeometryInformation.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
         i++;
         m_ObjectXPositions[i] = 0;
         m_ObjectYPositions[i] = 0;
@@ -99,7 +99,7 @@ public class Geometry_Information_Stubs implements IGeometry_Information, Runnab
         m_ObjectXScalings[i] = 1.0f;
         m_ObjectYScalings[i] = 1.0f;
         m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
+        m_ObjectModelIdentification[i] = IGeometryInformation.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
         i++;
         m_ObjectXPositions[i] = 0;
         m_ObjectYPositions[i] = 0;
@@ -110,7 +110,7 @@ public class Geometry_Information_Stubs implements IGeometry_Information, Runnab
         m_ObjectXScalings[i] = 1.0f;
         m_ObjectYScalings[i] = 1.0f;
         m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
+        m_ObjectModelIdentification[i] = IGeometryInformation.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
         i++;
         m_ObjectXPositions[i] = 0;
         m_ObjectYPositions[i] = 0;
@@ -121,7 +121,7 @@ public class Geometry_Information_Stubs implements IGeometry_Information, Runnab
         m_ObjectXScalings[i] = 1.0f;
         m_ObjectYScalings[i] = 1.0f;
         m_ObjectZScalings[i] = 1.0f;
-        m_ObjectModelIdentification[i] = IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
+        m_ObjectModelIdentification[i] = IGeometryInformation.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
         i++;
     }
 

@@ -4,9 +4,9 @@ import android.util.Log;
 
 import java.util.Vector;
 
-import ggj2k15.bughole.bugholegraphicsengine.interfaces.IClient_Information;
+import ggj2k15.bughole.bugholegraphicsengine.interfaces.IClientInformation;
 
-public class Client_Information_Stubs implements IClient_Information, Runnable {
+public class ClientInformationStubs implements IClientInformation, Runnable {
 
     private Vector<Integer> m_UserActions = new Vector<Integer>(10);
     private int m_Score = 0;

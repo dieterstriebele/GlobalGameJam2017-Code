@@ -1,6 +1,6 @@
 package ggj2k15.bughole.bugholegraphicsengine.interfaces;
 
-public interface ICamera_Information {
+public interface ICameraInformation {
 
     public void GenerateCameraMatrix(float inEyeX, float inEyeY, float inEyeZ, float inCenterX, float inCenterY, float inCenterZ, int inViewportWidth, int inViewportHeight);
 

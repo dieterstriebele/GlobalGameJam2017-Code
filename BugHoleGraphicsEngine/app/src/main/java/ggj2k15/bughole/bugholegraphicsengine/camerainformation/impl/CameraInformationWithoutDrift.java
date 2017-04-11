@@ -12,7 +12,7 @@ import android.util.Log;
 import android.view.Surface;
 import android.view.WindowManager;
 
-import ggj2k15.bughole.bugholegraphicsengine.interfaces.ICamera_Information;
+import ggj2k15.bughole.bugholegraphicsengine.interfaces.ICameraInformation;
 
 import static android.util.FloatMath.cos;
 import static android.util.FloatMath.sin;
@@ -21,7 +21,7 @@ import static android.util.FloatMath.sqrt;
 /**
  * Created by vasco_000 on 31.01.2016.
  */
-public class Camera_Information_WithoutDrift implements ICamera_Information {
+public class CameraInformationWithoutDrift implements ICameraInformation {
     private SensorManager _sensorManager;
     private Context mContext;
 
@@ -43,7 +43,7 @@ public class Camera_Information_WithoutDrift implements ICamera_Information {
     private int m_WorldAxisForDeviceAxisX;
     private int m_WorldAxisForDeviceAxisY;
 
-    public Camera_Information_WithoutDrift(Context context) {
+    public CameraInformationWithoutDrift(Context context) {
 
         mContext = context;
 

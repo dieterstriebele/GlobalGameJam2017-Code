@@ -13,9 +13,9 @@ import android.view.WindowManager;
 
 import java.util.List;
 
-import ggj2k15.bughole.bugholegraphicsengine.interfaces.ICamera_Information;
+import ggj2k15.bughole.bugholegraphicsengine.interfaces.ICameraInformation;
 
-public class Camera_Information_Legacy implements ICamera_Information {
+public class CameraInformationLegacy implements ICameraInformation {
     private SensorManager _sensorManager;
     private Context mContext;
 
@@ -33,7 +33,7 @@ public class Camera_Information_Legacy implements ICamera_Information {
     private float[] m_ModelingMatrix3 = new float[16];
     private float[] m_TemporaryHelperMatrix = new float[16];
 
-    public Camera_Information_Legacy(Context context) {
+    public CameraInformationLegacy(Context context) {
         mContext = context;
         //Get the default sensor for the sensor type from the SenorManager
         _sensorManager = (SensorManager) mContext.getSystemService(Activity.SENSOR_SERVICE);

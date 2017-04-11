@@ -1,6 +1,6 @@
 package ggj2k15.bughole.bugholegraphicsengine.interfaces;
 
-public interface IClient_Information {
+public interface IClientInformation {
 
     public void SynchronizeState();
 

@@ -11,11 +11,11 @@ import android.os.SystemClock;
 import android.util.Log;
 
 import ggj2k15.bughole.bugholegraphicsengine.Settings;
-import ggj2k15.bughole.bugholegraphicsengine.interfaces.IGeometry_Information;
+import ggj2k15.bughole.bugholegraphicsengine.interfaces.IGeometryInformation;
 import ggj2k15.bughole.bugholegraphicsengine.util.BufferConvert;
 import ggj2k15.bughole.bugholegraphicsengine.util.ServiceLocateUDP;
 
-public class Geometry_Information_Network implements IGeometry_Information, Runnable {
+public class GeometryInformationNetwork implements IGeometryInformation, Runnable {
 
     private DataOutputStream out;
     private DataInputStream in;
@@ -49,7 +49,7 @@ public class Geometry_Information_Network implements IGeometry_Information, Runn
     private float[] m_ObjectZScalings_Backbuffer;
     private int[] m_ObjectModelIdentification_Backbuffer;
 
-    public Geometry_Information_Network() {
+    public GeometryInformationNetwork() {
         m_ObjectXPositions = new float[m_MaxNumberOfObjects];
         m_ObjectYPositions = new float[m_MaxNumberOfObjects];
         m_ObjectZPositions = new float[m_MaxNumberOfObjects];
@@ -207,7 +207,7 @@ public class Geometry_Information_Network implements IGeometry_Information, Runn
                     if (m_CurrentNumberOfObjects != 0) {
                         in.readFully(buf, 0, numberOfFloatsPerObject * sizeOfFloat * m_CurrentNumberOfObjects);
                         long endTime = SystemClock.elapsedRealtime();
-                        Log.d("Geometry_Information_Network", "readFully() took " + (endTime - startTime) + " ms");
+                        Log.d("GeometryInformationNetwork", "readFully() took " + (endTime - startTime) + " ms");
 
                         //m_CurrentNumberOfObjects = ConvertBytesAtBufferOffsetToInt(buf,0);
 

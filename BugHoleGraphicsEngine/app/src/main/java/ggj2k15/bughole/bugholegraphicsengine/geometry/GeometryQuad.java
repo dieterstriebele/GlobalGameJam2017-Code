@@ -2,11 +2,11 @@ package ggj2k15.bughole.bugholegraphicsengine.geometry;
 
 import android.util.Log;
 
-public class Geometry_Quad extends Geometry_Base {
+public class GeometryQuad extends GeometryBase {
 
-    public Geometry_Quad() {
+    public GeometryQuad() {
         super();
-        Log.d("Geometry_Quad.Geometry_Quad()", "Constructor called!");
+        Log.d("GeometryQuad.GeometryQuad()", "Constructor called!");
 
         m_VertexCount = 6;
 

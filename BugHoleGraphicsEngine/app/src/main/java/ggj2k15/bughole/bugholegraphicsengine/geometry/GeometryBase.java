@@ -11,9 +11,9 @@ import java.nio.FloatBuffer;
 
 import ggj2k15.bughole.bugholegraphicsengine.gles20.GLES20Helper;
 
-public class Geometry_Base {
+public class GeometryBase {
 
-    public Geometry_Base() {
+    public GeometryBase() {
         //Zzzz X-)
     }
 
@@ -22,11 +22,11 @@ public class Geometry_Base {
 
     protected void Initialise() {
         int floatSize = Float.SIZE >> 3;
-        Log.d("Geometry_Base.Initialise()", "Copy the vertices into the buffers ... m_VertexCount="+m_VertexCount);
+        Log.d("GeometryBase.Initialise()", "Copy the vertices into the buffers ... m_VertexCount="+m_VertexCount);
         FloatBuffer vertexDataBuffer = FloatBuffer.wrap(this.m_VerticesAttributes);
-        Log.d("Geometry_Base.Initialise()", "Generate the Vertex Buffers and get valid buffer IDs from OpenGL ...");
+        Log.d("GeometryBase.Initialise()", "Generate the Vertex Buffers and get valid buffer IDs from OpenGL ...");
         m_VertexAttributeVBO = GLES20Helper.generateGenericBufferID();
-        Log.d("Geometry_Base.Initialise()", "Load the VBO data into the driver ...");
+        Log.d("GeometryBase.Initialise()", "Load the VBO data into the driver ...");
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, this.m_VertexAttributeVBO);
         GLES20.glBufferData(
                 GLES20.GL_ARRAY_BUFFER,
@@ -36,12 +36,12 @@ public class Geometry_Base {
                 vertexDataBuffer,
                 GLES20.GL_STATIC_DRAW
         );
-        Log.d("Geometry_Base.Initialise()", "Unbinding the VBO ...");
+        Log.d("GeometryBase.Initialise()", "Unbinding the VBO ...");
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER,0);
     }
 
     protected void LoadVerticeAttributesFromInputStream(InputStream inInputStream) {
-        Log.d("Geometry_Base.LoadVerticeAttributesFromInputStream()", "Loading vertex attributes (positions, texture coordinates, normals) from input stream!");
+        Log.d("GeometryBase.LoadVerticeAttributesFromInputStream()", "Loading vertex attributes (positions, texture coordinates, normals) from input stream!");
         try {
             //http://developer.android.com/reference/java/io/DataInputStream.html
             DataInputStream obfInputStream = new DataInputStream(new BufferedInputStream(inInputStream));
@@ -51,7 +51,7 @@ public class Geometry_Base {
                 m_VerticesAttributes[i] = obfInputStream.readFloat();
             }
         } catch (IOException e) {
-            Log.e("Geometry_Sphere.Geometry_Sphere()", "Constructor failed!", e);
+            Log.e("GeometrySphere.GeometrySphere()", "Constructor failed!", e);
         }
     }
 

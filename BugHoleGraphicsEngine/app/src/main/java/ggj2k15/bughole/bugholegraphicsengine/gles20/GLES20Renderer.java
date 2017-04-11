@@ -1,4 +1,4 @@
-package ggj2k15.bughole.bugholegraphicsengine;
+package ggj2k15.bughole.bugholegraphicsengine.gles20;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;

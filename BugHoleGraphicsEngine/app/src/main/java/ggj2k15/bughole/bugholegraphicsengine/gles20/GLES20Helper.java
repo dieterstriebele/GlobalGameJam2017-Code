@@ -1,4 +1,4 @@
-package ggj2k15.bughole.bugholegraphicsengine;
+package ggj2k15.bughole.bugholegraphicsengine.gles20;
 
 import android.content.Context;
 import android.graphics.Bitmap;

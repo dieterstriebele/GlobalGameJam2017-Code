@@ -2,13 +2,13 @@ package ggj2k15.bughole.bugholegraphicsengine;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.opengl.GLSurfaceView;
 import android.view.Window;
+
+import ggj2k15.bughole.bugholegraphicsengine.gles20.GLES20Renderer;
 
 public class BugHoleGraphicsEngine extends Activity {
 

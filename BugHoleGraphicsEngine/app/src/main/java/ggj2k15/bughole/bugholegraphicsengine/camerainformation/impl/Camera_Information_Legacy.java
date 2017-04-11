@@ -1,4 +1,4 @@
-package ggj2k15.bughole.bugholegraphicsengine;
+package ggj2k15.bughole.bugholegraphicsengine.camerainformation.impl;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,6 +12,8 @@ import android.view.Surface;
 import android.view.WindowManager;
 
 import java.util.List;
+
+import ggj2k15.bughole.bugholegraphicsengine.interfaces.ICamera_Information;
 
 public class Camera_Information_Legacy implements ICamera_Information {
     private SensorManager _sensorManager;

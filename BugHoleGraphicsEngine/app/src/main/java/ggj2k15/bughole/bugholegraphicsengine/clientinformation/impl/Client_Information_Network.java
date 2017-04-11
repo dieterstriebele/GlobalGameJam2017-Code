@@ -1,19 +1,17 @@
-package ggj2k15.bughole.bugholegraphicsengine;
+package ggj2k15.bughole.bugholegraphicsengine.clientinformation.impl;
 
 import android.util.Log;
-import java.io.BufferedReader;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
 import java.util.Vector;
 
+import ggj2k15.bughole.bugholegraphicsengine.Settings;
+import ggj2k15.bughole.bugholegraphicsengine.interfaces.IClient_Information;
 import ggj2k15.bughole.bugholegraphicsengine.util.BufferConvert;
-import ggj2k15.bughole.bugholegraphicsengine.util.ServiceLocateSubnetScan;
 import ggj2k15.bughole.bugholegraphicsengine.util.ServiceLocateUDP;
 
 public class Client_Information_Network implements IClient_Information, Runnable {

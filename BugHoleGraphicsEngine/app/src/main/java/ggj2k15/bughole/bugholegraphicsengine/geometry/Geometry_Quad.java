@@ -1,4 +1,4 @@
-package ggj2k15.bughole.bugholegraphicsengine;
+package ggj2k15.bughole.bugholegraphicsengine.geometry;
 
 import android.util.Log;
 

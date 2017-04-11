@@ -1,4 +1,4 @@
-package ggj2k15.bughole.bugholegraphicsengine;
+package ggj2k15.bughole.bugholegraphicsengine.gles20;
 
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -9,12 +9,22 @@ import android.opengl.GLES20;
 import android.opengl.Matrix;
 import android.content.Context;
 import android.os.SystemClock;
-import android.os.Vibrator;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.graphics.Bitmap;
 
 import java.io.InputStream;
+
+import ggj2k15.bughole.bugholegraphicsengine.camerainformation.impl.Camera_Information_Touch;
+import ggj2k15.bughole.bugholegraphicsengine.clientinformation.impl.Client_Information_Stubs;
+import ggj2k15.bughole.bugholegraphicsengine.geometry.Geometry_Base;
+import ggj2k15.bughole.bugholegraphicsengine.geometryinformation.impl.Geometry_Information_Stubs;
+import ggj2k15.bughole.bugholegraphicsengine.geometry.Geometry_Quad;
+import ggj2k15.bughole.bugholegraphicsengine.geometry.Geometry_Sphere;
+import ggj2k15.bughole.bugholegraphicsengine.R;
+import ggj2k15.bughole.bugholegraphicsengine.interfaces.ICamera_Information;
+import ggj2k15.bughole.bugholegraphicsengine.interfaces.IClient_Information;
+import ggj2k15.bughole.bugholegraphicsengine.interfaces.IGeometry_Information;
 
 public class GLES20Content {
 

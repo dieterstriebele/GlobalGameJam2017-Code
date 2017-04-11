@@ -1,4 +1,4 @@
-package ggj2k15.bughole.bugholegraphicsengine;
+package ggj2k15.bughole.bugholegraphicsengine.camerainformation.impl;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,6 +11,8 @@ import android.opengl.Matrix;
 import android.util.Log;
 import android.view.Surface;
 import android.view.WindowManager;
+
+import ggj2k15.bughole.bugholegraphicsengine.interfaces.ICamera_Information;
 
 import static android.util.FloatMath.cos;
 import static android.util.FloatMath.sin;

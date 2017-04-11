@@ -1,4 +1,6 @@
-package ggj2k15.bughole.bugholegraphicsengine;
+package ggj2k15.bughole.bugholegraphicsengine.geometryinformation.impl;
+
+import ggj2k15.bughole.bugholegraphicsengine.interfaces.IGeometry_Information;
 
 public class Geometry_Information_Stubs implements IGeometry_Information, Runnable {
 

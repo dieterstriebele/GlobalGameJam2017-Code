@@ -1,8 +1,10 @@
-package ggj2k15.bughole.bugholegraphicsengine;
+package ggj2k15.bughole.bugholegraphicsengine.clientinformation.impl;
 
 import android.util.Log;
 
 import java.util.Vector;
+
+import ggj2k15.bughole.bugholegraphicsengine.interfaces.IClient_Information;
 
 public class Client_Information_Stubs implements IClient_Information, Runnable {
 

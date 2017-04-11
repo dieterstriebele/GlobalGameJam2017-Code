@@ -1,4 +1,4 @@
-package ggj2k15.bughole.bugholegraphicsengine;
+package ggj2k15.bughole.bugholegraphicsengine.geometryinformation.impl;
 
 import android.content.Context;
 import android.util.Log;
@@ -7,9 +7,9 @@ import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+
+import ggj2k15.bughole.bugholegraphicsengine.R;
+import ggj2k15.bughole.bugholegraphicsengine.interfaces.IGeometry_Information;
 
 public class Geometry_Information_Stubs_Path implements IGeometry_Information, Runnable {
 

@@ -1,21 +1,18 @@
-package ggj2k15.bughole.bugholegraphicsengine;
+package ggj2k15.bughole.bugholegraphicsengine.geometryinformation.impl;
 
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.StringTokenizer;
 
 import android.os.SystemClock;
 import android.util.Log;
 
+import ggj2k15.bughole.bugholegraphicsengine.Settings;
+import ggj2k15.bughole.bugholegraphicsengine.interfaces.IGeometry_Information;
 import ggj2k15.bughole.bugholegraphicsengine.util.BufferConvert;
-import ggj2k15.bughole.bugholegraphicsengine.util.ServiceLocateSubnetScan;
 import ggj2k15.bughole.bugholegraphicsengine.util.ServiceLocateUDP;
 
 public class Geometry_Information_Network implements IGeometry_Information, Runnable {

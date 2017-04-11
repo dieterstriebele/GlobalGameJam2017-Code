@@ -1,4 +1,4 @@
-package ggj2k15.bughole.bugholegraphicsengine;
+package ggj2k15.bughole.bugholegraphicsengine.geometry;
 
 import android.opengl.GLES20;
 import android.util.Log;
@@ -8,6 +8,8 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.FloatBuffer;
+
+import ggj2k15.bughole.bugholegraphicsengine.gles20.GLES20Helper;
 
 public class Geometry_Base {
 

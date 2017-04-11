@@ -116,6 +116,7 @@ public class GLES20Content {
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_BRAINMINE].Set_SpecularColorTextureID(tSpecularColorTextureId);
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_BRAINMINE].Set_AmbientOcclusionTextureID(tAmbientOcclusionTextureId);
 
+            /*
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_VIRUSMINE] = new Geometry_Sphere(m_Context.getResources().openRawResource(R.raw.virusmine));
             tShaderProgramID_Geometry = GLES20Helper.createShader(R.raw.normalmapping_geometry_vertexshader, R.raw.normalmapping_geometry_fragmentshader, m_Context);
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_VIRUSMINE].Set_ShaderID(tShaderProgramID_Geometry); //implicitly binds on the standard attribute locations for position, texture coords and modelviewprojection matrix
@@ -143,8 +144,8 @@ public class GLES20Content {
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_MATRIXMINE].Set_SpecularIntensityTextureID(tSpecularIntensityTextureId);
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_MATRIXMINE].Set_SpecularColorTextureID(tSpecularColorTextureId);
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_MATRIXMINE].Set_AmbientOcclusionTextureID(tAmbientOcclusionTextureId);
+            */
 
-            /*
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE] = new Geometry_Sphere(m_Context.getResources().openRawResource(R.raw.intestines));
             tShaderProgramID_Geometry = GLES20Helper.createShader(R.raw.normalmapping_geometry_vertexshader, R.raw.normalmapping_geometry_fragmentshader, m_Context);
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_ShaderID(tShaderProgramID_Geometry); //implicitly binds on the standard attribute locations for position, texture coords and modelviewprojection matrix
@@ -158,22 +159,8 @@ public class GLES20Content {
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_SpecularIntensityTextureID(tSpecularIntensityTextureId);
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_SpecularColorTextureID(tSpecularColorTextureId);
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_AmbientOcclusionTextureID(tAmbientOcclusionTextureId);
-            */
 
-            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE] = new Geometry_Sphere(m_Context.getResources().openRawResource(R.raw.intestines_path));
-            tShaderProgramID_Geometry = GLES20Helper.createShader(R.raw.normalmapping_geometry_vertexshader, R.raw.normalmapping_geometry_fragmentshader, m_Context);
-            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_ShaderID(tShaderProgramID_Geometry); //implicitly binds on the standard attribute locations for position, texture coords and modelviewprojection matrix
-            tDiffuseTextureId = GLES20Helper.loadBitmapResourceAndCreateTextureID(R.raw.uvgrid_blender, this.m_Context);
-            tNormalTextureId = GLES20Helper.loadBitmapResourceAndCreateTextureID(R.raw.intestinesnormalmap, this.m_Context);
-            tSpecularIntensityTextureId = GLES20Helper.loadBitmapResourceAndCreateTextureID(R.raw.intestinesspecularintensitymap, this.m_Context);
-            tSpecularColorTextureId = GLES20Helper.loadBitmapResourceAndCreateTextureID(R.raw.intestinesspecularcolormap, this.m_Context);
-            tAmbientOcclusionTextureId = GLES20Helper.loadBitmapResourceAndCreateTextureID(R.raw.intestinesambientocclusionmap, this.m_Context);
-            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_DiffuseTextureID(tDiffuseTextureId);
-            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_NormalTextureID(tNormalTextureId);
-            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_SpecularIntensityTextureID(tSpecularIntensityTextureId);
-            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_SpecularColorTextureID(tSpecularColorTextureId);
-            m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE].Set_AmbientOcclusionTextureID(tAmbientOcclusionTextureId);
-
+            /*
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_METABALL] = new Geometry_Sphere(m_Context.getResources().openRawResource(R.raw.metaball_intestines_object));
             tShaderProgramID_Geometry = GLES20Helper.createShader(R.raw.normalmapping_geometry_vertexshader, R.raw.normalmapping_geometry_fragmentshader, m_Context);
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_METABALL].Set_ShaderID(tShaderProgramID_Geometry); //implicitly binds on the standard attribute locations for position, texture coords and modelviewprojection matrix
@@ -187,6 +174,7 @@ public class GLES20Content {
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_METABALL].Set_SpecularIntensityTextureID(tSpecularIntensityTextureId);
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_METABALL].Set_SpecularColorTextureID(tSpecularColorTextureId);
             m_Geometries[IGeometry_Information.cOBJECTMODELIDENTIFICATION_INTESTINES_METABALL].Set_AmbientOcclusionTextureID(tAmbientOcclusionTextureId);
+            */
 
         } else {
             //use optimized textures - composed channels to reduce texture unit load
@@ -263,10 +251,10 @@ public class GLES20Content {
 //      m_GeometryQuad_FBO_MainScene.Set_GenericTexture1TextureID(m_FBO_MainSceneBlurred_ColorAttachment_TextureID);
 
         //TODO: exchange for networking/device sensory test
-        //m_GeometryInformation = new Geometry_Information_Stubs();
+        m_GeometryInformation = new Geometry_Information_Stubs();
         //m_GeometryInformation = new Geometry_Information_Network();
         //m_GeometryInformation = new Geometry_Information_Stubs_Path(m_Context.getResources().openRawResource(R.raw.brainmine_path));
-        m_GeometryInformation = new Geometry_Information_Stubs_Path(m_Context);
+        //m_GeometryInformation = new Geometry_Information_Stubs_Path(m_Context);
         //m_CameraInformation = new Camera_Information_Stubs();
         //m_CameraInformation = new Camera_Information_Device(m_Context);
         //m_CameraInformation = new Camera_Information_Legacy(m_Context);

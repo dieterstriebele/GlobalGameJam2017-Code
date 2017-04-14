@@ -21,6 +21,7 @@ public class GeometryInformationFireDev implements IGeometryInformation, Runnabl
     private float[] m_ObjectZScalings;
     private int[] m_ObjectModelIdentification;
     private float m_Time;
+    private float m_TimeInterval = 0.02f;
     private float m_IntestineScrollingOffset;
 
     public GeometryInformationFireDev() {
@@ -37,7 +38,7 @@ public class GeometryInformationFireDev implements IGeometryInformation, Runnabl
     }
 
     public void SynchronizeState() {
-        m_Time += 0.01f;
+        m_Time += m_TimeInterval;
 
         int num_scene_objects = 0;
         num_scene_objects = MakeBrainMines(num_scene_objects);
@@ -55,21 +56,11 @@ public class GeometryInformationFireDev implements IGeometryInformation, Runnabl
         //generates a waving object pattern
         float obj_distance = 0.4f;
 
-        float y_start = 0.0f - (float)Math.floor((float)m_NumBrainMinesY / 2) * obj_distance;
+        float y_start = 0.0f - (float)Math.floor((float)m_NumBrainMinesY / 2) * obj_distance + (((m_NumBrainMinesY+1) % 2) * (obj_distance / 2));
         float y_end = (float)Math.floor((float)m_NumBrainMinesY / 2) * obj_distance;
 
-        if(m_NumBrainMinesY % 2 == 0)
-        {
-            y_start += obj_distance / 2;
-        }
-
-        float x_start = 0.0f - (float)Math.floor((float)m_NumBrainMinesX / 2) * obj_distance;
+        float x_start = 0.0f - (float)Math.floor((float)m_NumBrainMinesX / 2) * obj_distance + (((m_NumBrainMinesX+1) % 2) * (obj_distance / 2));
         float x_end = (float)Math.floor((float)m_NumBrainMinesX / 2) * obj_distance;
-
-        if(m_NumBrainMinesX % 2 == 0)
-        {
-            x_start += obj_distance / 2;
-        }
 
         for (float y = y_start; y <= y_end; y += obj_distance)
         {

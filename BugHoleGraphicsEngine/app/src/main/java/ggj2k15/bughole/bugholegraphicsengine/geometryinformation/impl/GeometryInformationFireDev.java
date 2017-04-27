@@ -7,7 +7,7 @@ public class GeometryInformationFireDev implements IGeometryInformation, Runnabl
 
     private int m_NumBrainMinesX = 1;
     private int m_NumBrainMinesY = 1;
-    private int m_NumTunnelSegments = 6;
+    private int m_NumTunnelSegments = 12;
 
     private int m_NumberOfObjects = (m_NumBrainMinesX * m_NumBrainMinesY) + m_NumTunnelSegments;
     private float[] m_ObjectXPositions;
@@ -87,12 +87,14 @@ public class GeometryInformationFireDev implements IGeometryInformation, Runnabl
     private int MakeTunnelSegments(int i_offset) {
         int object_index = i_offset;
 
+        float scroll_offset = 8.0f;
+
         //generate data for the tunnel segments
-        m_IntestineScrollingOffset %= 8.0f;
+        m_IntestineScrollingOffset %= scroll_offset;
         m_IntestineScrollingOffset -= 0.025f;
 
-        float z_offset = 24.0f;
-        float z_offset_decrement = 8.0f;
+        float z_offset = m_NumTunnelSegments / 2 * scroll_offset;
+        float z_offset_decrement = scroll_offset;
 
         for(int i = 0; i < m_NumTunnelSegments; i++)
         {

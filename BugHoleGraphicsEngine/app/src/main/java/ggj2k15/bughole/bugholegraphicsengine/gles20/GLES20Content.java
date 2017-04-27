@@ -12,17 +12,13 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.graphics.Bitmap;
-
 import java.io.InputStream;
-
+import ggj2k15.bughole.bugholegraphicsengine.BugHoleGameController;
 import ggj2k15.bughole.bugholegraphicsengine.camerainformation.impl.CameraInformationTouch;
-import ggj2k15.bughole.bugholegraphicsengine.clientinformation.impl.ClientInformationStubs;
 import ggj2k15.bughole.bugholegraphicsengine.geometry.GeometryBase;
 import ggj2k15.bughole.bugholegraphicsengine.geometry.GeometryQuad;
 import ggj2k15.bughole.bugholegraphicsengine.geometry.GeometrySphere;
-import ggj2k15.bughole.bugholegraphicsengine.geometryinformation.impl.GeometryInformationStubs;
 import ggj2k15.bughole.bugholegraphicsengine.R;
-import ggj2k15.bughole.bugholegraphicsengine.interfaces.ICameraInformation;
 import ggj2k15.bughole.bugholegraphicsengine.interfaces.IClientInformation;
 import ggj2k15.bughole.bugholegraphicsengine.interfaces.IGeometryInformation;
 
@@ -30,6 +26,8 @@ public class GLES20Content {
 
     //rendering context
     private Context m_Context;
+
+    private BugHoleGameController m_gameController;
 
     private int m_NumberOfGeometries = 3;
 
@@ -70,18 +68,15 @@ public class GLES20Content {
     private float m_FBO_BlurredMainscene_NativeResolutionFactor = 0.125f;
     private GeometryBase m_GeometryQuad_FBO_BlurredMainScene;
 
-    private IGeometryInformation m_GeometryInformation;
-    private ICameraInformation m_CameraInformation;
-    private IClientInformation m_ClientInformation;
-
     //DEBUG SETTINGS
     private static final boolean DEBUG_NOFBO_DIRECTRENDERING = false;
     private static final boolean DEBUG_NOTEXTUREOPTIMIZATION = true;
 
-    public GLES20Content(Context a_Context) {
+    public GLES20Content(Context a_Context, BugHoleGameController controller) {
         super();
         Log.d("GLES20Content.GLES20Content()", "Constructor called!");
         this.m_Context = a_Context;
+        m_gameController = controller;
     }
 
     public void Initialize(int a_Width, int a_Height) {
@@ -260,25 +255,11 @@ public class GLES20Content {
 //!!!needs second texture uniform for the blurred mainscene
 //      m_GeometryQuad_FBO_MainScene.Set_GenericTexture1TextureID(m_FBO_MainSceneBlurred_ColorAttachment_TextureID);
 
-        //TODO: exchange for networking/device sensory test
-        m_GeometryInformation = new GeometryInformationStubs();
-        //m_GeometryInformation = new GeometryInformationNetwork();
-        //m_GeometryInformation = new GeometryInformationStubsPath(m_Context.getResources().openRawResource(R.raw.brainmine_path));
-        //m_GeometryInformation = new GeometryInformationStubsPath(m_Context);
-        //m_CameraInformation = new CameraInformationStubs();
-        //m_CameraInformation = new CameraInformationDevice(m_Context);
-        //m_CameraInformation = new CameraInformationLegacy(m_Context);
-        //m_CameraInformation = new CameraInformationWithoutDrift(m_Context);
-        m_CameraInformation = new CameraInformationTouch();
-
-        m_ClientInformation = new ClientInformationStubs();
-        //m_ClientInformation = new ClientInformationNetwork();
-
-        Thread serverGeometryThread = new Thread((Runnable)m_GeometryInformation);
+        Thread serverGeometryThread = new Thread((Runnable)m_gameController.GetGeometryInformation());
         serverGeometryThread.setPriority(Thread.MAX_PRIORITY);
         serverGeometryThread.start();
 
-        Thread serverClientThread = new Thread((Runnable)m_ClientInformation);
+        Thread serverClientThread = new Thread((Runnable)m_gameController.GetClientInformation());
         serverClientThread.setPriority(Thread.MAX_PRIORITY);
         serverClientThread.start();
 
@@ -292,7 +273,7 @@ public class GLES20Content {
     public void render() {
         //this will be called every frame to synchronize the object state
         long startTime = SystemClock.elapsedRealtime();
-        m_GeometryInformation.SynchronizeState();
+        m_gameController.GetGeometryInformation().SynchronizeState();
         long endTime = SystemClock.elapsedRealtime();
 
         //render hud font texture ...
@@ -306,8 +287,8 @@ public class GLES20Content {
         //tPaint.setFakeBoldText(true);
         tPaint.setTextSize(32);
         m_HUDFontCanvas.scale(1f, -1.0f);
-        m_HUDFontCanvas.drawText("SCORE:" + m_ClientInformation.GetUserScore(), 50, -m_FBO_MainScene_HUD_Height + 95, tPaint);
-        m_HUDFontCanvas.drawText("HITPOINTS:" + m_ClientInformation.GetUserHitpoints(), 50, -70, tPaint);
+        m_HUDFontCanvas.drawText("SCORE:" + m_gameController.GetClientInformation().GetUserScore(), 50, -m_FBO_MainScene_HUD_Height + 95, tPaint);
+        m_HUDFontCanvas.drawText("HITPOINTS:" + m_gameController.GetClientInformation().GetUserHitpoints(), 50, -70, tPaint);
         int tHUDTextureID = GLES20Helper.copyBitmapAndCreateTextureID(m_HUDFontBitmap, m_Context);
         m_GeometryQuad_FBO_MainScene.Set_GenericTexture2TextureID(tHUDTextureID);
 
@@ -320,8 +301,8 @@ public class GLES20Content {
         }
 
         //--- SCENE RENDERING BEGINNING ------------------------------------------------------------
-        m_CameraInformation.Update();
-        m_CameraInformation.GenerateCameraMatrix(
+        m_gameController.GetCameraInformation().Update();
+        m_gameController.GetCameraInformation().GenerateCameraMatrix(
                 //float eyeY, float eyeZ
                 0, 0, 0,
                 //float centerX, float centerY, float centerZ
@@ -337,9 +318,9 @@ public class GLES20Content {
         int tLastObjectModelIdentification = -1;
         boolean tSkipUnbinding = true;
 
-        if (m_GeometryInformation.GetNumberOfObjects() > 0) {
-            for (int i = 0; i < m_GeometryInformation.GetNumberOfObjects(); i++) {
-                int tCurrentObjectModelIdentification = m_GeometryInformation.GetObjectModelIdentification(i);
+        if (m_gameController.GetGeometryInformation().GetNumberOfObjects() > 0) {
+            for (int i = 0; i < m_gameController.GetGeometryInformation().GetNumberOfObjects(); i++) {
+                int tCurrentObjectModelIdentification = m_gameController.GetGeometryInformation().GetObjectModelIdentification(i);
                 //test for model/shader change and eventually bind new - or skip and safe rebinding and increase performance
                 if (tLastObjectModelIdentification != tCurrentObjectModelIdentification) {
                     if (!tSkipUnbinding) {
@@ -349,25 +330,25 @@ public class GLES20Content {
                     m_Geometries[tCurrentObjectModelIdentification].UseShaderAndBindVBO();
                     tLastObjectModelIdentification = tCurrentObjectModelIdentification;
                 }
-                GLES20.glUniformMatrix4fv(m_Geometries[tCurrentObjectModelIdentification].Get_ModelViewProjection_ID(), 1, false, m_CameraInformation.GetModelViewProjectionMatrix(), 0);
-                GLES20.glUniformMatrix4fv(m_Geometries[tCurrentObjectModelIdentification].Get_ModelView_ID(), 1, false, m_CameraInformation.GetModelViewMatrix(), 0);
+                GLES20.glUniformMatrix4fv(m_Geometries[tCurrentObjectModelIdentification].Get_ModelViewProjection_ID(), 1, false, m_gameController.GetCameraInformation().GetModelViewProjectionMatrix(), 0);
+                GLES20.glUniformMatrix4fv(m_Geometries[tCurrentObjectModelIdentification].Get_ModelView_ID(), 1, false, m_gameController.GetCameraInformation().GetModelViewMatrix(), 0);
                 GLES20.glUniform3f(
                         m_Geometries[tCurrentObjectModelIdentification].Get_ObjectPosition_ID(),
-                        m_GeometryInformation.GetObjectXPosition(i),
-                        m_GeometryInformation.GetObjectYPosition(i),
-                        m_GeometryInformation.GetObjectZPosition(i)
+                        m_gameController.GetGeometryInformation().GetObjectXPosition(i),
+                        m_gameController.GetGeometryInformation().GetObjectYPosition(i),
+                        m_gameController.GetGeometryInformation().GetObjectZPosition(i)
                 );
                 GLES20.glUniform3f(
                         m_Geometries[tCurrentObjectModelIdentification].Get_ObjectRotation_ID(),
-                        m_GeometryInformation.GetObjectXRotation(i),
-                        m_GeometryInformation.GetObjectYRotation(i),
-                        m_GeometryInformation.GetObjectZRotation(i)
+                        m_gameController.GetGeometryInformation().GetObjectXRotation(i),
+                        m_gameController.GetGeometryInformation().GetObjectYRotation(i),
+                        m_gameController.GetGeometryInformation().GetObjectZRotation(i)
                 );
                 GLES20.glUniform3f(
                         m_Geometries[tCurrentObjectModelIdentification].Get_ObjectScaling_ID(),
-                        m_GeometryInformation.GetObjectXScaling(i),
-                        m_GeometryInformation.GetObjectYScaling(i),
-                        m_GeometryInformation.GetObjectZScaling(i)
+                        m_gameController.GetGeometryInformation().GetObjectXScaling(i),
+                        m_gameController.GetGeometryInformation().GetObjectYScaling(i),
+                        m_gameController.GetGeometryInformation().GetObjectZScaling(i)
                 );
 
                 if (DEBUG_NOTEXTUREOPTIMIZATION) {
@@ -419,52 +400,6 @@ public class GLES20Content {
         GLES20Helper.deleteTextureID(tHUDTextureID);
 
         //Log.d("GLES20Content.render()", "SynchronizeState() took "+(endTime-startTime)+" ms");
-        m_GeometryInformation.SwapState();
-    }
-
-    private final float TOUCH_SCALE_FACTOR = 0.15f;
-    private float mPreviousX;
-    private float mPreviousY;
-    private float m_RotateX = 0.0f;
-    private float m_RotateY = 360.0f;
-    private float m_RotateZ = 0.0f;
-
-    public void onTouch(MotionEvent event) {
-
-        //check if events for mouse based camera need to be processed
-        if (m_CameraInformation instanceof CameraInformationTouch) {
-            CameraInformationTouch tCameraInformationTouch = (CameraInformationTouch) m_CameraInformation;
-            float x = event.getX();
-            float y = event.getY();
-            if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                float dx = x - mPreviousX;
-                float dy = y - mPreviousY;
-                m_RotateX = m_RotateX - (dy * TOUCH_SCALE_FACTOR);
-                m_RotateY = m_RotateY + (dx * TOUCH_SCALE_FACTOR);
-                tCameraInformationTouch.SetRotationX(m_RotateX);
-                tCameraInformationTouch.SetRotationY(m_RotateY);
-                tCameraInformationTouch.SetRotationZ(m_RotateZ);
-            }
-            mPreviousX = x;
-            mPreviousY = y;
-        }
-
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            m_ClientInformation.AddUserAction(IClientInformation.cACTIONIDENTIFICATION_FIRE);
-            m_ClientInformation.SetCameraDirectionVector(m_CameraInformation.GetCameraDirectionVector());
-            m_ClientInformation.SynchronizeState();
-
-            // Most annoying feature ever!
-            // POC Vibration! Uh Ah! TODO: Vibrate on collision.
-            //Vibrator v = (Vibrator) m_Context.getSystemService(Context.VIBRATOR_SERVICE);
-
-            // Vibrate for 500 milliseconds
-            //v.vibrate(500);
-            // Start without a delay
-            // Vibrate for 100 milliseconds
-            // Each element then alternates between vibrate, sleep, vibrate, sleep...
-            //long[] pattern = {0, 200, 100, 150, 250, 300, 200, 10, 300};
-            //v.vibrate(pattern, -1);
-        }
+        m_gameController.GetGeometryInformation().SwapState();
     }
 }

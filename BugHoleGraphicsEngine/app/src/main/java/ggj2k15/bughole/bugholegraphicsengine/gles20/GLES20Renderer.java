@@ -8,13 +8,15 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class GLES20Renderer implements GLSurfaceView.Renderer, View.OnTouchListener {
+import ggj2k15.bughole.bugholegraphicsengine.BugHoleGameController;
+
+public class GLES20Renderer implements GLSurfaceView.Renderer{
 
     private GLES20Content mGLES20Content;
 
-    public GLES20Renderer(Context context) {
+    public GLES20Renderer(Context context, BugHoleGameController controller) {
         Log.d("GLES20Renderer.GLES20Renderer()", "Constructor called!");
-        mGLES20Content = new GLES20Content(context);
+        mGLES20Content = new GLES20Content(context, controller);
     }
 
     @Override
@@ -32,13 +34,6 @@ public class GLES20Renderer implements GLSurfaceView.Renderer, View.OnTouchListe
     @Override
     public void onSurfaceCreated(GL10 a_glUnused, EGLConfig a_EGLConfig) {
         Log.d("GLES20Renderer.onSurfaceCreated()", "a_glUnused=" + a_glUnused + " a_EGLConfig=" + a_EGLConfig);
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        mGLES20Content.onTouch(event);
-        //we useup all events X-)
-        return true;
     }
 }
 

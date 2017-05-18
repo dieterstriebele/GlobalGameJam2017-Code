@@ -8,6 +8,7 @@ import ggj2k15.bughole.bugholegraphicsengine.camerainformation.impl.CameraInform
 import ggj2k15.bughole.bugholegraphicsengine.camerainformation.impl.CameraInformationStubs;
 import ggj2k15.bughole.bugholegraphicsengine.camerainformation.impl.CameraInformationTouch;
 import ggj2k15.bughole.bugholegraphicsengine.camerainformation.impl.CameraInformationWithoutDrift;
+import ggj2k15.bughole.bugholegraphicsengine.clientinformation.impl.ClientInformationFireDev;
 import ggj2k15.bughole.bugholegraphicsengine.clientinformation.impl.ClientInformationNetwork;
 import ggj2k15.bughole.bugholegraphicsengine.clientinformation.impl.ClientInformationStubs;
 import ggj2k15.bughole.bugholegraphicsengine.geometryinformation.impl.GeometryInformationFireDev;
@@ -38,7 +39,8 @@ public class BugHoleGameController implements View.OnTouchListener {
     public BugHoleGameController()
     {
         //TODO: exchange for networking/device sensory test
-        m_GeometryInformation = new GeometryInformationFireDev();
+        GeometryInformationFireDev geoFireDev = new GeometryInformationFireDev();
+
         //m_GeometryInformation = new GeometryInformationStubs();
         //m_GeometryInformation = new GeometryInformationNetwork();
         //m_GeometryInformation = new GeometryInformationStubsPath(m_Context.getResources().openRawResource(R.raw.brainmine_path));
@@ -50,8 +52,15 @@ public class BugHoleGameController implements View.OnTouchListener {
         //m_CameraInformation = new CameraInformationWithoutDrift(m_Context);
         m_CameraInformation = new CameraInformationTouch();
 
-        m_ClientInformation = new ClientInformationStubs();
+        //m_ClientInformation = new ClientInformationStubs();
         //m_ClientInformation = new ClientInformationNetwork();
+        ClientInformationFireDev clientFireDev = new ClientInformationFireDev();
+
+        geoFireDev.RegisterClientInformation(clientFireDev);
+        clientFireDev.RegisterGeometryInformation(geoFireDev);
+
+        m_ClientInformation = clientFireDev;
+        m_GeometryInformation = geoFireDev;
     }
 
     public IGeometryInformation GetGeometryInformation()

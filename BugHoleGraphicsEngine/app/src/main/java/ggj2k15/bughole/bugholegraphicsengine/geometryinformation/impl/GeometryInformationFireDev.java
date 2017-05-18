@@ -1,9 +1,12 @@
 package ggj2k15.bughole.bugholegraphicsengine.geometryinformation.impl;
 
 import ggj2k15.bughole.bugholegraphicsengine.BuildConfig;
+import ggj2k15.bughole.bugholegraphicsengine.clientinformation.impl.ClientInformationFireDev;
 import ggj2k15.bughole.bugholegraphicsengine.interfaces.IGeometryInformation;
 
 public class GeometryInformationFireDev implements IGeometryInformation, Runnable {
+
+    private ClientInformationFireDev m_clientInformationFireDev;
 
     private int m_NumBrainMinesX = 1;
     private int m_NumBrainMinesY = 1;
@@ -152,5 +155,10 @@ public class GeometryInformationFireDev implements IGeometryInformation, Runnabl
 
     public void run() {
         //Zzz ...
+    }
+
+    public void RegisterClientInformation(ClientInformationFireDev clientInformationFireDev)
+    {
+        m_clientInformationFireDev = clientInformationFireDev;
     }
 }

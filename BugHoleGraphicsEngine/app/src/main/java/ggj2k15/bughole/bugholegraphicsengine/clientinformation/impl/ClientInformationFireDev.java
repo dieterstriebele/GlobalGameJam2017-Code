@@ -13,7 +13,7 @@ import ggj2k15.bughole.bugholegraphicsengine.interfaces.IClientInformation;
 
 public class ClientInformationFireDev implements IClientInformation, Runnable {
 
-    private GeometryInformationFireDev m_fireDev;
+    private GeometryInformationFireDev m_geoInfoFireDev;
 
     private Vector<Integer> m_UserActions = new Vector<Integer>(10);
     private int m_Score = 0;
@@ -22,9 +22,18 @@ public class ClientInformationFireDev implements IClientInformation, Runnable {
     public void SynchronizeState() {
         Info("SynchronizeState()");
 
-        //do something here
-        m_Score++;
-        m_HitPoints--;
+        for(Integer userAction : m_UserActions)
+        {
+            if(userAction == IClientInformation.cACTIONIDENTIFICATION_FIRE)
+            {
+                //todo: replace with actual firing logic
+                if(m_geoInfoFireDev.FireAt(m_ViewDirection) >= 0)
+                {
+                    m_Score++;
+                    m_HitPoints--;
+                }
+            }
+        }
 
         m_UserActions.removeAllElements();
     }
@@ -79,9 +88,9 @@ public class ClientInformationFireDev implements IClientInformation, Runnable {
         Log.d("[Client]", message);
     }
 
-    public void RegisterGeometryInformation(GeometryInformationFireDev fireDev)
+    public void RegisterGeometryInformation(GeometryInformationFireDev geoInfoFireDev)
     {
-        m_fireDev = fireDev;
+        m_geoInfoFireDev = geoInfoFireDev;
     }
 
 }

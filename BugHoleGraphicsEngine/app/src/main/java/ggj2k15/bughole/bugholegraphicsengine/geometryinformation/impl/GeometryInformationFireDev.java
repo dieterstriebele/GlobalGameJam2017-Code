@@ -161,4 +161,16 @@ public class GeometryInformationFireDev implements IGeometryInformation, Runnabl
     {
         m_clientInformationFireDev = clientInformationFireDev;
     }
+
+    //todo: returns index of the object that was hit by the shot, otherwise returns -1
+    //returns index of the object that was hit by the shot, otherwise returns -1
+    public int FireAt(float[] cameraDirection)
+    {
+        return -1;
+    }
+
+    //todo: remove object from arrays
+    public void DestroyObject(int objectIndex)
+    {
+    }
 }

@@ -1,5 +1,8 @@
 package ggj2k15.bughole.bugholegraphicsengine.geometryinformation.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import ggj2k15.bughole.bugholegraphicsengine.BuildConfig;
 import ggj2k15.bughole.bugholegraphicsengine.clientinformation.impl.ClientInformationFireDev;
 import ggj2k15.bughole.bugholegraphicsengine.interfaces.IGeometryInformation;
@@ -8,39 +11,29 @@ public class GeometryInformationFireDev implements IGeometryInformation, Runnabl
 
     private ClientInformationFireDev m_clientInformationFireDev;
 
-    private int m_NumBrainMinesX = 1;
+    private int m_NumBrainMinesX = 3;
     private int m_NumBrainMinesY = 1;
+    private int m_NumBrainMinesTotal = m_NumBrainMinesX * m_NumBrainMinesY;
     private int m_NumTunnelSegments = 12;
+    private int m_NumberOfObjects = m_NumBrainMinesTotal + m_NumTunnelSegments;
+    private ArrayList<GeometryInformationFireDevObject> m_objects;
 
-    private int m_NumberOfObjects = (m_NumBrainMinesX * m_NumBrainMinesY) + m_NumTunnelSegments;
-    private float[] m_ObjectXPositions;
-    private float[] m_ObjectYPositions;
-    private float[] m_ObjectZPositions;
-    private float[] m_ObjectXRotations;
-    private float[] m_ObjectYRotations;
-    private float[] m_ObjectZRotations;
-    private float[] m_ObjectXScalings;
-    private float[] m_ObjectYScalings;
-    private float[] m_ObjectZScalings;
-    private int[] m_ObjectModelIdentification;
     private float m_Time;
     private float m_TimeInterval = 0.02f;
     private float m_IntestineScrollingOffset;
 
-    public GeometryInformationFireDev() {
-        m_ObjectXPositions = new float[m_NumberOfObjects];
-        m_ObjectYPositions = new float[m_NumberOfObjects];
-        m_ObjectZPositions = new float[m_NumberOfObjects];
-        m_ObjectXRotations = new float[m_NumberOfObjects];
-        m_ObjectYRotations = new float[m_NumberOfObjects];
-        m_ObjectZRotations = new float[m_NumberOfObjects];
-        m_ObjectXScalings = new float[m_NumberOfObjects];
-        m_ObjectYScalings = new float[m_NumberOfObjects];
-        m_ObjectZScalings = new float[m_NumberOfObjects];
-        m_ObjectModelIdentification = new int[m_NumberOfObjects];
+    public GeometryInformationFireDev()
+    {
+        //setup initial scene configuration, m_objects will be altered dynamically later
+        m_objects = new ArrayList<>(m_NumberOfObjects);
+        for(int i=0; i<m_NumberOfObjects; i++)
+        {
+            m_objects.add(new GeometryInformationFireDevObject());
+        }
     }
 
-    public void SynchronizeState() {
+    public void SynchronizeState()
+    {
         m_Time += m_TimeInterval;
 
         int num_scene_objects = 0;
@@ -53,7 +46,8 @@ public class GeometryInformationFireDev implements IGeometryInformation, Runnabl
         }
     }
 
-    private int MakeBrainMines(int i_offset) {
+    private int MakeBrainMines(int i_offset)
+    {
         int object_index = i_offset;
 
         //generates a waving object pattern
@@ -69,16 +63,16 @@ public class GeometryInformationFireDev implements IGeometryInformation, Runnabl
         {
             for (float x = x_start; x <= x_end; x += obj_distance)
             {
-                m_ObjectXPositions[object_index] = x;
-                m_ObjectYPositions[object_index] = y;
-                m_ObjectZPositions[object_index] = (float)Math.sin(((x + y) * 1.0) * 0.4 + m_Time * 0.5) * 20.0f;
-                m_ObjectXRotations[object_index] = (m_Time + ((x + y) * 1.05f)) * 0.1f;
-                m_ObjectYRotations[object_index] = m_Time * 0.2f;
-                m_ObjectZRotations[object_index] = m_Time * 0.3f;
-                m_ObjectXScalings[object_index] = 0.2f;
-                m_ObjectYScalings[object_index] = 0.2f;
-                m_ObjectZScalings[object_index] = 0.2f;
-                m_ObjectModelIdentification[object_index] = IGeometryInformation.cOBJECTMODELIDENTIFICATION_BRAINMINE;
+                m_objects.get(object_index).pos[0]   = x;
+                m_objects.get(object_index).pos[1]   = y;
+                m_objects.get(object_index).pos[2]   = (float)Math.sin(((x + y) * 1.0) * 0.4 + m_Time * 0.5) * 20.0f;
+                m_objects.get(object_index).rot[0]   = (m_Time + ((x + y) * 1.05f)) * 0.1f;
+                m_objects.get(object_index).rot[1]   = m_Time * 0.2f;
+                m_objects.get(object_index).rot[2]   = m_Time * 0.3f;
+                m_objects.get(object_index).scale[0] = 0.2f;
+                m_objects.get(object_index).scale[1] = 0.2f;
+                m_objects.get(object_index).scale[2] = 0.2f;
+                m_objects.get(object_index).modelTypeIdentifier = IGeometryInformation.cOBJECTMODELIDENTIFICATION_BRAINMINE;
 
                 object_index++;
             }
@@ -87,7 +81,8 @@ public class GeometryInformationFireDev implements IGeometryInformation, Runnabl
         return object_index;
     }
 
-    private int MakeTunnelSegments(int i_offset) {
+    private int MakeTunnelSegments(int i_offset)
+    {
         int object_index = i_offset;
 
         float scroll_offset = 8.0f;
@@ -101,16 +96,16 @@ public class GeometryInformationFireDev implements IGeometryInformation, Runnabl
 
         for(int i = 0; i < m_NumTunnelSegments; i++)
         {
-            m_ObjectXPositions[object_index] = 0;
-            m_ObjectYPositions[object_index] = 0;
-            m_ObjectZPositions[object_index] = z_offset + m_IntestineScrollingOffset;
-            m_ObjectXRotations[object_index] = 0;
-            m_ObjectYRotations[object_index] = 1.570796f;
-            m_ObjectZRotations[object_index] = 0;
-            m_ObjectXScalings[object_index] = 1.0f;
-            m_ObjectYScalings[object_index] = 1.0f;
-            m_ObjectZScalings[object_index] = 1.0f;
-            m_ObjectModelIdentification[object_index] = IGeometryInformation.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
+            m_objects.get(object_index).pos[0]   = 0;
+            m_objects.get(object_index).pos[1]   = 0;
+            m_objects.get(object_index).pos[2]   = z_offset + m_IntestineScrollingOffset;
+            m_objects.get(object_index).rot[0]   = 0;
+            m_objects.get(object_index).rot[1]   = 1.570796f;
+            m_objects.get(object_index).rot[2]   = 0;
+            m_objects.get(object_index).scale[0] = 1.0f;
+            m_objects.get(object_index).scale[1] = 1.0f;
+            m_objects.get(object_index).scale[2] = 1.0f;
+            m_objects.get(object_index).modelTypeIdentifier = IGeometryInformation.cOBJECTMODELIDENTIFICATION_INTESTINES_SIMPLE;
 
             z_offset -= z_offset_decrement;
             object_index++;
@@ -119,41 +114,68 @@ public class GeometryInformationFireDev implements IGeometryInformation, Runnabl
         return object_index;
     }
 
-    public void SwapState() { }
+    public void SwapState()
+    {
+        //...
+    }
 
-    public int GetNumberOfObjects() {
+    public int GetNumberOfObjects()
+    {
         return m_NumberOfObjects;
     }
 
-    public float GetObjectXPosition(int inObjectIndex) { return m_ObjectXPositions[inObjectIndex]; }
-
-    public float GetObjectYPosition(int inObjectIndex) { return m_ObjectYPositions[inObjectIndex]; }
-
-    public float GetObjectZPosition(int inObjectIndex) {
-        return m_ObjectZPositions[inObjectIndex];
+    public float GetObjectXPosition(int inObjectIndex)
+    {
+        return m_objects.get(inObjectIndex).pos[0];
     }
 
-    public float GetObjectXRotation(int inObjectIndex) {
-        return m_ObjectXRotations[inObjectIndex];
+    public float GetObjectYPosition(int inObjectIndex)
+    {
+        return m_objects.get(inObjectIndex).pos[1];
     }
 
-    public float GetObjectYRotation(int inObjectIndex) {
-        return m_ObjectYRotations[inObjectIndex];
+    public float GetObjectZPosition(int inObjectIndex)
+    {
+        return m_objects.get(inObjectIndex).pos[2];
     }
 
-    public float GetObjectZRotation(int inObjectIndex) {
-        return m_ObjectZRotations[inObjectIndex];
+    public float GetObjectXRotation(int inObjectIndex)
+    {
+        return m_objects.get(inObjectIndex).rot[0];
     }
 
-    public float GetObjectXScaling(int inObjectIndex) { return m_ObjectXScalings[inObjectIndex]; }
+    public float GetObjectYRotation(int inObjectIndex)
+    {
+        return m_objects.get(inObjectIndex).rot[1];
+    }
 
-    public float GetObjectYScaling(int inObjectIndex) { return m_ObjectYScalings[inObjectIndex]; }
+    public float GetObjectZRotation(int inObjectIndex)
+    {
+        return m_objects.get(inObjectIndex).rot[2];
+    }
 
-    public float GetObjectZScaling(int inObjectIndex) { return m_ObjectZScalings[inObjectIndex]; }
+    public float GetObjectXScaling(int inObjectIndex)
+    {
+        return m_objects.get(inObjectIndex).scale[0];
+    }
 
-    public int GetObjectModelIdentification(int inObjectIndex) { return m_ObjectModelIdentification[inObjectIndex]; }
+    public float GetObjectYScaling(int inObjectIndex)
+    {
+        return m_objects.get(inObjectIndex).scale[1];
+    }
 
-    public void run() {
+    public float GetObjectZScaling(int inObjectIndex)
+    {
+        return m_objects.get(inObjectIndex).scale[2];
+    }
+
+    public int GetObjectModelIdentification(int inObjectIndex)
+    {
+        return m_objects.get(inObjectIndex).modelTypeIdentifier;
+    }
+
+    public void run()
+    {
         //Zzz ...
     }
 
@@ -166,11 +188,20 @@ public class GeometryInformationFireDev implements IGeometryInformation, Runnabl
     //returns index of the object that was hit by the shot, otherwise returns -1
     public int FireAt(float[] cameraDirection)
     {
+        boolean collisionDetected = false;
+        if(collisionDetected)
+        {
+            int objectIdToDestroy = 0;
+            DestroyObject(objectIdToDestroy);
+            return objectIdToDestroy;
+        }
+
         return -1;
     }
 
     //todo: remove object from arrays
     public void DestroyObject(int objectIndex)
     {
+        //todo: this is a real problem! we create objects procedurally every single time that SynchronizeState is called, that needs to change!
     }
 }

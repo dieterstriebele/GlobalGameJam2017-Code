@@ -27,7 +27,8 @@ public class ClientInformationFireDev implements IClientInformation, Runnable {
             if(userAction == IClientInformation.cACTIONIDENTIFICATION_FIRE)
             {
                 //todo: replace with actual firing logic
-                if(m_geoInfoFireDev.FireAt(m_ViewDirection) >= 0)
+                int objectId = m_geoInfoFireDev.FireAt(m_ViewDirection);
+                if(objectId >= 0)
                 {
                     m_Score++;
                     m_HitPoints--;
